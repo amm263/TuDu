@@ -1,0 +1,90 @@
+-- Table Section
+
+CREATE TABLE Account (
+	locale		VARCHAR(3) NOT NULL DEFAULT 'it',
+	privilege 	VARCHAR(255) NOT NULL,
+	user		VARCHAR(255) NOT NULL,
+	password	VARCHAR(255) NOT NULL,
+	CONSTRAINT account_pk PRIMARY KEY (user)
+);
+
+CREATE TABLE Boy (
+	name	VARCHAR(255) NOT NULL,
+	surname	VARCHAR(255) NOT NULL,
+	address	VARCHAR(255) NOT NULL,
+	CAP		VARCHAR(255) NOT NULL,
+	city	VARCHAR(255) NOT NULL,
+	city_of_birth VARCHAR(255) NOT NULL,
+	phone	VARCHAR(255),
+	mobile_phone VARCHAR(255),
+	mail	VARCHAR(255),
+	codice_fiscale VARCHAR(255) NOT NULL,
+	CONSTRAINT boy_pk PRIMARY KEY (codice_fiscale)
+);
+	
+CREATE TABLE Organization (
+	org_id 	BIGINT NOT NULL AUTO_INCREMENT,
+	name	VARCHAR(255) NOT NULL,
+	address	VARCHAR(255) NOT NULL,
+	city	VARCHAR(255) NOT NULL,
+	CAP		VARCHAR(255) NOT NULL,
+	phone	VARCHAR(255),
+	mobile_phone VARCHAR(255),
+	mail 	VARCHAR(255),
+	reference VARCHAR(255),
+	CONSTRAINT organization_pk PRIMARY KEY (org_id)
+);	
+
+CREATE TABLE Company (
+	name	VARCHAR(255) NOT NULL,
+	address	VARCHAR(255) NOT NULL,
+	city	VARCHAR(255) NOT NULL,
+	CAP		VARCHAR(255) NOT NULL,
+	reference VARCHAR(255) NOT NULL,
+	p_iva	VARCHAR(255) NOT NULL,
+	phone 	VARCHAR(255),
+	mobile_phone VARCHAR(255),
+	mail	VARCHAR(255),
+	CONSTRAINT company_pk PRIMARY KEY (p_iva)
+);
+
+CREATE TABLE Item (
+	item_id BIGINT NOT NULL AUTO_INCREMENT,
+	name	VARCHAR(255) NOT NULL,
+	price	DECIMAL(12,2) NOT NULL,
+	points 	BIGINT NOT NULL,
+	company_id VARCHAR(255) NOT NULL,
+	CONSTRAINT item_pk PRIMARY KEY(item_id),
+	CONSTRAINT item_fk FOREIGN KEY(company_id) REFERENCES Company(p_iva) ON DELETE CASCADE
+);
+
+CREATE TABLE Invoice(
+	inv_id 	BIGINT NOT NULL AUTO_INCREMENT,
+	inv_date DATE NOT NULL,
+	amount DECIMAL(12,2) NOT NULL,
+	company_id VARCHAR(255) NOT NULL,
+	CONSTRAINT invoice_pk PRIMARY KEY(inv_id),
+	CONSTRAINT invoice_fk FOREIGN KEY(company_id) REFERENCES Company(p_iva) ON DELETE CASCADE
+);
+
+CREATE TABLE Token(
+	token_id BIGINT NOT NULL AUTO_INCREMENT,
+	boy_id	VARCHAR(255) NOT NULL,
+	points BIGINT NOT NULL,
+	company_id VARCHAR(255) NOT NULL,
+	token_date	DATE NOT NULL,
+	CONSTRAINT token_pk PRIMARY KEY (token_id),
+	CONSTRAINT token_fk FOREIGN KEY(boy_id) REFERENCES Boy(codice_fiscale) ON DELETE CASCADE,
+	CONSTRAINT token_fk2 FOREIGN KEY(company_id) REFERENCES Company(p_iva) ON DELETE CASCADE
+);
+
+CREATE TABLE Volunteering(
+	vol_id BIGINT NOT NULL AUTO_INCREMENT,
+	boy_id VARCHAR(255) NOT NULL,
+	organization_id BIGINT NOT NULL,
+	vol_date DATE NOT NULL,
+	points	BIGINT NOT NULL,
+	CONSTRAINT vol_pk PRIMARY KEY(vol_id),
+	CONSTRAINT vol_fk FOREIGN KEY(boy_id) REFERENCES Boy(codice_fiscale) ON DELETE CASCADE,
+	CONSTRAINT vol_fk2 FOREIGN KEY(organization_id) REFERENCES Organization(org_id) ON DELETE CASCADE
+);
