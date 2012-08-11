@@ -6,6 +6,7 @@ $reference = $_POST['reference'];
 $address = $_POST['address'];
 $CAP = $_POST['CAP'];
 $city = $_POST['city'];
+$commune = $_POST['commune'];
 $phone = $_POST['phone'];
 $mobile_phone = $_POST['mobile_phone'];
 $mail = $_POST['mail'];
@@ -22,7 +23,7 @@ try{
     }
     else
     {
-        $insert = mysql_query("INSERT INTO Organization(name, address, CAP, city, phone, mobile_phone, mail, reference) VALUES ('$name', '$address', '$CAP', '$city', '$phone', '$mobile_phone', '$mail', '$reference')", $conn);
+        $insert = mysql_query("INSERT INTO Organization(name, address, CAP, city, commune, phone, mobile_phone, mail, reference) VALUES ('$name', '$address', '$CAP', '$city', '$commune', '$phone', '$mobile_phone', '$mail', '$reference')", $conn);
         echo $lang['INSERT_SUCCESS'];
         header("refresh: 2 ../index.php");
     }

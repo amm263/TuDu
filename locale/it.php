@@ -8,9 +8,9 @@ $lang = array();
 $lang['PRIVILEGE'] = 'Privilegi';
 $lang['PAGE_TITLE'] = 'Index';
 $lang['OBLIGATORY'] = 'I campi segnati con * sono obbligatori';
-$lang[''] = '';
-$lang[''] = '';
-$lang[''] = '';
+$lang['POINTS'] = 'Punti';
+$lang['TOKENS'] = 'Buoni';
+$lang['REMAINING_POINTS'] = 'Punti rimanenti';
 $lang[''] = '';
 $lang[''] = '';
 $lang[''] = '';
@@ -52,6 +52,7 @@ $lang['MOBILE_PHONE'] = 'Cellulare';
 $lang['MAIL'] = 'Mail';
 $lang['CODICE_FISCALE'] = 'Codice Fiscale';
 $lang['BOY_EXISTS'] = 'Esiste già un iscritto con questo codice fiscale';
+$lang['COMMUNE'] = 'Comune';
 
 // NEW ORGANIZATION
 $lang['REFERENCE'] = 'Persona di riferimento';

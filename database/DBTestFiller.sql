@@ -2,21 +2,21 @@
 INSERT INTO Account(privilege, user, password) VALUES ('admin','admin','21232f297a57a5a743894a0e4a801fc3');
 
 -- Boys
-INSERT INTO Boy(name, surname, address, CAP, city, city_of_birth, phone, mobile_phone, mail, codice_fiscale) VALUES ('Manuel','Vieider','Viale Monti n.2','23412','Cortaccia','Bolzano','123456','65421','manuel@vieider.com','C0D1C3F1SC4L31');
-INSERT INTO Boy(name, surname, address, CAP, city, city_of_birth, phone, mobile_phone, mail, codice_fiscale) VALUES ('Mario','Rossi','Via Pascoli n.3','47900','Rimini','Cesena','321412431','4123123','boh@test.com','C0D1C3F1SC4L32');
-INSERT INTO Boy(name, surname, address, CAP, city, city_of_birth, phone, mobile_phone, mail, codice_fiscale) VALUES ('Giovanni','Parisi','Via dei Sassi 18','42132','Roma','Roma','214132131','4214213213','giovanni@example.com','C0D1C3F1SC4L33');
-INSERT INTO Boy(name, surname, address, CAP, city, city_of_birth, phone, mobile_phone, mail, codice_fiscale) VALUES ('Giacomo','Bianchi','Via qualcosa 29','421312','Milano','Imola','23321321','523432432','giacomo@example.com','C0D1C3F1SC4L34');
+INSERT INTO Boy(name, surname, address, CAP, city, commune, city_of_birth, phone, mobile_phone, mail, codice_fiscale) VALUES ('Manuel','Vieider','Viale Monti n.2','23412','Bolzano','Cortaccia','Bolzano','123456','65421','manuel@vieider.com','C0D1C3F1SC4L31');
+INSERT INTO Boy(name, surname, address, CAP, city, commune, city_of_birth, phone, mobile_phone, mail, codice_fiscale) VALUES ('Mario','Rossi','Via Pascoli n.3','47900','Rimini','Viserba','Cesena','321412431','4123123','boh@test.com','C0D1C3F1SC4L32');
+INSERT INTO Boy(name, surname, address, CAP, city, commune, city_of_birth, phone, mobile_phone, mail, codice_fiscale) VALUES ('Giovanni','Parisi','Via dei Sassi 18','42132','Roma','Roma','Roma','214132131','4214213213','giovanni@example.com','C0D1C3F1SC4L33');
+INSERT INTO Boy(name, surname, address, CAP, city, commune, city_of_birth, phone, mobile_phone, mail, codice_fiscale) VALUES ('Giacomo','Bianchi','Via qualcosa 29','421312','Milano','Cologno','Imola','23321321','523432432','giacomo@example.com','C0D1C3F1SC4L34');
 
 -- Organization
-INSERT INTO Organization(name, address, city, CAP, phone, mobile_phone, reference) VALUES ('Casa di riposo di Bolzano','Via Montale 92','Bolzano','44423','1421321','32132131','Mario portineria');
-INSERT INTO Organization(name, address, city, CAP, phone, mobile_phone, reference) VALUES ('Centro giovani di Corona','Viale Mantova 23','Corona','42312','231321312','421423123','Serena');
-INSERT INTO Organization(name, address, city, CAP, phone, mobile_phone, reference) VALUES ('Cooperativa sociale Cortaccia','Via del vino 2','Cortaccia','32321','2321312312','2332132312','Luca');
+INSERT INTO Organization(name, address, city, commune, CAP, phone, mobile_phone, mail, reference) VALUES ('Casa di riposo di Bolzano','Via Montale 92','Bolzano','Bolzano','44423','1421321','32132131','info@casariposo.it','Mario portineria');
+INSERT INTO Organization(name, address, city, commune, CAP, phone, mobile_phone, mail, reference) VALUES ('Centro giovani di Corona','Viale Mantova 23','Bolzano','Corona','42312','231321312','421423123','serena@giovani.it','Serena');
+INSERT INTO Organization(name, address, city, commune, CAP, phone, mobile_phone, mail, reference) VALUES ('Cooperativa sociale Cortaccia','Via del vino 2','Bolzano','Cortaccia','32321','2321312312','2332132312','luca@coop.it','Luca');
 
 -- Company
-INSERT INTO Company(name, address, city, CAP, reference, p_iva, phone, mobile_phone, mail) VALUES ('Buffetti','Via dei platani 23','Bolzano','23123','Giorgio','42142131232133','78321778','4332321321','giorgio@buffetti.it');
-INSERT INTO Company(name, address, city, CAP, reference, p_iva, phone, mobile_phone, mail) VALUES ('Enoteca Vivaldi','Via del vino 2','Cortaccia','213213','Mario','3223131231','7823232','4214214','mario@enotecavivaldi.it');
-INSERT INTO Company(name, address, city, CAP, reference, p_iva, phone, mobile_phone, mail) VALUES ('Rossi Guido','Via Roma 23','Bolzano','53443','Guido','C0D1C3F1SC4L3','232321','32132131','guido@rossi.com');
-INSERT INTO Company(name, address, city, CAP, reference, p_iva, phone, mobile_phone, mail) VALUES ('Ristorante La Bufala','Via Gransasso 44','Bolzano','23123','Gianni','2312323112','2332132','2313213','info@labufala.it');
+INSERT INTO Company(name, address, city, commune, CAP, reference, p_iva, phone, mobile_phone, mail) VALUES ('Buffetti','Via dei platani 23','Bolzano','Bolzano','23123','Giorgio','42142131232133','78321778','4332321321','giorgio@buffetti.it');
+INSERT INTO Company(name, address, city, commune, CAP, reference, p_iva, phone, mobile_phone, mail) VALUES ('Enoteca Vivaldi','Via del vino 2','Bolzano','Cortaccia','213213','Mario','3223131231','7823232','4214214','mario@enotecavivaldi.it');
+INSERT INTO Company(name, address, city, commune, CAP, reference, p_iva, phone, mobile_phone, mail) VALUES ('Rossi Guido','Via Roma 23','Bolzano','Bolzano','53443','Guido','C0D1C3F1SC4L3','232321','32132131','guido@rossi.com');
+INSERT INTO Company(name, address, city, commune, CAP, reference, p_iva, phone, mobile_phone, mail) VALUES ('Ristorante La Bufala','Via Gransasso 44','Bolzano','Bolzano','23123','Gianni','2312323112','2332132','2313213','info@labufala.it');
 
 -- Items
 INSERT INTO Item(name, price, points, company_id) VALUES ('Ricarica TIM','10','4','42142131232133');

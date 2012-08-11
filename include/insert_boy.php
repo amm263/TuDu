@@ -4,6 +4,7 @@ include ('../locale/it.php');
 $name = $_POST['name'];
 $surname = $_POST['surname'];
 $address = $_POST['address'];
+$commune = $_POST['commune'];
 $CAP = $_POST['CAP'];
 $city = $_POST['city'];
 $city_of_birth = $_POST['city_of_birth'];
@@ -23,7 +24,7 @@ try{
     }
     else
     {
-        $insert = mysql_query("INSERT INTO Boy(name, surname, address, CAP, city, city_of_birth, phone, mobile_phone, mail, codice_fiscale) VALUES ('$name', '$surname', '$address', '$CAP', '$city', '$city_of_birth', '$phone', '$mobile_phone', '$mail', '$codice_fiscale')", $conn);
+        $insert = mysql_query("INSERT INTO Boy(name, surname, address, CAP, city, commune, city_of_birth, phone, mobile_phone, mail, codice_fiscale) VALUES ('$name', '$surname', '$address', '$CAP', '$city', '$commune', '$city_of_birth', '$phone', '$mobile_phone', '$mail', '$codice_fiscale')", $conn);
         echo $lang['INSERT_SUCCESS'];
         header("refresh: 2 ../index.php");
     }

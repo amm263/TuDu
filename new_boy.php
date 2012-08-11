@@ -26,6 +26,7 @@ include('locale/it.php');
     		<?php echo $lang['NAME'] ?>: <input type="text" name="name" />*<br />
     		<?php echo $lang['SURNAME'] ?> <input type="password" name="surname" />*<br />
                 <?php echo $lang['ADDRESS'] ?> <input type="text" name="address" />*<br />
+                <?php echo $lang['COMMUNE'] ?> <input type="text" name="commune" />*<br />
                 <?php echo $lang['CAP'] ?> <input type="text" name="CAP" />*<br />
                 <?php echo $lang['CITY'] ?> <input type="text" name="city" />*<br />
                 <?php echo $lang['CITY_OF_BIRTH'] ?> <input type="text" name="city_of_birth" />*<br />
@@ -70,6 +71,12 @@ include('locale/it.php');
             var u = document.forms['form']['city'].value;
             if(u == null || u == ""){
                     alert ("City can not be empty!");
+                    return false;
+            }
+            
+            var u = document.forms['form']['commune'].value;
+            if(u == null || u == ""){
+                    alert ("Commune can not be empty!");
                     return false;
             }
             
