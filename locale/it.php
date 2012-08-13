@@ -11,8 +11,10 @@ $lang['OBLIGATORY'] = 'I campi segnati con * sono obbligatori';
 $lang['POINTS'] = 'Punti';
 $lang['TOKENS'] = 'Buoni';
 $lang['REMAINING_POINTS'] = 'Punti rimanenti';
-$lang[''] = '';
-$lang[''] = '';
+$lang['COMPANY'] = 'Azienda';
+$lang['ORGANIZATION'] = 'Organizzazione';
+$lang['DELETE_SUCCESS'] = 'Eliminazione effettuata con successo';
+$lang['DELETE'] = 'Elimina';
 $lang[''] = '';
 $lang[''] = '';
 $lang[''] = '';
@@ -29,6 +31,7 @@ $lang['MANAGEMENT'] = 'Gestione';
 $lang['LIST_BOY'] = 'Iscritti';
 $lang['LIST_ORGANIZATION'] = 'Organizzazioni';
 $lang['LIST_COMPANY'] = 'Aziende';
+$lang['LIST_ITEM'] = 'Articoli';
 $lang['LIST_INVOICE'] = 'Fatture';
 $lang['LIST_TOKEN'] = 'Buoni';
 $lang['LIST_VOLUNTEERING'] = 'Ore';
@@ -40,7 +43,7 @@ $lang['MANAGER'] = 'Gestore';
 $lang['USER_EXISTS'] = 'Esiste già un utente con questo nome';
 $lang['INSERT_SUCCESS'] = 'Inserimento effettuato con successo';
 
-// NEW BOY
+// BOY
 $lang['NAME'] = 'Nome';
 $lang['SURNAME'] = 'Cognome';
 $lang['ADDRESS'] = 'Indirizzo';
@@ -54,14 +57,32 @@ $lang['CODICE_FISCALE'] = 'Codice Fiscale';
 $lang['BOY_EXISTS'] = 'Esiste già un iscritto con questo codice fiscale';
 $lang['COMMUNE'] = 'Comune';
 
-// NEW ORGANIZATION
+// ORGANIZATION
 $lang['REFERENCE'] = 'Persona di riferimento';
 $lang['ORGANIZATION_EXISTS'] = 'Esiste già una organizzazione con questo nome, in questa città';
 
-// NEW COMPANY
+// COMPANY
 
 $lang['P_IVA'] = 'P.IVA o Cod. Fiscale';
 $lang['COMPANY_EXISTS'] = 'Esiste già una azienda con questa Partita Iva';
+$lang['SALES'] = 'Fatturato';
+
+// SEARCH
+$lang['SEARCH'] = 'Ricerca';
+$lang['SEARCH_CITY'] = 'Per Città';
+$lang['SEARCH_COMMUNE'] = 'Per Comune';
+$lang['SEARCH_SURNAME'] = 'Per Cognome';
+$lang['SEARCH_CODICE_FISCALE'] = 'Per Codice Fiscale';
+$lang['SEARCH_NAME'] = 'Per Nome';
+$lang['SEARCH_COMPANY_NAME'] = 'Per Nome Azienda';
+$lang['SEARCH_ORGANIZATION_NAME'] = 'Per Nome Organizzazione';
+
+// ITEM
+$lang['PRICE'] = 'Prezzo';
+
+// INVOICE
+$lang['DATE'] = 'Data';
+
 
 // ERRORS
 $lang['NO_PRIVILEGE'] = 'Non hai i privilegi necessari per visualizzare questa pagina.';

@@ -31,6 +31,12 @@ function getBar()
         case 'manager':
             echo "<strong><p>".$lang['MANAGEMENT']."</strong></p>";
             echo "<p><a href=\"list_boy.php\"/> ".$lang['LIST_BOY']."</a></p>";
+            echo "<p><a href=\"list_organization.php\"/> ".$lang['LIST_ORGANIZATION']."</a></p>";
+            echo "<p><a href=\"list_company.php\"/> ".$lang['LIST_COMPANY']."</a></p>";
+            echo "<p><a href=\"list_item.php\"/> ".$lang['LIST_ITEM']."</a></p>";
+            echo "<p><a href=\"list_invoice.php\"/> ".$lang['LIST_INVOICE']."</a></p>";
+            echo "<p><a href=\"list_token.php\"/> ".$lang['LIST_TOKEN']."</a></p>";
+            echo "<p><a href=\"list_volunteering.php\"/> ".$lang['LIST_VOLUNTEERING']."</a></p>";
             break;
     }
 }

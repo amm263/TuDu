@@ -57,6 +57,7 @@ CREATE TABLE Item (
 	price	DECIMAL(12,2) NOT NULL,
 	points 	BIGINT NOT NULL,
 	company_id VARCHAR(255) NOT NULL,
+	company_name VARCHAR(255) NOT NULL,
 	CONSTRAINT item_pk PRIMARY KEY(item_id),
 	CONSTRAINT item_fk FOREIGN KEY(company_id) REFERENCES Company(p_iva) ON DELETE CASCADE
 );
@@ -66,6 +67,7 @@ CREATE TABLE Invoice(
 	inv_date DATE NOT NULL,
 	amount DECIMAL(12,2) NOT NULL,
 	company_id VARCHAR(255) NOT NULL,
+	company_name VARCHAR(255) NOT NULL,
 	CONSTRAINT invoice_pk PRIMARY KEY(inv_id),
 	CONSTRAINT invoice_fk FOREIGN KEY(company_id) REFERENCES Company(p_iva) ON DELETE CASCADE
 );
@@ -73,8 +75,10 @@ CREATE TABLE Invoice(
 CREATE TABLE Token(
 	token_id BIGINT NOT NULL AUTO_INCREMENT,
 	boy_id	VARCHAR(255) NOT NULL,
+	boy_surname VARCHAR(255) NOT NULL,
 	points BIGINT NOT NULL,
 	company_id VARCHAR(255) NOT NULL,
+	company_name VARCHAR(255) NOT NULL,
 	token_date	DATE NOT NULL,
 	CONSTRAINT token_pk PRIMARY KEY (token_id),
 	CONSTRAINT token_fk FOREIGN KEY(boy_id) REFERENCES Boy(codice_fiscale) ON DELETE CASCADE,
@@ -84,9 +88,11 @@ CREATE TABLE Token(
 CREATE TABLE Volunteering(
 	vol_id BIGINT NOT NULL AUTO_INCREMENT,
 	boy_id VARCHAR(255) NOT NULL,
+	boy_surname VARCHAR(255) NOT NULL,
 	organization_id BIGINT NOT NULL,
 	vol_date DATE NOT NULL,
 	points	BIGINT NOT NULL,
+	organization_name VARCHAR(255) NOT NULL,
 	CONSTRAINT vol_pk PRIMARY KEY(vol_id),
 	CONSTRAINT vol_fk FOREIGN KEY(boy_id) REFERENCES Boy(codice_fiscale) ON DELETE CASCADE,
 	CONSTRAINT vol_fk2 FOREIGN KEY(organization_id) REFERENCES Organization(org_id) ON DELETE CASCADE

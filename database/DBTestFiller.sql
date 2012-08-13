@@ -19,36 +19,36 @@ INSERT INTO Company(name, address, city, commune, CAP, reference, p_iva, phone, 
 INSERT INTO Company(name, address, city, commune, CAP, reference, p_iva, phone, mobile_phone, mail) VALUES ('Ristorante La Bufala','Via Gransasso 44','Bolzano','Bolzano','23123','Gianni','2312323112','2332132','2313213','info@labufala.it');
 
 -- Items
-INSERT INTO Item(name, price, points, company_id) VALUES ('Ricarica TIM','10','4','42142131232133');
-INSERT INTO Item(name, price, points, company_id) VALUES ('Ricarica Vodafone','10','4','42142131232133');
-INSERT INTO Item(name, price, points, company_id) VALUES ("Bottiglia Nero D'Avola",'10','4','3223131231');
-INSERT INTO Item(name, price, points, company_id) VALUES ('Cavatappi','5','2','3223131231');
-INSERT INTO Item(name, price, points, company_id) VALUES ('Ripetizioni di Matematica','20','8','C0D1C3F1SC4L3');
-INSERT INTO Item(name, price, points, company_id) VALUES ('Pizza Margherita','5','2','2312323112');
-INSERT INTO Item(name, price, points, company_id) VALUES ('Pizza Farcita','7.50','3','2312323112');
+INSERT INTO Item(name, price, points, company_id, company_name) VALUES ('Ricarica TIM','10','4','42142131232133','Buffetti');
+INSERT INTO Item(name, price, points, company_id, company_name) VALUES ('Ricarica Vodafone','10','4','42142131232133','Buffetti');
+INSERT INTO Item(name, price, points, company_id, company_name) VALUES ("Bottiglia Nero D'Avola",'10','4','3223131231','Enoteca Vivaldi');
+INSERT INTO Item(name, price, points, company_id, company_name) VALUES ('Cavatappi','5','2','3223131231','Enoteca Vivaldi');
+INSERT INTO Item(name, price, points, company_id, company_name) VALUES ('Ripetizioni di Matematica','20','8','C0D1C3F1SC4L3','Rossi Guido');
+INSERT INTO Item(name, price, points, company_id, company_name) VALUES ('Pizza Margherita','5','2','2312323112','Ristorante La Bufala');
+INSERT INTO Item(name, price, points, company_id, company_name) VALUES ('Pizza Farcita','7.50','3','2312323112','Ristorante La Bufala');
 
 -- Invoices
 
-INSERT INTO Invoice(inv_date, amount, company_id) VALUES ('2012-02-23','90','42142131232133');
-INSERT INTO Invoice(inv_date, amount, company_id) VALUES ('2012-03-03','25.50','3223131231');
-INSERT INTO Invoice(inv_date, amount, company_id) VALUES ('2012-04-30','100','42142131232133');
-INSERT INTO Invoice(inv_date, amount, company_id) VALUES ('2012-05-12','20','C0D1C3F1SC4L3');
-INSERT INTO Invoice(inv_date, amount, company_id) VALUES ('2012-06-08','30','2312323112');
+INSERT INTO Invoice(inv_date, amount, company_id, company_name) VALUES ('2012-02-23','90','42142131232133','Buffetti');
+INSERT INTO Invoice(inv_date, amount, company_id, company_name) VALUES ('2012-03-03','25.50','3223131231','Enoteca Vivaldi');
+INSERT INTO Invoice(inv_date, amount, company_id, company_name) VALUES ('2012-04-30','100','42142131232133','Buffetti');
+INSERT INTO Invoice(inv_date, amount, company_id, company_name) VALUES ('2012-05-12','20','C0D1C3F1SC4L3','Rossi Guido');
+INSERT INTO Invoice(inv_date, amount, company_id, company_name) VALUES ('2012-06-08','30','2312323112','Ristorante La Bufala');
 
 -- Tokens
 
-INSERT INTO Token(boy_id, points, company_id, token_date) VALUES ('C0D1C3F1SC4L32','3','42142131232133','2012-06-13');
-INSERT INTO Token(boy_id, points, company_id, token_date) VALUES ('C0D1C3F1SC4L33','2','3223131231','2012-05-23');
-INSERT INTO Token(boy_id, points, company_id, token_date) VALUES ('C0D1C3F1SC4L31','4','42142131232133','2012-06-15');
-INSERT INTO Token(boy_id, points, company_id, token_date) VALUES ('C0D1C3F1SC4L32','3','C0D1C3F1SC4L3','2012-05-13');
-INSERT INTO Token(boy_id, points, company_id, token_date) VALUES ('C0D1C3F1SC4L31','5','2312323112','2012-07-03');
-INSERT INTO Token(boy_id, points, company_id, token_date) VALUES ('C0D1C3F1SC4L34','6','2312323112','2012-06-30');
+INSERT INTO Token(boy_id, points, company_id, token_date, company_name, boy_surname) VALUES ('C0D1C3F1SC4L32','3','42142131232133','2012-06-13','Buffetti','Rossi');
+INSERT INTO Token(boy_id, points, company_id, token_date, company_name, boy_surname) VALUES ('C0D1C3F1SC4L33','2','3223131231','2012-05-23','Enoteca Vivaldi','Parisi');
+INSERT INTO Token(boy_id, points, company_id, token_date, company_name, boy_surname) VALUES ('C0D1C3F1SC4L31','4','42142131232133','2012-06-15','Buffetti','Vieider');
+INSERT INTO Token(boy_id, points, company_id, token_date, company_name, boy_surname) VALUES ('C0D1C3F1SC4L32','3','C0D1C3F1SC4L3','2012-05-13','Rossi Guido','Rossi');
+INSERT INTO Token(boy_id, points, company_id, token_date, company_name, boy_surname) VALUES ('C0D1C3F1SC4L31','5','2312323112','2012-07-03','Ristorante La Bufala','Vieider');
+INSERT INTO Token(boy_id, points, company_id, token_date, company_name, boy_surname) VALUES ('C0D1C3F1SC4L34','6','2312323112','2012-06-30','Ristorante La Bufala','Bianchi');
 
 -- Volunteering
 
-INSERT INTO Volunteering(boy_id, organization_id, vol_date, points) VALUES ('C0D1C3F1SC4L32','1','2012-04-13','10');
-INSERT INTO Volunteering(boy_id, organization_id, vol_date, points) VALUES ('C0D1C3F1SC4L31','1','2012-03-23','12');
-INSERT INTO Volunteering(boy_id, organization_id, vol_date, points) VALUES ('C0D1C3F1SC4L32','1','2012-04-15','20');
-INSERT INTO Volunteering(boy_id, organization_id, vol_date, points) VALUES ('C0D1C3F1SC4L31','2','2012-03-06','24');
-INSERT INTO Volunteering(boy_id, organization_id, vol_date, points) VALUES ('C0D1C3F1SC4L33','3','2012-02-09','10');
-INSERT INTO Volunteering(boy_id, organization_id, vol_date, points) VALUES ('C0D1C3F1SC4L34','2','2012-04-21','15');
+INSERT INTO Volunteering(boy_id, organization_id, vol_date, points, organization_name, boy_surname) VALUES ('C0D1C3F1SC4L32','1','2012-04-13','10','Casa di riposo di Bolzano','Rossi');
+INSERT INTO Volunteering(boy_id, organization_id, vol_date, points, organization_name, boy_surname) VALUES ('C0D1C3F1SC4L31','1','2012-03-23','12','Casa di riposo di Bolzano','Vieider');
+INSERT INTO Volunteering(boy_id, organization_id, vol_date, points, organization_name, boy_surname) VALUES ('C0D1C3F1SC4L32','1','2012-04-15','20','Casa di riposo di Bolzano','Rossi');
+INSERT INTO Volunteering(boy_id, organization_id, vol_date, points, organization_name, boy_surname) VALUES ('C0D1C3F1SC4L31','2','2012-03-06','24','Centro giovani di Corona','Vieider');
+INSERT INTO Volunteering(boy_id, organization_id, vol_date, points, organization_name, boy_surname) VALUES ('C0D1C3F1SC4L33','3','2012-02-09','10','Cooperativa sociale Cortaccia','Parisi');
+INSERT INTO Volunteering(boy_id, organization_id, vol_date, points, organization_name, boy_surname) VALUES ('C0D1C3F1SC4L34','2','2012-04-21','15','Centro giovani di Corona','Bianchi');
