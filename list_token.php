@@ -38,21 +38,33 @@ if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
             $query = "SELECT * FROM Token WHERE boy_id = '$search_value'";
             break;
     }
-    if(isset($_GET['date_start'])&&isset($_GET['date_end']))
+    if(isset($_POST['date_start'])&&isset($_POST['date_end']))
+    {
+        $date_start = $_POST['date_start'];
+        $date_end = $_POST['date_end'];
+        $query = $query." AND token_date BETWEEN '$date_start' AND '$date_end'";
+    }
+    elseif(isset($_GET['date_start'])&&isset($_GET['date_end']))
     {
         $date_start = $_GET['date_start'];
         $date_end = $_GET['date_end'];
-        $query = $query." AND token_date BETWEEN '$date_start' AND '$date_end'";
+        $query = $query." AND inv_date BETWEEN '$date_start' AND '$date_end'";
     }
 }
 else
 {
     $query = "SELECT * FROM Token";
-    if(isset($_GET['date_start'])&&isset($_GET['date_end']))
+    if(isset($_POST['date_start'])&&isset($_POST['date_end']))
+    {
+        $date_start = $_POST['date_start'];
+        $date_end = $_POST['date_end'];
+        $query = $query." WHERE token_date BETWEEN '$date_start' AND '$date_end'";
+    }
+    elseif(isset($_GET['date_start'])&&isset($_GET['date_end']))
     {
         $date_start = $_GET['date_start'];
         $date_end = $_GET['date_end'];
-        $query = $query." WHERE token_date BETWEEN '$date_start' AND '$date_end'";
+        $query = $query." WHERE inv_date BETWEEN '$date_start' AND '$date_end'";
     }
 }
 $limit = " ORDER BY token_date,boy_surname LIMIT $results_per_page OFFSET $offset"
@@ -82,19 +94,25 @@ $limit = " ORDER BY token_date,boy_surname LIMIT $results_per_page OFFSET $offse
                     if(check('admin'))
                         echo "<th>".$lang['DELETE']."</th>";
                     $results = mysql_query($query.$limit, $conn);
-                    for ($i = 0; (($i < $results_per_page) && ($i < mysql_num_rows($results))); $i++) {
-                        $token_id = mysql_result($results, $i, 'token_id');
-                        $points = mysql_result($results, $i, 'points');
-                        $surname = mysql_result($results, $i, 'boy_surname');
-                        $boy_id = mysql_result($results, $i, 'boy_id');
-                        $date = mysql_result($results, $i, 'token_date');
-                        $company_name = mysql_result($results, $i, 'company_name');
-                        $company_id = mysql_result($results, $i, 'company_id');
-                        echo "<tr><td><strong><p><a href=\"view_boy.php?codice_fiscale='$boy_id'\">".$surname."</a></p></strong></td><td align=center><p>".$points."</p></td><td align=center><p>".$date."</p></td><td><p><a href=\"view_company.php?p_iva='$company_id'\">".$company_name."</a></p></td>";
-                        if(check('admin'))
-                            echo '<td><form action="include/eraser.php" name = "delete" method = "post"><input type="hidden" name="table" value="Token"/><input type="hidden" name="key" value="token_id"/><input type="hidden" name="key_value" value="'.$token_id.'"/><input type="submit" name="submit"  value ="'.$lang['DELETE'].'" /></form></td></tr>';
-                        else
-                            echo "</tr>";
+                    if(mysql_num_rows($results)>0)
+                    {
+                        for ($i = 0; (($i < $results_per_page) && ($i < mysql_num_rows($results))); $i++) {
+                            $token_id = mysql_result($results, $i, 'token_id');
+                            $points = mysql_result($results, $i, 'points');
+                            $surname = mysql_result($results, $i, 'boy_surname');
+                            $boy_id = mysql_result($results, $i, 'boy_id');
+                            $date = mysql_result($results, $i, 'token_date');
+                            $company_name = mysql_result($results, $i, 'company_name');
+                            $company_id = mysql_result($results, $i, 'company_id');
+                            echo "<tr><td><strong><p><a href=\"view_boy.php?codice_fiscale=$boy_id\">".$surname."</a></p></strong></td><td align=center><p>".$points."</p></td><td align=center><p>".$date."</p></td><td><p><a href=\"view_company.php?p_iva=$company_id\">".$company_name."</a></p></td>";
+                            if(check('admin'))
+                                echo '<td><form action="include/eraser.php" name = "delete" method = "post"><input type="hidden" name="table" value="Token"/><input type="hidden" name="key" value="token_id"/><input type="hidden" name="key_value" value="'.$token_id.'"/><input type="submit" name="submit"  value ="'.$lang['DELETE'].'" /></form></td></tr>';
+                            else
+                                echo "</tr>";
+                        }
+                    }
+                    else {
+                        echo $lang['NO_RESULTS'];
                     }
                     echo "</table>";
                     //Pagination
@@ -102,7 +120,7 @@ $limit = " ORDER BY token_date,boy_surname LIMIT $results_per_page OFFSET $offse
                     if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
                     {
                         if(isset($date_start)&&isset($date_end))
-                            pagination_search_date($results_per_page, $page, "list_token.php?date_start=".$date_start."&date_end=".$date_end."&", $results_num, $_POST['search_value'], $_POST['search_type']);
+                            pagination_search($results_per_page, $page, "list_token.php?date_start=".$date_start."&date_end=".$date_end."&", $results_num, $_POST['search_value'], $_POST['search_type']);
                         else
                             pagination_search($results_per_page, $page, "list_token.php?", $results_num, $_POST['search_value'], $_POST['search_type']);
                     }

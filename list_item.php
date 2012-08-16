@@ -62,14 +62,21 @@ $limit = " ORDER BY company_name,price LIMIT $results_per_page OFFSET $offset"
                     echo '<form action="list_item.php" name = "form" method = "post">';
                     echo ' <input type="text" name="search_value" /> <select name="search_type"> <option value="name">'.$lang['SEARCH_NAME'].'</option><option value="company">'.$lang['SEARCH_COMPANY_NAME'].'</option></select><input type="submit" name="submit"  value ="'.$lang['SEARCH'].'" /></form><br />';
                     echo "<table><th>".$lang['NAME']."</th><th>".$lang['PRICE']."</th><th>".$lang['POINTS']."</th><th>".$lang['COMPANY']."</th>";
+                    if(check('admin'))
+                        echo "<th>".$lang['DELETE']."</th>";
                     $results = mysql_query($query.$limit, $conn);
                     for ($i = 0; (($i < $results_per_page) && ($i < mysql_num_rows($results))); $i++) {
+                        $item_id = mysql_result($results, $i, 'item_id');
                         $name = mysql_result($results, $i, 'name');
                         $price = mysql_result($results, $i, 'price');
                         $points = mysql_result($results, $i, 'points');
                         $company_name = mysql_result($results, $i, 'company_name');
                         $company_id = mysql_result($results, $i, 'company_id');
-                        echo "<tr><td><strong><p>".$name."</p></strong></td><td align=center><p>".$price."€</p></td><td align=center><p>".$points."</p></td><td align=center><p><a href=\"view_company.php?p_iva='$company_id'\">".$company_name."</a></p></td>";
+                        echo "<tr><td><strong><p>".$name."</p></strong></td><td align=center><p>".$price."€</p></td><td align=center><p>".$points."</p></td><td align=center><p><a href=\"view_company.php?p_iva=$company_id\">".$company_name."</a></p></td>";
+                        if(check('admin'))
+                            echo '<td><form action="include/eraser.php" name = "delete" method = "post"><input type="hidden" name="table" value="Item"/><input type="hidden" name="key" value="item_id"/><input type="hidden" name="key_value" value="'.$item_id.'"/><input type="submit" name="submit"  value ="'.$lang['DELETE'].'" /></form></td></tr>';
+                        else
+                            echo "</tr>";
                     }
                     echo "</table>";
                     //Pagination

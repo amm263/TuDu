@@ -31,28 +31,40 @@ if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
         case 'boy':
             $query = "SELECT * FROM Volunteering WHERE boy_surname LIKE '%$search_value%'";
             break;
-        case 'organization_id':
+        case 'org_id':
             $query = "SELECT * FROM Volunteering WHERE organization_id = '$search_value'";
             break;
         case 'boy_id':
-            $query = "SELECT * FROM Token WHERE boy_id = '$search_value'";
+            $query = "SELECT * FROM Volunteering WHERE boy_id = '$search_value'";
             break;
     }
-    if(isset($_GET['date_start'])&&isset($_GET['date_end']))
+    if(isset($_POST['date_start'])&&isset($_POST['date_end']))
+    {
+        $date_start = $_POST['date_start'];
+        $date_end = $_POST['date_end'];
+        $query = $query." AND vol_date BETWEEN '$date_start' AND '$date_end'";
+    }
+    elseif(isset($_GET['date_start'])&&isset($_GET['date_end']))
     {
         $date_start = $_GET['date_start'];
         $date_end = $_GET['date_end'];
-        $query = $query." AND vol_date BETWEEN '$date_start' AND '$date_end'";
+        $query = $query." AND inv_date BETWEEN '$date_start' AND '$date_end'";
     }
 }
 else
 {
     $query = "SELECT * FROM Volunteering";
-    if(isset($_GET['date_start'])&&isset($_GET['date_end']))
+    if(isset($_POST['date_start'])&&isset($_POST['date_end']))
+    {
+        $date_start = $_POST['date_start'];
+        $date_end = $_POST['date_end'];
+        $query = $query." WHERE vol_date BETWEEN '$date_start' AND '$date_end'";
+    }
+    elseif(isset($_GET['date_start'])&&isset($_GET['date_end']))
     {
         $date_start = $_GET['date_start'];
         $date_end = $_GET['date_end'];
-        $query = $query." WHERE vol_date BETWEEN '$date_start' AND '$date_end'";
+        $query = $query." WHERE inv_date BETWEEN '$date_start' AND '$date_end'";
     }
 }
 $limit = " ORDER BY vol_date,boy_surname LIMIT $results_per_page OFFSET $offset"
@@ -82,19 +94,25 @@ $limit = " ORDER BY vol_date,boy_surname LIMIT $results_per_page OFFSET $offset"
                     if(check('admin'))
                         echo "<th>".$lang['DELETE']."</th>";
                     $results = mysql_query($query.$limit, $conn);
-                    for ($i = 0; (($i < $results_per_page) && ($i < mysql_num_rows($results))); $i++) {
-                        $vol_id = mysql_result($results, $i, 'vol_id');
-                        $points = mysql_result($results, $i, 'points');
-                        $surname = mysql_result($results, $i, 'boy_surname');
-                        $boy_id = mysql_result($results, $i, 'boy_id');
-                        $date = mysql_result($results, $i, 'vol_date');
-                        $organization_name = mysql_result($results, $i, 'organization_name');
-                        $organization_id = mysql_result($results, $i, 'organization_id');
-                        echo "<tr><td><strong><p><a href=\"view_boy.php?codice_fiscale='$boy_id'\">".$surname."</a></p></strong></td><td align=center><p>".$points."</p></td><td align=center><p>".$date."</p></td><td><p><a href=\"view_organization.php?org_id='$organization_id'\">".$organization_name."</a></p></td>";
-                        if(check('admin'))
-                            echo '<td><form action="include/eraser.php" name = "delete" method = "post"><input type="hidden" name="table" value="Volunteering"/><input type="hidden" name="key" value="vol_id"/><input type="hidden" name="key_value" value="'.$vol_id.'"/><input type="submit" name="submit"  value ="'.$lang['DELETE'].'" /></form></td></tr>';
-                        else
-                            echo "</tr>";
+                    if(mysql_num_rows($results)>0)
+                    {
+                        for ($i = 0; (($i < $results_per_page) && ($i < mysql_num_rows($results))); $i++) {
+                            $vol_id = mysql_result($results, $i, 'vol_id');
+                            $points = mysql_result($results, $i, 'points');
+                            $surname = mysql_result($results, $i, 'boy_surname');
+                            $boy_id = mysql_result($results, $i, 'boy_id');
+                            $date = mysql_result($results, $i, 'vol_date');
+                            $organization_name = mysql_result($results, $i, 'organization_name');
+                            $organization_id = mysql_result($results, $i, 'organization_id');
+                            echo "<tr><td><strong><p><a href=\"view_boy.php?codice_fiscale=$boy_id\">".$surname."</a></p></strong></td><td align=center><p>".$points."</p></td><td align=center><p>".$date."</p></td><td><p><a href=\"view_organization.php?org_id=$organization_id\">".$organization_name."</a></p></td>";
+                            if(check('admin'))
+                                echo '<td><form action="include/eraser.php" name = "delete" method = "post"><input type="hidden" name="table" value="Volunteering"/><input type="hidden" name="key" value="vol_id"/><input type="hidden" name="key_value" value="'.$vol_id.'"/><input type="submit" name="submit"  value ="'.$lang['DELETE'].'" /></form></td></tr>';
+                            else
+                                echo "</tr>";
+                        }
+                    }
+                    else {
+                        echo $lang['NO_RESULTS'];
                     }
                     echo "</table>";
                     //Pagination
@@ -102,7 +120,7 @@ $limit = " ORDER BY vol_date,boy_surname LIMIT $results_per_page OFFSET $offset"
                     if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
                     {
                         if(isset($date_start)&&isset($date_end))
-                            pagination_search_date($results_per_page, $page, "list_volunteering.php?date_start=".$date_start."&date_end=".$date_end."&", $results_num, $_POST['search_value'], $_POST['search_type']);
+                            pagination_search($results_per_page, $page, "list_volunteering.php?date_start=".$date_start."&date_end=".$date_end."&", $results_num, $_POST['search_value'], $_POST['search_type']);
                         else
                             pagination_search($results_per_page, $page, "list_volunteering.php?", $results_num, $_POST['search_value'], $_POST['search_type']);
                     }

@@ -14,11 +14,13 @@ $lang['REMAINING_POINTS'] = 'Punti rimanenti';
 $lang['COMPANY'] = 'Azienda';
 $lang['ORGANIZATION'] = 'Organizzazione';
 $lang['DELETE_SUCCESS'] = 'Eliminazione effettuata con successo';
+$lang['UPDATE_SUCCESS'] = 'Modifica effettuata con successo';
 $lang['DELETE'] = 'Elimina';
-$lang[''] = '';
-$lang[''] = '';
-$lang[''] = '';
-$lang[''] = '';
+$lang['NO_RESULTS'] = 'Nessun risultato trovato';
+$lang['UPDATE'] = 'Modifica';
+$lang['START_DATE'] = 'Data inizio';
+$lang['END_DATE'] = 'Data fine';
+$lang['PASSWORD_CHANGE'] = 'Modifica password';
 
 // NAVBAR
 
@@ -27,7 +29,9 @@ $lang['WELCOME'] = 'Benvenuto';
 $lang['NEW_USER'] = 'Nuovo Utente';
 $lang['NEW_BOY'] = 'Nuovo Iscritto';
 $lang['NEW_ORGANIZATION'] = 'Nuova Organizzazione';
+$lang['NEW_COMPANY'] = 'Nuova Azienda';
 $lang['MANAGEMENT'] = 'Gestione';
+$lang['ADMINISTRATION'] = 'Amministrazione';
 $lang['LIST_BOY'] = 'Iscritti';
 $lang['LIST_ORGANIZATION'] = 'Organizzazioni';
 $lang['LIST_COMPANY'] = 'Aziende';

@@ -93,7 +93,7 @@ $limit = " ORDER BY surname, name LIMIT $results_per_page OFFSET $offset"
                             $tokens = 0;
                             $remaining_points = 0;
                         }
-                        echo "<tr><td><a href=\"view_boy.php?codice_fiscale='$codice_fiscale'\"><strong><p>".$name." ".$surname."</p></strong></a></td><td><p>".$city."</p></td><td><p>".$commune."</p></td><td align=center><p>".$points."</p></td><td align=center><p>".$tokens."</p></td><td align=center><p>".$remaining_points."</p></td><td><p>".$codice_fiscale."</p></td></tr>";
+                        echo "<tr><td><a href=\"view_boy.php?codice_fiscale=$codice_fiscale\"><strong><p>".$name." ".$surname."</p></strong></a></td><td><p>".$city."</p></td><td><p>".$commune."</p></td><td align=center><p>".$points."</p></td><td align=center><p>".$tokens."</p></td><td align=center><p>".$remaining_points."</p></td><td><p>".$codice_fiscale."</p></td></tr>";
                     }
                     echo "</table>";
                     //Pagination

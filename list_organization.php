@@ -77,7 +77,7 @@ $limit = " ORDER BY name LIMIT $results_per_page OFFSET $offset"
                         {    
                             $points = 0;
                         }
-                        echo "<tr><td><a href=\"view_organization.php?org_id='$org_id'\"><strong><p>".$name."</p></strong></a></td><td><p>".$city."</p></td><td><p>".$commune."</p></td><td align=center><p>".$points."</p></td>";
+                        echo "<tr><td><a href=\"view_organization.php?org_id=$org_id\"><strong><p>".$name."</p></strong></a></td><td><p>".$city."</p></td><td><p>".$commune."</p></td><td align=center><p>".$points."</p></td>";
                     }
                     echo "</table>";
                     //Pagination

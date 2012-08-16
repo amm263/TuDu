@@ -32,7 +32,13 @@ if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
             $query = "SELECT * FROM Invoice WHERE company_id = '$search_value'";
             break;
     }
-    if(isset($_GET['date_start'])&&isset($_GET['date_end']))
+    if(isset($_POST['date_start'])&&isset($_POST['date_end']))
+    {
+        $date_start = $_POST['date_start'];
+        $date_end = $_POST['date_end'];
+        $query = $query." AND inv_date BETWEEN '$date_start' AND '$date_end'";
+    }
+    elseif(isset($_GET['date_start'])&&isset($_GET['date_end']))
     {
         $date_start = $_GET['date_start'];
         $date_end = $_GET['date_end'];
@@ -42,7 +48,13 @@ if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
 else
 {
     $query = "SELECT * FROM Invoice";
-    if(isset($_GET['date_start'])&&isset($_GET['date_end']))
+    if(isset($_POST['date_start'])&&isset($_POST['date_end']))
+    {
+        $date_start = $_POST['date_start'];
+        $date_end = $_POST['date_end'];
+        $query = $query." WHERE inv_date BETWEEN '$date_start' AND '$date_end'";
+    }
+    elseif(isset($_GET['date_start'])&&isset($_GET['date_end']))
     {
         $date_start = $_GET['date_start'];
         $date_end = $_GET['date_end'];
@@ -76,17 +88,23 @@ $limit = " ORDER BY inv_date LIMIT $results_per_page OFFSET $offset"
                     if(check('admin'))
                         echo "<th>".$lang['DELETE']."</th>";
                     $results = mysql_query($query.$limit, $conn);
-                    for ($i = 0; (($i < $results_per_page) && ($i < mysql_num_rows($results))); $i++) {
-                        $inv_id = mysql_result($results, $i, 'inv_id');
-                        $date = mysql_result($results, $i, 'inv_date');
-                        $price = mysql_result($results, $i, 'amount');
-                        $company_name = mysql_result($results, $i, 'company_name');
-                        $company_id = mysql_result($results, $i, 'company_id');
-                        echo "<tr><td><strong><p><a href=\"view_company.php?p_iva='$company_id'\">".$company_name."</a></p></strong></td><td align=center><p>".$price."€</p></td><td align=center><p>".$date."</p></td>";
-                        if(check('admin'))
-                            echo '<td><form action="include/eraser.php" name = "delete" method = "post"><input type="hidden" name="table" value="Invoice"/><input type="hidden" name="key" value="inv_id"/><input type="hidden" name="key_value" value="'.$inv_id.'"/><input type="submit" name="submit"  value ="'.$lang['DELETE'].'" /></form></td></tr>';
-                        else
-                            echo "</tr>";
+                    if(mysql_num_rows($results)>0)
+                    {
+                        for ($i = 0; (($i < $results_per_page) && ($i < mysql_num_rows($results))); $i++) {
+                            $inv_id = mysql_result($results, $i, 'inv_id');
+                            $date = mysql_result($results, $i, 'inv_date');
+                            $price = mysql_result($results, $i, 'amount');
+                            $company_name = mysql_result($results, $i, 'company_name');
+                            $company_id = mysql_result($results, $i, 'company_id');
+                            echo "<tr><td><strong><p><a href=\"view_company.php?p_iva=$company_id\">".$company_name."</a></p></strong></td><td align=center><p>".$price."€</p></td><td align=center><p>".$date."</p></td>";
+                            if(check('admin'))
+                                echo '<td><form action="include/eraser.php" name = "delete" method = "post"><input type="hidden" name="table" value="Invoice"/><input type="hidden" name="key" value="inv_id"/><input type="hidden" name="key_value" value="'.$inv_id.'"/><input type="submit" name="submit"  value ="'.$lang['DELETE'].'" /></form></td></tr>';
+                            else
+                                echo "</tr>";
+                        }
+                    }
+                    else {
+                        echo $lang['NO_RESULTS'];
                     }
                     echo "</table>";
                     //Pagination
@@ -94,7 +112,7 @@ $limit = " ORDER BY inv_date LIMIT $results_per_page OFFSET $offset"
                     if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
                     {
                         if(isset($date_start)&&isset($date_end))
-                            pagination_search_date($results_per_page, $page, "list_invoice.php?date_start=".$date_start."&date_end=".$date_end."&", $results_num, $_POST['search_value'], $_POST['search_type']);
+                            pagination_search($results_per_page, $page, "list_invoice.php?date_start=".$date_start."&date_end=".$date_end."&", $results_num, $_POST['search_value'], $_POST['search_type']);
                         else
                             pagination_search($results_per_page, $page, "list_invoice.php?", $results_num, $_POST['search_value'], $_POST['search_type']);
                     }
