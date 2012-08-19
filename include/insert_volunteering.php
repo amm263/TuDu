@@ -14,26 +14,23 @@
 */
 include ('connect.php');
 include ('../locale/it.php');
-$current_psw = md5($_POST['current_password']);
-$new_psw = md5($_POST['new_password']);
-$user = $_POST['user'];
+$boy_id = $_POST['boy_id'];
+$boy_surname = $_POST['boy_surname'];
+$organization_id = $_POST['organization_id'];
+$organization_name = mysql_result(mysql_query("SELECT name FROM Organization WHERE org_id = $organization_id"), 0, 'name');
+$points = $_POST['points'];
+$day = $_POST['day'];
+$month = $_POST['month'];
+$year = $_POST['year'];
+$date = $year."-".$month."-".$day;
+$query= "INSERT INTO Volunteering(boy_id,boy_surname,organization_id,organization_name,points,vol_date) VALUES ('$boy_id','$boy_surname','$organization_id','$organization_name','$points','$date')";
 try{
-    $login = mysql_query("SELECT user FROM Account WHERE user= '$user' AND password= '$current_psw' ", $conn);
-    $rows = mysql_num_rows($login);
-    if ($rows == 1)
-    {
-        mysql_query("UPDATE tudu_db.Account SET password='$new_psw' WHERE user = '$user' ", $conn);
-        echo $lang['UPDATE_SUCCESS'];
-        header("refresh: 2 ../index.php");
-    }
-    else
-    {
-        echo 'Wrong Password!';
-        header("refresh: 2 ../change_password.php");
-    }
+mysql_query($query);
+echo $lang['INSERT_SUCCESS'];
+header("refresh: 2 ../view_boy.php?codice_fiscale=$boy_id");
 }
-catch(Excepiton $f){
-    echo 'Error: '.$f->getMessage()."\n";
+catch(Exception $e)
+{
+    echo 'Error:'.$e->getMessage();
 }
 ?>
-

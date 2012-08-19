@@ -22,6 +22,22 @@ $lang['START_DATE'] = 'Data inizio';
 $lang['END_DATE'] = 'Data fine';
 $lang['PASSWORD_CHANGE'] = 'Modifica password';
 
+
+//TIME
+
+$lang['JANUARY'] = 'Gennaio';
+$lang['FEBRUARY'] = 'Febbraio';
+$lang['MARCH'] = 'Marzo';
+$lang['APRIL'] = 'Aprile';
+$lang['MAY'] = 'Maggio';
+$lang['JUNE'] = 'Giugno';
+$lang['JULY'] = 'Luglio';
+$lang['AUGUST'] = 'Agosto';
+$lang['SEPTEMBER'] = 'Settembre';
+$lang['OCTOBER'] = 'Ottobre';
+$lang['NOVEMBER'] = 'Novembre';
+$lang['DECEMBER'] = 'Dicembre';
+
 // NAVBAR
 
 $lang['NO_LOGIN'] = 'Esegui il Login';
@@ -46,6 +62,10 @@ $lang['ADMINISTRATOR'] = 'Amministratore';
 $lang['MANAGER'] = 'Gestore';
 $lang['USER_EXISTS'] = 'Esiste già un utente con questo nome';
 $lang['INSERT_SUCCESS'] = 'Inserimento effettuato con successo';
+$lang['CURRENT_PASSWORD'] = 'Password Corrente';
+$lang['NEW_PASSWORD'] = 'Nuova Password';
+$lang['REPEAT_PASSWORD'] = 'Ripeti Password';
+
 
 // BOY
 $lang['NAME'] = 'Nome';
@@ -82,10 +102,29 @@ $lang['SEARCH_COMPANY_NAME'] = 'Per Nome Azienda';
 $lang['SEARCH_ORGANIZATION_NAME'] = 'Per Nome Organizzazione';
 
 // ITEM
-$lang['PRICE'] = 'Prezzo';
+$lang['PRICE'] = 'Importo';
+$lang['NEW_ITEM'] = 'Inserisci articolo';
+$lang['TOTAL_ITEM'] = 'Visualizza articoli';
+$lang['NEW_ITEM_TITLE'] = 'Nuovo articolo';
 
 // INVOICE
 $lang['DATE'] = 'Data';
+$lang['NEW_INVOICE'] = 'Inserisci fattura';
+$lang['TOTAL_INVOICE'] = 'Visualizza totale fatture';
+$lang['DATE_INVOICE'] = 'Ricerca fatture in intervallo date';
+$lang['NEW_INVOICE_TITLE'] = 'Nuova fattura';
+
+// VOLUNTEERING
+$lang['NEW_VOLUNTEERING'] = 'Inserisci ore';
+$lang['TOTAL_VOLUNTEERING'] = 'Visualizza totale ore effettuate';
+$lang['DATE_VOLUNTEERING'] = 'Ricerca ore in intervallo date';
+$lang['NEW_VOLUNTEERING_TITLE'] = 'Nuove ore';
+
+// TOKEN
+$lang['NEW_TOKEN'] = 'Inserisci buono';
+$lang['TOTAL_TOKEN'] = 'Visualizza totale buoni riscattati';
+$lang['DATE_TOKEN'] = 'Ricerca buoni in intervallo date';
+$lang['NEW_TOKEN_TITLE'] = 'Nuovo buono';
 
 
 // ERRORS

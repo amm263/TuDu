@@ -1,5 +1,19 @@
 <!DOCTYPE html>
 <?php
+/*
+*	Copyright 2012, Andrea Mazzotti <amm263@gmail.com>
+*
+*	Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted,
+*	provided that the above copyright notice and this permission notice appear in all copies.
+*
+*	THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE 
+*	INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR 
+*	ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS 
+* 	OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING 
+*	OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+*
+*/
+include('include/header.php');
 include('include/navbar.php');
 include('locale/it.php');
 include('include/connect.php');
@@ -49,7 +63,7 @@ $limit = " ORDER BY name LIMIT $results_per_page OFFSET $offset"
     <body>
         <div id="ContentContainer">
             <div id="Header">
-                <?php //getHeader(); ?>
+                <?php getHeader(); ?>
             </div>   
             <div id="Navbar">
                 <?php getBar(); ?>
@@ -60,8 +74,8 @@ $limit = " ORDER BY name LIMIT $results_per_page OFFSET $offset"
                 if(check('admin')||check('manager'))
                 {
                     echo '<form action="list_organization.php" name = "form" method = "post">';
-                    echo ' <input type="text" name="search_value" /> <select name="search_type"> <option value="name">'.$lang['SEARCH_NAME'].'</option>'.'<option value="city">'.$lang['SEARCH_CITY'].'</option>'.'<option value="commune">'.$lang['SEARCH_COMMUNE'].'</option></select><input type="submit" name="submit"  value ="'.$lang['SEARCH'].'" /></form><br />';
-                    echo "<table><th>".$lang['NAME']."</th><th>".$lang['CITY']."</th><th>".$lang['COMMUNE']."</th><th>".$lang['POINTS']."</th>";
+                    echo ' <input type="text" name="search_value" /> <select name="search_type"> <option value="name">'.$lang['SEARCH_NAME'].'</option>'.'<option value="city">'.$lang['SEARCH_CITY'].'</option>'.'<option value="commune">'.$lang['SEARCH_COMMUNE'].'</option></select><input type="submit" name="submit"  value ="'.$lang['SEARCH'].'" /></form><br /><br />';
+                    echo "<table><th><h4>".$lang['NAME']."</h4></th><th><h4>".$lang['CITY']."</h4></th><th><h4>".$lang['COMMUNE']."</h4></th><th><h4>".$lang['POINTS']."</h4></th>";
                     $results = mysql_query($query.$limit, $conn);
                     for ($i = 0; (($i < $results_per_page) && ($i < mysql_num_rows($results))); $i++) {
                         $name = mysql_result($results, $i, 'name');

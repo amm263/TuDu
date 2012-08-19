@@ -1,5 +1,19 @@
 <!DOCTYPE html>
 <?php
+/*
+*	Copyright 2012, Andrea Mazzotti <amm263@gmail.com>
+*
+*	Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted,
+*	provided that the above copyright notice and this permission notice appear in all copies.
+*
+*	THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE 
+*	INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR 
+*	ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS 
+* 	OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING 
+*	OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+*
+*/
+include('include/header.php');
 include('include/navbar.php');
 include('locale/it.php');
 ?>
@@ -12,7 +26,7 @@ include('locale/it.php');
     <body>
         <div id="ContentContainer">
             <div id="Header">
-                <?php //getHeader(); ?>
+                <?php getHeader(); ?>
             </div>   
             <div id="Navbar">
                 <?php getBar(); ?>
@@ -23,18 +37,20 @@ include('locale/it.php');
                 if(check('admin'))
                 {?>
                 <form action="include/insert_company.php" name = "form" onsubmit="return validateForm()" method = "post">
-    		<?php echo $lang['NAME'] ?>: <input type="text" name="name" />*<br />
-                <?php echo $lang['ADDRESS'] ?> <input type="text" name="address" />*<br />
-                <?php echo $lang['COMMUNE'] ?> <input type="text" name="commune" />*<br />
-                <?php echo $lang['CAP'] ?> <input type="text" name="CAP" />*<br />
-                <?php echo $lang['CITY'] ?> <input type="text" name="city" />*<br />
-                <?php echo $lang['PHONE'] ?> <input type="text" name="phone" /><br />
-                <?php echo $lang['MOBILE_PHONE'] ?> <input type="text" name="mobile_phone" /><br />
-                <?php echo $lang['MAIL'] ?> <input type="text" name="mail" /><br />
-                <?php echo $lang['REFERENCE'] ?> <input type="text" name="reference" /><br />
-                <?php echo $lang['P_IVA'] ?> <input type="text" name="P_IVA" /><br />
+                <table id="invisibleTable">    
+                     <tr><td id="itd"><strong><?php echo $lang['NAME'] ?></strong></td><td id="itd"> <input type="text" name="name" />*</td></tr>
+                     <tr><td id="itd"><strong><?php echo $lang['ADDRESS'] ?></strong></td><td id="itd"> <input type="text" name="address" />*</td></tr>
+                     <tr><td id="itd"><strong><?php echo $lang['COMMUNE'] ?></strong></td><td id="itd"> <input type="text" name="commune" />*</td></tr>
+                     <tr><td id="itd"><strong><?php echo $lang['CAP'] ?></strong></td><td id="itd"> <input type="text" name="CAP" />*</td></tr>
+                     <tr><td id="itd"><strong><?php echo $lang['CITY'] ?></strong></td><td id="itd"> <input type="text" name="city" />*</td></tr>
+                     <tr><td id="itd"><strong><?php echo $lang['PHONE'] ?></strong></td><td id="itd"> <input type="text" name="phone" /></td></tr>
+                     <tr><td id="itd"><strong><?php echo $lang['MOBILE_PHONE'] ?></strong></td><td id="itd"> <input type="text" name="mobile_phone" /></td></tr>
+                     <tr><td id="itd"><strong><?php echo $lang['MAIL'] ?></strong></td><td id="itd"> <input type="text" name="mail" /></td></tr>
+                     <tr><td id="itd"><strong><?php echo $lang['REFERENCE'] ?></strong></td><td id="itd"> <input type="text" name="reference" /></td></tr>
+                     <tr><td id="itd"><strong><?php echo $lang['P_IVA'] ?></strong></td><td id="itd"> <input type="text" name="P_IVA" /></td></tr>
+                </table>
                 <?php echo $lang['OBLIGATORY'] ?><br />
-    		<input type="submit" name="submit"  value ="Submit" />
+    		<input type="submit" name="submit"  value ="Submit" /></form>
                 <?php }
                     else
                     echo $lang['NO_PRIVILEGE'];

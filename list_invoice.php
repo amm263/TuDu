@@ -1,5 +1,19 @@
 <!DOCTYPE html>
 <?php
+/*
+*	Copyright 2012, Andrea Mazzotti <amm263@gmail.com>
+*
+*	Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted,
+*	provided that the above copyright notice and this permission notice appear in all copies.
+*
+*	THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE 
+*	INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR 
+*	ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS 
+* 	OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING 
+*	OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+*
+*/
+include('include/header.php');
 include('include/navbar.php');
 include('locale/it.php');
 include('include/connect.php');
@@ -61,7 +75,7 @@ else
         $query = $query." WHERE inv_date BETWEEN '$date_start' AND '$date_end'";
     }
 }
-$limit = " ORDER BY inv_date LIMIT $results_per_page OFFSET $offset"
+$limit = " ORDER BY inv_date DESC LIMIT $results_per_page OFFSET $offset"
 ?>
 <html>
     <head>
@@ -72,7 +86,7 @@ $limit = " ORDER BY inv_date LIMIT $results_per_page OFFSET $offset"
     <body>
         <div id="ContentContainer">
             <div id="Header">
-                <?php //getHeader(); ?>
+                <?php getHeader(); ?>
             </div>   
             <div id="Navbar">
                 <?php getBar(); ?>
@@ -83,8 +97,8 @@ $limit = " ORDER BY inv_date LIMIT $results_per_page OFFSET $offset"
                 if(check('admin')||check('manager'))
                 {
                     echo '<form action="list_invoice.php" name = "form" method = "post">';
-                    echo ' <input type="text" name="search_value" /> <select name="search_type"> <option value="company">'.$lang['SEARCH_COMPANY_NAME'].'</option></select><input type="submit" name="submit"  value ="'.$lang['SEARCH'].'" /></form><br />';
-                    echo "<table><th>".$lang['COMPANY']."</th><th>".$lang['PRICE']."</th><th>".$lang['DATE']."</th>";
+                    echo ' <input type="text" name="search_value" /> <select name="search_type"> <option value="company">'.$lang['SEARCH_COMPANY_NAME'].'</option></select><input type="submit" name="submit"  value ="'.$lang['SEARCH'].'" /></form><br /><br />';
+                    echo "<table><th><h4>".$lang['COMPANY']."</h4></th><th><h4>".$lang['PRICE']."</h4></th><th><h4>".$lang['DATE']."</h4></th>";
                     if(check('admin'))
                         echo "<th>".$lang['DELETE']."</th>";
                     $results = mysql_query($query.$limit, $conn);

@@ -14,26 +14,21 @@
 */
 include ('connect.php');
 include ('../locale/it.php');
-$current_psw = md5($_POST['current_password']);
-$new_psw = md5($_POST['new_password']);
-$user = $_POST['user'];
+$company_id = $_POST['company_id'];
+$company_name = mysql_result(mysql_query("SELECT name FROM Company WHERE p_iva = $company_id"), 0, 'name');
+$amount = $_POST['amount'];
+$day = $_POST['day'];
+$month = $_POST['month'];
+$year = $_POST['year'];
+$date = $year."-".$month."-".$day;
+$query= "INSERT INTO Invoice(company_id,company_name,amount,inv_date) VALUES ('$company_id','$company_name','$amount','$date')";
 try{
-    $login = mysql_query("SELECT user FROM Account WHERE user= '$user' AND password= '$current_psw' ", $conn);
-    $rows = mysql_num_rows($login);
-    if ($rows == 1)
-    {
-        mysql_query("UPDATE tudu_db.Account SET password='$new_psw' WHERE user = '$user' ", $conn);
-        echo $lang['UPDATE_SUCCESS'];
-        header("refresh: 2 ../index.php");
-    }
-    else
-    {
-        echo 'Wrong Password!';
-        header("refresh: 2 ../change_password.php");
-    }
+mysql_query($query);
+echo $lang['INSERT_SUCCESS'];
+header("refresh: 2 ../view_company.php?p_iva=$company_id");
 }
-catch(Excepiton $f){
-    echo 'Error: '.$f->getMessage()."\n";
+catch(Exception $e)
+{
+    echo 'Error:'.$e->getMessage();
 }
 ?>
-

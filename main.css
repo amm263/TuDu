@@ -4,28 +4,58 @@ body {
 	font-family: verdana, arial, helvetica, sans-serif;
 	font-size: 12px;
 	line-height: 22px;
-	color: #000000;
-	background-color: #ffffff;
+	background: #242123;
+        color: white;
 }
 
-table, th, td {
-        border: 1px solid black;
+table, td, th, tr {
+        border: 1px solid #faa61a;;
         width: auto;
+ }
+ 
+ #invisibleTable{
+     border: 0px;
+     width: auto;
+ }
+ 
+ #itd{
+     border: 0px;
+     width: auto;
+ }
+ 
+ #ith{
+     border: 0px;
+     width: auto;
  }
 
 h1 {
+        
   	margin: 0px;
 	padding: 5px;  
 	font-size: 32px;
+        color: #faa61a;
+}
+
+h3 {
+    color: #faa61a;
+    padding-left: 5px;
+}
+
+h4 {
+    color: #faa61a;
+    padding-left: 2px;
+    padding-right: 2px;
 }
 
 p {
   	margin: 0px;
-	padding: 5px;  
+	padding: 5px;
+        color: white;
 }
 
+
 a:link { 
-         color: black;
+         color: white;
 }
 
 a:visited { 
@@ -45,10 +75,7 @@ a:visited {
     width:1125px;
     left: 5px;
     top: 5px;
-    background-color: white;
-    border: thin;
-    border-style:solid;
-    border-bottom-color:black;
+    background-color: #666465;
 }
 
 #Navbar {
@@ -59,10 +86,7 @@ a:visited {
     margin: 0px;
     padding: 0px;
     width: 200px;
-    background-color: white;
-    border: thin;
-    border-style:solid;
-    border-bottom-color:black;
+    background-color: #666465;
 }
 
 #Content {
@@ -72,26 +96,7 @@ a:visited {
     left: 210px;
     top: 110px;
     width: 900px;
-    background-color: white;
-    border: thin;
-    border-style:solid;
-    border-bottom-color:black;
-}
-
-#LittleBox {
-    position: relative;
-    margin: 1px;
-    float: left;
-    background-color: white;
-    border: thin;
-    border-style:solid;
-    border-bottom-color:black;
-}
-
-#BoxContainer {
-    position: relative;
-    margin: 5px;
-    display: inline-table;
+    background-color: #666465;
 }
 
 #Pagin
@@ -100,3 +105,38 @@ a:visited {
     bottom: 1px;
     text-align: center;
 }
+
+#ajax_listOfOptions{
+		position:absolute;	/* Never change this one */
+		width:175px;	/* Width of box */
+		height:250px;	/* Height of box */
+		overflow:auto;	/* Scrolling features */
+		border:1px solid #317082;	/* Dark green border */
+		background-color:#FFF;	/* White background color */
+		text-align:left;
+		font-size:0.9em;
+		z-index:100;
+	}
+
+#ajax_listOfOptions div{	/* General rule for both .optionDiv and .optionDivSelected */
+		margin:1px;		
+		padding:1px;
+		cursor:pointer;
+		font-size:0.9em;
+	}
+#ajax_listOfOptions .optionDiv{	/* Div for each item in list */
+		
+	}
+#ajax_listOfOptions .optionDivSelected{ /* Selected item in the list */
+		background-color:#317082;
+		color:#FFF;
+	}
+#ajax_listOfOptions_iframe{
+		background-color:#F00;
+		position:absolute;
+		z-index:5;
+	}
+        
+form{
+		display:inline;
+	}
