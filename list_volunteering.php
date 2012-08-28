@@ -45,6 +45,9 @@ if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
         case 'boy':
             $query = "SELECT * FROM Volunteering WHERE boy_surname LIKE '%$search_value%'";
             break;
+        case 'commune':
+            $query = "SELECT * FROM Volunteering WHERE organization_id IN (SELECT DISTINCT org_id FROM Organization WHERE commune LIKE '%$search_value%')";
+            break;
         case 'org_id':
             $query = "SELECT * FROM Volunteering WHERE organization_id = '$search_value'";
             break;
@@ -62,7 +65,7 @@ if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
     {
         $date_start = $_GET['date_start'];
         $date_end = $_GET['date_end'];
-        $query = $query." AND inv_date BETWEEN '$date_start' AND '$date_end'";
+        $query = $query." AND vol_date BETWEEN '$date_start' AND '$date_end'";
     }
 }
 else
@@ -78,7 +81,7 @@ else
     {
         $date_start = $_GET['date_start'];
         $date_end = $_GET['date_end'];
-        $query = $query." WHERE inv_date BETWEEN '$date_start' AND '$date_end'";
+        $query = $query." WHERE vol_date BETWEEN '$date_start' AND '$date_end'";
     }
 }
 $limit = " ORDER BY vol_date DESC,boy_surname LIMIT $results_per_page OFFSET $offset"
@@ -103,7 +106,12 @@ $limit = " ORDER BY vol_date DESC,boy_surname LIMIT $results_per_page OFFSET $of
                 if(check('admin')||check('manager'))
                 {
                     echo '<form action="list_volunteering.php" name = "form" method = "post">';
-                    echo ' <input type="text" name="search_value" /> <select name="search_type"> <option value="organization">'.$lang['SEARCH_ORGANIZATION_NAME'].'</option><option value="boy">'.$lang['SEARCH_SURNAME'].'</option></select><input type="submit" name="submit"  value ="'.$lang['SEARCH'].'" /></form><br /><br />';
+                    echo '<input type="text" name="search_value" /> <select name="search_type"> <option value="organization">'.$lang['SEARCH_ORGANIZATION_NAME'].'</option><option value="boy">'.$lang['SEARCH_SURNAME'].'</option><option value="commune">'.$lang['SEARCH_COMMUNE'].'</option></select><input type="submit" name="submit"  value ="'.$lang['SEARCH'].'" /></form><br />';
+                    echo '<form action="list_volunteering.php" name = "form" method = "post">';
+                    echo $lang['START_DATE'].': <input type="text" name="date_start" value="YYYY-MM-DD"> '.$lang['END_DATE'].': <input type="text" name="date_end" value="YYYY-MM-DD">';
+                    if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
+                        echo '<input type="hidden" name="search_type" value="'.$_POST['search_type'].'"><input type="hidden" name="search_value" value="'.$_POST['search_value'].'">';
+                        echo '<input type="submit" name="submit"  value ="'.$lang['DATE_FILTER'].'" /></form><br />';
                     echo "<table><th><h4>".$lang['SURNAME']."</h4></th><th><h4>".$lang['POINTS']."</h4></th><th><h4>".$lang['DATE']."</h4></th><th><h4>".$lang['ORGANIZATION']."</h4></th>";
                     if(check('admin'))
                         echo "<th>".$lang['DELETE']."</th>";

@@ -41,15 +41,19 @@ if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
     {
         case 'company':
             $query = "SELECT * FROM Token WHERE company_name LIKE '%$search_value%'";
+            $points = "SELECT SUM(points) as totalPoints FROM Token WHERE company_name LIKE '%$search_value%'";
             break;
         case 'boy':
             $query = "SELECT * FROM Token WHERE boy_surname LIKE '%$search_value%'";
+            $points = "SELECT SUM(points) as totalPoints FROM Token WHERE boy_surname LIKE '%$search_value%'";
             break;
         case 'company_id':
             $query = "SELECT * FROM Token WHERE company_id = '$search_value'";
+            $points = "SELECT SUM(points) as totalPoints FROM Token WHERE company_id = '$search_value'";
             break;
         case 'boy_id':
             $query = "SELECT * FROM Token WHERE boy_id = '$search_value'";
+            $points = "SELECT SUM(points) as totalPoints FROM Token WHERE boy_id = '$search_value'";
             break;
     }
     if(isset($_POST['date_start'])&&isset($_POST['date_end']))
@@ -57,28 +61,33 @@ if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
         $date_start = $_POST['date_start'];
         $date_end = $_POST['date_end'];
         $query = $query." AND token_date BETWEEN '$date_start' AND '$date_end'";
+        $points = $points." AND token_date BETWEEN '$date_start' AND '$date_end'";
     }
     elseif(isset($_GET['date_start'])&&isset($_GET['date_end']))
     {
         $date_start = $_GET['date_start'];
         $date_end = $_GET['date_end'];
-        $query = $query." AND inv_date BETWEEN '$date_start' AND '$date_end'";
+        $query = $query." AND token_date BETWEEN '$date_start' AND '$date_end'";
+        $points = $points." AND token_date BETWEEN '$date_start' AND '$date_end'";
     }
 }
 else
 {
     $query = "SELECT * FROM Token";
+    $points = "SELECT SUM(points) as totalPoints FROM Token";
     if(isset($_POST['date_start'])&&isset($_POST['date_end']))
     {
         $date_start = $_POST['date_start'];
         $date_end = $_POST['date_end'];
         $query = $query." WHERE token_date BETWEEN '$date_start' AND '$date_end'";
+        $points = $points." AND token_date BETWEEN '$date_start' AND '$date_end'";
     }
     elseif(isset($_GET['date_start'])&&isset($_GET['date_end']))
     {
         $date_start = $_GET['date_start'];
         $date_end = $_GET['date_end'];
-        $query = $query." WHERE inv_date BETWEEN '$date_start' AND '$date_end'";
+        $query = $query." WHERE token_date BETWEEN '$date_start' AND '$date_end'";
+        $points = $points." AND token_date BETWEEN '$date_start' AND '$date_end'";
     }
 }
 $limit = " ORDER BY token_date DESC,boy_surname LIMIT $results_per_page OFFSET $offset"
@@ -102,6 +111,16 @@ $limit = " ORDER BY token_date DESC,boy_surname LIMIT $results_per_page OFFSET $
                 include('include/privilege_check.php');
                 if(check('admin')||check('manager'))
                 {
+                    $points = mysql_query($points, $conn);
+                    if(mysql_num_rows($points)>0)
+                    {
+                        $points = mysql_result($points, 0, 'totalPoints');
+                    }
+                    else 
+                    {    
+                        $points = 0;
+                    }
+                    echo '<h4>'.$lang['TOTAL_TOKENS'].': '.$points.'</h4>';    
                     echo '<form action="list_token.php" name = "form" method = "post">';
                     echo ' <input type="text" name="search_value" /> <select name="search_type"> <option value="company">'.$lang['SEARCH_COMPANY_NAME'].'</option><option value="boy">'.$lang['SEARCH_SURNAME'].'</option></select><input type="submit" name="submit"  value ="'.$lang['SEARCH'].'" /></form><br /><br />';
                     echo "<table><th><h4>".$lang['SURNAME']."</h4></th><th><h4>".$lang['POINTS']."</h4></th><th><h4>".$lang['DATE']."</th><th><h4>".$lang['COMPANY']."</h4></th>";

@@ -100,6 +100,7 @@ $lang['SEARCH_CODICE_FISCALE'] = 'Per Codice Fiscale';
 $lang['SEARCH_NAME'] = 'Per Nome';
 $lang['SEARCH_COMPANY_NAME'] = 'Per Nome Azienda';
 $lang['SEARCH_ORGANIZATION_NAME'] = 'Per Nome Organizzazione';
+$lang['DATE_FILTER'] = 'Filtra per data';
 
 // ITEM
 $lang['PRICE'] = 'Importo';
@@ -125,6 +126,7 @@ $lang['NEW_TOKEN'] = 'Inserisci buono';
 $lang['TOTAL_TOKEN'] = 'Visualizza totale buoni riscattati';
 $lang['DATE_TOKEN'] = 'Ricerca buoni in intervallo date';
 $lang['NEW_TOKEN_TITLE'] = 'Nuovo buono';
+$lang['TOTAL_TOKENS'] = 'Totale punti riscattati'; 
 
 
 // ERRORS
