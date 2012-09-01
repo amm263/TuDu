@@ -13,6 +13,12 @@
 *
 */
 
+/*
+ *  file: eraser.php
+ * 
+ *  It's called to delete the selected row in the selected table on the database
+ * 
+ */
 include ('connect.php');
 include ('../locale/it.php');
 $table = $_POST['table'];

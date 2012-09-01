@@ -12,6 +12,12 @@
 *	OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 *
 */
+
+/*  
+ *  file: updater.php
+ * 
+ *  Updates the selected column, in the selected row, in the selected table, with the new value given.
+ */
 include ('connect.php');
 include ('../locale/it.php');
 $table = $_POST['table'];

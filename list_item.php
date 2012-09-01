@@ -13,6 +13,14 @@
 *	OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 *
 */
+
+/*
+ *  file: list_item.php
+ * 
+ *  This page provides a list with all the Items in the database.
+ *  It can be applied a filter on the results based on the Name, Company Name or Company ID.
+ * 
+ */
 include('include/header.php');
 include('include/navbar.php');
 include('locale/it.php');
@@ -34,6 +42,7 @@ else
 
 $offset = $results_per_page*$page;
 
+// If a search is performed on the page
 if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
 {
     $search_value = $_POST['search_value'];
@@ -50,6 +59,7 @@ if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
             break;
     }
 }
+// Else go with the standard query
 else
     $query = "SELECT * FROM Item";
 $limit = " ORDER BY company_name,price LIMIT $results_per_page OFFSET $offset"
@@ -58,7 +68,7 @@ $limit = " ORDER BY company_name,price LIMIT $results_per_page OFFSET $offset"
     <head>
         <link rel="stylesheet" type="text/css" href="main.css" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title></title>
+        <title><?php echo $lang['LIST_ITEM']; ?></title>
     </head>
     <body>
         <div id="ContentContainer">
@@ -70,14 +80,29 @@ $limit = " ORDER BY company_name,price LIMIT $results_per_page OFFSET $offset"
             </div>
             <div id="Content">
                  <?php 
+                // Check for account privileges
                 include('include/privilege_check.php');
                 if(check('admin')||check('manager'))
                 {
+                    // Search form
                     echo '<form action="list_item.php" name = "form" method = "post">';
-                    echo ' <input type="text" name="search_value" /> <select name="search_type"> <option value="name">'.$lang['SEARCH_NAME'].'</option><option value="company">'.$lang['SEARCH_COMPANY_NAME'].'</option></select><input type="submit" name="submit"  value ="'.$lang['SEARCH'].'" /></form><br /><br />';
-                    echo "<table><th><h4>".$lang['NAME']."</h4></th><th><h4>".$lang['PRICE']."</h4></th><th><h4>".$lang['POINTS']."</h4></th><th><h4>".$lang['COMPANY']."</h4></th>";
+                    echo ' <input type="text" name="search_value" /> 
+                            <select name="search_type"> 
+                                <option value="name">'.$lang['SEARCH_NAME'].'</option>
+                                <option value="company">'.$lang['SEARCH_COMPANY_NAME'].'</option>
+                            </select><input type="submit" name="submit"  value ="'.$lang['SEARCH'].'" />
+                          </form><br /><br />';
+                    
+                    // Begin of table and Headers
+                    echo "<table>
+                            <th><h4>".$lang['NAME']."</h4></th>
+                            <th><h4>".$lang['PRICE']."</h4></th>
+                            <th><h4>".$lang['POINTS']."</h4></th>
+                            <th><h4>".$lang['COMPANY']."</h4></th>";
+                    //If the account logged has admin privileges, he can DELETE items
                     if(check('admin'))
                         echo "<th>".$lang['DELETE']."</th>";
+                    
                     $results = mysql_query($query.$limit, $conn);
                     for ($i = 0; (($i < $results_per_page) && ($i < mysql_num_rows($results))); $i++) {
                         $item_id = mysql_result($results, $i, 'item_id');
@@ -86,15 +111,24 @@ $limit = " ORDER BY company_name,price LIMIT $results_per_page OFFSET $offset"
                         $points = mysql_result($results, $i, 'points');
                         $company_name = mysql_result($results, $i, 'company_name');
                         $company_id = mysql_result($results, $i, 'company_id');
-                        echo "<tr><td><strong><p>".$name."</p></strong></td><td align=center><p>".$price."€</p></td><td align=center><p>".$points."</p></td><td align=center><p><a href=\"view_company.php?p_iva=$company_id\">".$company_name."</a></p></td>";
+                        //Row print
+                        echo "<tr>
+                                <td><strong><p>".$name."</p></strong></td>
+                                <td align=center><p>".$price."€</p></td>
+                                <td align=center><p>".$points."</p></td>
+                                <td align=center><p><a href=\"view_company.php?p_iva=$company_id\">".$company_name."</a></p></td>";
+                        //All admins can delete items
                         if(check('admin'))
                             echo '<td><form action="include/eraser.php" name = "delete" method = "post"><input type="hidden" name="table" value="Item"/><input type="hidden" name="key" value="item_id"/><input type="hidden" name="key_value" value="'.$item_id.'"/><input type="submit" name="submit"  value ="'.$lang['DELETE'].'" /></form></td></tr>';
                         else
                             echo "</tr>";
                     }
                     echo "</table>";
+                    //End of Table
+                    
                     //Pagination
                     $results_num = mysql_num_rows(mysql_query($query));
+                    //If on the page a search filter is active
                     if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
                         pagination_search($results_per_page, $page, "list_item.php?", $results_num, $_POST['search_value'], $_POST['search_type']);
                     else

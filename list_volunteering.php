@@ -13,6 +13,14 @@
 *	OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 *
 */
+
+/*
+ *  file: list_volunteering.php
+ * 
+ *  This page provides a list with all the Volunteering hours in the database.
+ *  It can be applied a filter on the results based on the Organization Name, Boy Surname, Organization ID, Boy ID, Organization Commune and/or Date.
+ * 
+ */
 include('include/header.php');
 include('include/navbar.php');
 include('locale/it.php');
@@ -34,6 +42,7 @@ else
 
 $offset = $results_per_page*$page;
 
+// If a search is performed on the page
 if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
 {
     $search_value = $_POST['search_value'];
@@ -55,6 +64,7 @@ if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
             $query = "SELECT * FROM Volunteering WHERE boy_id = '$search_value'";
             break;
     }
+    // If a filter on the Date is requested with the GET or POST method
     if(isset($_POST['date_start'])&&isset($_POST['date_end']))
     {
         $date_start = $_POST['date_start'];
@@ -68,9 +78,11 @@ if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
         $query = $query." AND vol_date BETWEEN '$date_start' AND '$date_end'";
     }
 }
+//Else go with the standard query...
 else
 {
     $query = "SELECT * FROM Volunteering";
+    //..but still apply the Date filter if requested
     if(isset($_POST['date_start'])&&isset($_POST['date_end']))
     {
         $date_start = $_POST['date_start'];
@@ -90,7 +102,7 @@ $limit = " ORDER BY vol_date DESC,boy_surname LIMIT $results_per_page OFFSET $of
     <head>
         <link rel="stylesheet" type="text/css" href="main.css" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title></title>
+        <title><?php echo $lang['LIST_VOLUNTEERING']; ?></title>
     </head>
     <body>
         <div id="ContentContainer">
@@ -102,19 +114,40 @@ $limit = " ORDER BY vol_date DESC,boy_surname LIMIT $results_per_page OFFSET $of
             </div>
             <div id="Content">
                  <?php 
+                // Check for account privileges
                 include('include/privilege_check.php');
                 if(check('admin')||check('manager'))
                 {
+                    //Search form
                     echo '<form action="list_volunteering.php" name = "form" method = "post">';
-                    echo '<input type="text" name="search_value" /> <select name="search_type"> <option value="organization">'.$lang['SEARCH_ORGANIZATION_NAME'].'</option><option value="boy">'.$lang['SEARCH_SURNAME'].'</option><option value="commune">'.$lang['SEARCH_COMMUNE'].'</option></select><input type="submit" name="submit"  value ="'.$lang['SEARCH'].'" /></form><br />';
+                    echo '<input type="text" name="search_value" /> 
+                            <select name="search_type"> 
+                                <option value="organization">'.$lang['SEARCH_ORGANIZATION_NAME'].'</option>
+                                <option value="boy">'.$lang['SEARCH_SURNAME'].'</option>
+                                <option value="commune">'.$lang['SEARCH_COMMUNE'].'</option>
+                            </select>
+                           <input type="submit" name="submit"  value ="'.$lang['SEARCH'].'" />
+                          </form><br />';
+                    
+                    // Date filter form
                     echo '<form action="list_volunteering.php" name = "form" method = "post">';
-                    echo $lang['START_DATE'].': <input type="text" name="date_start" value="YYYY-MM-DD"> '.$lang['END_DATE'].': <input type="text" name="date_end" value="YYYY-MM-DD">';
+                    echo $lang['START_DATE'].': <input type="text" name="date_start" value="YYYY-MM-DD"> '.
+                         $lang['END_DATE'].': <input type="text" name="date_end" value="YYYY-MM-DD">';
+                    //If a search filter is applied
                     if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
                         echo '<input type="hidden" name="search_type" value="'.$_POST['search_type'].'"><input type="hidden" name="search_value" value="'.$_POST['search_value'].'">';
-                        echo '<input type="submit" name="submit"  value ="'.$lang['DATE_FILTER'].'" /></form><br />';
-                    echo "<table><th><h4>".$lang['SURNAME']."</h4></th><th><h4>".$lang['POINTS']."</h4></th><th><h4>".$lang['DATE']."</h4></th><th><h4>".$lang['ORGANIZATION']."</h4></th>";
+                    echo '<input type="submit" name="submit"  value ="'.$lang['DATE_FILTER'].'" /></form><br />';
+                    
+                    // Begin of table and Headers
+                    echo "<table>
+                            <th><h4>".$lang['SURNAME']."</h4></th>
+                            <th><h4>".$lang['POINTS']."</h4></th>
+                            <th><h4>".$lang['DATE']."</h4></th>
+                            <th><h4>".$lang['ORGANIZATION']."</h4></th>";
+                    //If the account logged has admin privileges, he can DELETE volunteering
                     if(check('admin'))
                         echo "<th>".$lang['DELETE']."</th>";
+                    
                     $results = mysql_query($query.$limit, $conn);
                     if(mysql_num_rows($results)>0)
                     {
@@ -126,9 +159,23 @@ $limit = " ORDER BY vol_date DESC,boy_surname LIMIT $results_per_page OFFSET $of
                             $date = mysql_result($results, $i, 'vol_date');
                             $organization_name = mysql_result($results, $i, 'organization_name');
                             $organization_id = mysql_result($results, $i, 'organization_id');
-                            echo "<tr><td><strong><p><a href=\"view_boy.php?codice_fiscale=$boy_id\">".$surname."</a></p></strong></td><td align=center><p>".$points."</p></td><td align=center><p>".$date."</p></td><td><p><a href=\"view_organization.php?org_id=$organization_id\">".$organization_name."</a></p></td>";
+                            
+                            // Row printing
+                            echo "<tr>
+                                    <td><strong><p><a href=\"view_boy.php?codice_fiscale=$boy_id\">".$surname."</a></p></strong></td>
+                                    <td align=center><p>".$points."</p></td>
+                                    <td align=center><p>".$date."</p></td>
+                                    <td><p><a href=\"view_organization.php?org_id=$organization_id\">".$organization_name."</a></p></td>";
+                            //All admins can delete volunteerings hours
                             if(check('admin'))
-                                echo '<td><form action="include/eraser.php" name = "delete" method = "post"><input type="hidden" name="table" value="Volunteering"/><input type="hidden" name="key" value="vol_id"/><input type="hidden" name="key_value" value="'.$vol_id.'"/><input type="submit" name="submit"  value ="'.$lang['DELETE'].'" /></form></td></tr>';
+                                echo '<td>
+                                        <form action="include/eraser.php" name = "delete" method = "post">
+                                            <input type="hidden" name="table" value="Volunteering"/>
+                                            <input type="hidden" name="key" value="vol_id"/>
+                                            <input type="hidden" name="key_value" value="'.$vol_id.'"/>
+                                            <input type="submit" name="submit"  value ="'.$lang['DELETE'].'" />
+                                        </form>
+                                      </td></tr>';
                             else
                                 echo "</tr>";
                         }
@@ -139,8 +186,10 @@ $limit = " ORDER BY vol_date DESC,boy_surname LIMIT $results_per_page OFFSET $of
                     echo "</table>";
                     //Pagination
                     $results_num = mysql_num_rows(mysql_query($query));
+                    //If on the page a search filter is active
                     if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
                     {
+                        //If a on the page a date filter is active
                         if(isset($date_start)&&isset($date_end))
                             pagination_search($results_per_page, $page, "list_volunteering.php?date_start=".$date_start."&date_end=".$date_end."&", $results_num, $_POST['search_value'], $_POST['search_type']);
                         else
@@ -148,6 +197,7 @@ $limit = " ORDER BY vol_date DESC,boy_surname LIMIT $results_per_page OFFSET $of
                     }
                     else
                     {
+                        //If a on the page a date filter is active
                         if(isset($date_start)&&isset($date_end))
                             pagination($results_per_page, $page, "list_volunteering.php?date_start=".$date_start."&date_end=".$date_end."&", $results_num);
                         else

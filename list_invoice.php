@@ -13,6 +13,14 @@
 *	OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 *
 */
+
+/*
+ *  file: list_invoice.php
+ * 
+ *  This page provides a list with all the Invoices in the database.
+ *  It can be applied a filter on the results based on the Company Name, Company ID or/and Date
+ * 
+ */
 include('include/header.php');
 include('include/navbar.php');
 include('locale/it.php');
@@ -34,6 +42,7 @@ else
 
 $offset = $results_per_page*$page;
 
+// If a search is performed on the page
 if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
 {
     $search_value = $_POST['search_value'];
@@ -46,6 +55,7 @@ if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
             $query = "SELECT * FROM Invoice WHERE company_id = '$search_value'";
             break;
     }
+    // If a filter on the Date is requested with the GET or POST method
     if(isset($_POST['date_start'])&&isset($_POST['date_end']))
     {
         $date_start = $_POST['date_start'];
@@ -59,9 +69,11 @@ if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
         $query = $query." AND inv_date BETWEEN '$date_start' AND '$date_end'";
     }
 }
+//Else go with the standard query...
 else
 {
     $query = "SELECT * FROM Invoice";
+    //..but still apply the Date filter if requested
     if(isset($_POST['date_start'])&&isset($_POST['date_end']))
     {
         $date_start = $_POST['date_start'];
@@ -81,7 +93,7 @@ $limit = " ORDER BY inv_date DESC LIMIT $results_per_page OFFSET $offset"
     <head>
         <link rel="stylesheet" type="text/css" href="main.css" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title></title>
+        <title><?php echo $lang['LIST_INVOICE']; ?></title>
     </head>
     <body>
         <div id="ContentContainer">
@@ -93,14 +105,28 @@ $limit = " ORDER BY inv_date DESC LIMIT $results_per_page OFFSET $offset"
             </div>
             <div id="Content">
                  <?php 
+                // Check for account privileges
                 include('include/privilege_check.php');
                 if(check('admin')||check('manager'))
                 {
+                    // Search Form
                     echo '<form action="list_invoice.php" name = "form" method = "post">';
-                    echo ' <input type="text" name="search_value" /> <select name="search_type"> <option value="company">'.$lang['SEARCH_COMPANY_NAME'].'</option></select><input type="submit" name="submit"  value ="'.$lang['SEARCH'].'" /></form><br /><br />';
-                    echo "<table><th><h4>".$lang['COMPANY']."</h4></th><th><h4>".$lang['PRICE']."</h4></th><th><h4>".$lang['DATE']."</h4></th>";
+                    echo ' <input type="text" name="search_value" /> 
+                            <select name="search_type"> 
+                                <option value="company">'.$lang['SEARCH_COMPANY_NAME'].'</option>
+                            </select>
+                           <input type="submit" name="submit"  value ="'.$lang['SEARCH'].'" />
+                          </form><br /><br />';
+                    
+                    // Begin of table and Headers
+                    echo "<table>
+                            <th><h4>".$lang['COMPANY']."</h4></th>
+                            <th><h4>".$lang['PRICE']."</h4></th>
+                            <th><h4>".$lang['DATE']."</h4></th>";
+                    //If the account logged has admin privileges, he can DELETE invoices
                     if(check('admin'))
                         echo "<th>".$lang['DELETE']."</th>";
+                    
                     $results = mysql_query($query.$limit, $conn);
                     if(mysql_num_rows($results)>0)
                     {
@@ -110,9 +136,20 @@ $limit = " ORDER BY inv_date DESC LIMIT $results_per_page OFFSET $offset"
                             $price = mysql_result($results, $i, 'amount');
                             $company_name = mysql_result($results, $i, 'company_name');
                             $company_id = mysql_result($results, $i, 'company_id');
-                            echo "<tr><td><strong><p><a href=\"view_company.php?p_iva=$company_id\">".$company_name."</a></p></strong></td><td align=center><p>".$price."€</p></td><td align=center><p>".$date."</p></td>";
+                            //Row print
+                            echo "<tr>
+                                    <td><strong><p><a href=\"view_company.php?p_iva=$company_id\">".$company_name."</a></p></strong></td>
+                                    <td align=center><p>".$price."€</p></td>
+                                    <td align=center><p>".$date."</p></td>";
+                            //All admins can delete invoices
                             if(check('admin'))
-                                echo '<td><form action="include/eraser.php" name = "delete" method = "post"><input type="hidden" name="table" value="Invoice"/><input type="hidden" name="key" value="inv_id"/><input type="hidden" name="key_value" value="'.$inv_id.'"/><input type="submit" name="submit"  value ="'.$lang['DELETE'].'" /></form></td></tr>';
+                                echo '<td>
+                                        <form action="include/eraser.php" name = "delete" method = "post">
+                                            <input type="hidden" name="table" value="Invoice"/>
+                                            <input type="hidden" name="key" value="inv_id"/>
+                                            <input type="hidden" name="key_value" value="'.$inv_id.'"/>
+                                            <input type="submit" name="submit"  value ="'.$lang['DELETE'].'" />
+                                        </form></td></tr>';
                             else
                                 echo "</tr>";
                         }
@@ -121,10 +158,14 @@ $limit = " ORDER BY inv_date DESC LIMIT $results_per_page OFFSET $offset"
                         echo $lang['NO_RESULTS'];
                     }
                     echo "</table>";
+                    //End of Table
+                   
                     //Pagination
                     $results_num = mysql_num_rows(mysql_query($query));
+                    //If on the page a search filter is active
                     if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
                     {
+                        //If a on the page a date filter is active
                         if(isset($date_start)&&isset($date_end))
                             pagination_search($results_per_page, $page, "list_invoice.php?date_start=".$date_start."&date_end=".$date_end."&", $results_num, $_POST['search_value'], $_POST['search_type']);
                         else
@@ -132,6 +173,7 @@ $limit = " ORDER BY inv_date DESC LIMIT $results_per_page OFFSET $offset"
                     }
                     else
                     {
+                        //If a on the page a date filter is active
                         if(isset($date_start)&&isset($date_end))
                             pagination($results_per_page, $page, "list_invoice.php?date_start=".$date_start."&date_end=".$date_end."&", $results_num);
                         else

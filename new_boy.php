@@ -21,7 +21,7 @@ include('locale/it.php');
     <head>
         <link rel="stylesheet" type="text/css" href="main.css" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title></title>
+        <title><?php echo $lang['NEW_BOY']; ?></title>
     </head>
     <body>
         <div id="ContentContainer">
@@ -39,7 +39,7 @@ include('locale/it.php');
                 <form action="include/insert_boy.php" name = "form" onsubmit="return validateForm()" method = "post">
     		<table id="invisibleTable">
                     <tr><td id="itd"><strong><?php echo $lang['NAME'] ?></strong></td><td id="itd"> <input type="text" name="name" />*</td></tr>
-                    <tr><td id="itd"><strong><?php echo $lang['SURNAME'] ?></strong></td><td id="itd"> <input type="password" name="surname" />*</td></tr>
+                    <tr><td id="itd"><strong><?php echo $lang['SURNAME'] ?></strong></td><td id="itd"> <input type="text" name="surname" />*</td></tr>
                     <tr><td id="itd"><strong><?php echo $lang['ADDRESS'] ?></strong></td><td id="itd"> <input type="text" name="address" />*</td></tr>
                     <tr><td id="itd"><strong><?php echo $lang['COMMUNE'] ?></strong></td><td id="itd"> <input type="text" name="commune" />*</td></tr>
                     <tr><td id="itd"><strong><?php echo $lang['CAP'] ?> </strong></td><td id="itd"><input type="text" name="CAP" />*</td></tr>

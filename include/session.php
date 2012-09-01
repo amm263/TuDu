@@ -16,6 +16,11 @@ include ('connect.php');
 $psw = md5($_POST['password']);
 $user = $_POST['user'];
 
+/*  
+ *  file: session.php
+ * 
+ *  Sets up the Session for the user after the login
+ */
 try{
     $login = mysql_query("SELECT user FROM Account WHERE user= '$user' AND password= '$psw' ", $conn);
     $rows = mysql_num_rows($login);

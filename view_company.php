@@ -13,6 +13,13 @@
 *	OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 *
 */
+
+/*
+ *  file: view_company.php
+ *  
+ *  Page showing all the proprieties for a given Company
+ * 
+ */
 include('include/header.php');
 include('include/navbar.php');
 include('locale/it.php');
@@ -22,7 +29,7 @@ include('include/connect.php');
     <head>
         <link rel="stylesheet" type="text/css" href="main.css" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title></title>
+        <title><?php echo $lang['COMPANY']; ?></title>
     </head>
     <body>
         <div id="ContentContainer">
@@ -34,6 +41,7 @@ include('include/connect.php');
             </div>
             <div id="Content">
                 <?php 
+                // Check for account privileges
                 include('include/privilege_check.php');
                 if(check('admin')||check('manager'))
                 {
@@ -46,6 +54,7 @@ include('include/connect.php');
                         {
                             echo "<h1 style=\"text-align: center;\">".mysql_result($result, 0, 'name')."</h1><br /><br />";
                             echo "<h3>".$lang['P_IVA'].": ".mysql_result($result, 0, 'p_iva')."</h3><br />";
+                            // All the admins can modify the properties of the given Company
                             if(check('admin'))
                             { 
                                 echo '<table id="invisibleTable">';
@@ -73,17 +82,49 @@ include('include/connect.php');
                                 echo '</table>';  
                             }
                             echo '<br /><br />';
+                            
+                            
                             echo '<h3>'.$lang['LIST_TOKEN'].'</h3>';
-                            echo '<form action="list_token.php" method="post"><input type="hidden" name="search_type" value="company_id"><input type="hidden" name="search_value" value="'.$p_iva.'"><input type="submit" name="submit"  value ="'.$lang['TOTAL_TOKEN'].'" /></form><br /><br />';
-                            echo '<form action="list_token.php"  method="post">'.$lang['START_DATE'].': <input type="text" name="date_start" value="YYYY-MM-DD"> '.$lang['END_DATE'].': <input type="text" name="date_end" value="YYYY-MM-DD"><input type="hidden" name="search_type" value="company_id"><input type="hidden" name="search_value" value="'.$p_iva.'"><input type="submit" name="submit"  value ="'.$lang['DATE_TOKEN'].'" /></form><br /><br />';                       
+                            // Token search form
+                            echo '<form action="list_token.php" method="post">
+                                    <input type="hidden" name="search_type" value="company_id">
+                                    <input type="hidden" name="search_value" value="'.$p_iva.'">
+                                    <input type="submit" name="submit"  value ="'.$lang['TOTAL_TOKEN'].'" />
+                                  </form><br /><br />';
+                            // Token search form (DATE filter)
+                            echo '<form action="list_token.php"  method="post">'
+                                    .$lang['START_DATE'].': <input type="text" name="date_start" value="YYYY-MM-DD"> '
+                                    .$lang['END_DATE'].': <input type="text" name="date_end" value="YYYY-MM-DD">
+                                    <input type="hidden" name="search_type" value="company_id">
+                                    <input type="hidden" name="search_value" value="'.$p_iva.'">
+                                    <input type="submit" name="submit"  value ="'.$lang['DATE_TOKEN'].'" />
+                                  </form><br /><br />';                       
                             
                             echo '<h3>'.$lang['LIST_INVOICE'].'</h3>';
-                            echo '<form action="list_invoice.php"  method="post"><input type="hidden" name="search_type" value="company_id"><input type="hidden" name="search_value" value="'.$p_iva.'"><input type="submit" name="submit"  value ="'.$lang['TOTAL_INVOICE'].'" /></form><br /><br />';
-                            echo '<form action="list_invoice.php"  method="post">'.$lang['START_DATE'].': <input type="text" name="date_start" value="YYYY-MM-DD"> '.$lang['END_DATE'].': <input type="text" name="date_end" value="YYYY-MM-DD"><input type="hidden" name="search_type" value="company_id"><input type="hidden" name="search_value" value="'.$p_iva.'"><input type="submit" name="submit"  value ="'.$lang['DATE_INVOICE'].'" /></form><br /><br />';
+                            // Invoice search form
+                            echo '<form action="list_invoice.php"  method="post">
+                                        <input type="hidden" name="search_type" value="company_id">
+                                        <input type="hidden" name="search_value" value="'.$p_iva.'">
+                                        <input type="submit" name="submit"  value ="'.$lang['TOTAL_INVOICE'].'" />
+                                  </form><br /><br />';
+                            // Invoice search form (DATE filter)
+                            echo '<form action="list_invoice.php"  method="post">'
+                                    .$lang['START_DATE'].': <input type="text" name="date_start" value="YYYY-MM-DD"> '
+                                    .$lang['END_DATE'].': <input type="text" name="date_end" value="YYYY-MM-DD">
+                                    <input type="hidden" name="search_type" value="company_id">
+                                    <input type="hidden" name="search_value" value="'.$p_iva.'">
+                                    <input type="submit" name="submit"  value ="'.$lang['DATE_INVOICE'].'" />
+                                  </form><br /><br />';
                             
+                            // Item search form
                             echo '<h3>'.$lang['LIST_ITEM'].'</h3>';
-                            echo '<form action="list_item.php" name = "vol_form" method="post"><input type="hidden" name="search_type" value="company_id"><input type="hidden" name="search_value" value="'.$p_iva.'"><input type="submit" name="submit"  value ="'.$lang['TOTAL_ITEM'].'" /></form><br /><br />';
+                            echo '<form action="list_item.php" name = "vol_form" method="post">
+                                    <input type="hidden" name="search_type" value="company_id">
+                                    <input type="hidden" name="search_value" value="'.$p_iva.'">
+                                    <input type="submit" name="submit"  value ="'.$lang['TOTAL_ITEM'].'" />
+                                  </form><br /><br />';
                             
+                            // Insert of a new Invoice row
                             echo '<h3>'.$lang['NEW_INVOICE_TITLE'].'</h3>';
                             echo '<form action="include/insert_invoice.php" name= "invoice_form" method="post" onsubmit="return validateInv()">'
                                     .$lang['PRICE'].': <input type="text" name="amount">€<input type="hidden" name="company_id" value="'.mysql_result($result, 0, 'p_iva').'"><br />'
@@ -137,7 +178,8 @@ include('include/connect.php');
                                                     <input type="text" name="year" value="YYYY"><br />'.
                                     '<input type="submit" name="submit"  value ="'.$lang['NEW_INVOICE'].'" /></form><br /><br />';
                             
-                             echo '<h3>'.$lang['NEW_ITEM_TITLE'].'</h3>';
+                            // Insert of a new Item
+                            echo '<h3>'.$lang['NEW_ITEM_TITLE'].'</h3>';
                             echo '<form action="include/insert_item.php" name= "item_form" method="post" onsubmit= "return validateItem()">'.
                                     '<table id="invisibleTable">'.
                                         '<tr><td id="itd"><strong>'.$lang['PRICE'].':</strong></td><td id="itd"> <input type="text" name="price">€</td></tr>'.

@@ -13,6 +13,13 @@
 *	OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 *
 */
+
+/*
+ *  file: view_organization.php
+ *  
+ *  Page showing all the proprieties for a given Organization
+ * 
+ */
 include('include/header.php');
 include('include/navbar.php');
 include('locale/it.php');
@@ -22,7 +29,7 @@ include('include/connect.php');
     <head>
         <link rel="stylesheet" type="text/css" href="main.css" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title></title>
+        <title><?php echo $lang['ORGANIZATION']; ?></title>
     </head>
     <body>
         <div id="ContentContainer">
@@ -33,7 +40,8 @@ include('include/connect.php');
                 <?php getBar(); ?>
             </div>
             <div id="Content">
-                <?php 
+                <?php
+                // Check for account privileges
                 include('include/privilege_check.php');
                 if(check('admin')||check('manager'))
                 {
@@ -44,7 +52,8 @@ include('include/connect.php');
                         $result = mysql_query("SELECT * FROM Organization WHERE org_id='$org_id'",$conn);
                         if(mysql_num_rows($result)==1)
                         {
-                            echo "<h1 style=\"text-align: center;\">".mysql_result($result, 0, 'name')."</h1><br /><br />";                         
+                            echo "<h1 style=\"text-align: center;\">".mysql_result($result, 0, 'name')."</h1><br /><br />";  
+                            // All the admins can modify the properties of the given Organization
                             if(check('admin'))
                             { 
                                 echo '<table id="invisibleTable">';
@@ -74,8 +83,20 @@ include('include/connect.php');
                             echo '<br />';
                             
                             echo '<h3>'.$lang['LIST_VOLUNTEERING'].'</h3>';
-                            echo '<form action="list_volunteering.php"  method="post"><input type="hidden" name="search_type" value="org_id"><input type="hidden" name="search_value" value="'.$org_id.'"><input type="submit" name="submit"  value ="'.$lang['TOTAL_VOLUNTEERING'].'" /></form><br /><br />';
-                            echo '<form action="list_volunteering.php"  method="post">'.$lang['START_DATE'].': <input type="text" name="date_start" value="YYYY-MM-DD"> '.$lang['END_DATE'].': <input type="text" name="date_end" value="YYYY-MM-DD"><input type="hidden" name="search_type" value="org_id"><input type="hidden" name="search_value" value="'.$org_id.'"><input type="submit" name="submit"  value ="'.$lang['DATE_VOLUNTEERING'].'" /></form><br /><br />';                                             
+                            // Volunteering search form
+                            echo '<form action="list_volunteering.php"  method="post">
+                                    <input type="hidden" name="search_type" value="org_id">
+                                    <input type="hidden" name="search_value" value="'.$org_id.'">
+                                    <input type="submit" name="submit"  value ="'.$lang['TOTAL_VOLUNTEERING'].'" />
+                                  </form><br /><br />';
+                            // Volunteering search form (DATE FILTER)
+                            echo '<form action="list_volunteering.php"  method="post">'
+                                    .$lang['START_DATE'].': <input type="text" name="date_start" value="YYYY-MM-DD"> '
+                                    .$lang['END_DATE'].': <input type="text" name="date_end" value="YYYY-MM-DD">
+                                    <input type="hidden" name="search_type" value="org_id">
+                                    <input type="hidden" name="search_value" value="'.$org_id.'">
+                                    <input type="submit" name="submit"  value ="'.$lang['DATE_VOLUNTEERING'].'" />
+                                 </form><br /><br />';                                             
                         }
                         else
                             $lang['NO_RESULTS'];

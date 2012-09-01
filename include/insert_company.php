@@ -32,11 +32,11 @@ try{
     if($rows!=0)
     {
         echo $lang['COMPANY_EXISTS'];
-        header("refresh: 2 ../new_organization.php");
+        header("refresh: 2 ../new_company.php");
     }
     else
     {
-        $insert = mysql_query("INSERT INTO Organization(name, address, CAP, city, commune, phone, mobile_phone, mail, reference) VALUES ('$name', '$address', '$CAP', '$city', '$commune', '$phone', '$mobile_phone', '$mail', '$reference')", $conn);
+        $insert = mysql_query("INSERT INTO Company(name, address, CAP, city, commune, phone, mobile_phone, mail, reference, p_iva) VALUES ('$name', '$address', '$CAP', '$city', '$commune', '$phone', '$mobile_phone', '$mail', '$reference', '$P_IVA')", $conn);
         echo $lang['INSERT_SUCCESS'];
         header("refresh: 2 ../index.php");
     }

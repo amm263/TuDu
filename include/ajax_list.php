@@ -13,13 +13,19 @@
 *
 */
 
+/*
+ * file: ajax_list.php
+ * 
+ * Generates the lists for ajax-dynamic-list
+ * 
+ */ 
 include ('connect.php');
 
+/*Used by view_boy.php to insert new Volunteering and Token entities*/
 if(isset($_GET['getOrganizationsByLetters']) && isset($_GET['letters'])){
 	$letters = $_GET['letters'];
 	$letters = preg_replace("/[^a-z0-9 ]/si","",$letters);
 	$res = mysql_query("SELECT org_id,name,commune From Organization WHERE name LIKE '%".$letters."%'", $conn) or die(mysql_error());
-	#echo "1###select ID,countryName from ajax_countries where countryName like '".$letters."%'|";
 	while($inf = mysql_fetch_array($res)){
 		echo $inf["org_id"]."###".$inf["name"]." (".$inf['commune'].")"."|";
 	}	
@@ -28,7 +34,6 @@ elseif(isset($_GET['getCompaniesByLetters']) && isset($_GET['letters'])){
 	$letters = $_GET['letters'];
 	$letters = preg_replace("/[^a-z0-9 ]/si","",$letters);
 	$res = mysql_query("SELECT p_iva,name,commune From Company WHERE name LIKE '%".$letters."%'", $conn) or die(mysql_error());
-	#echo "1###select ID,countryName from ajax_countries where countryName like '".$letters."%'|";
 	while($inf = mysql_fetch_array($res)){
 		echo $inf["p_iva"]."###".$inf["name"]." (".$inf['commune'].")"."|";
 	}	

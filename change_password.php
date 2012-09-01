@@ -13,6 +13,14 @@
 *	OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 *
 */
+
+
+/*
+ *  file: change_password.php
+ * 
+ *  This is the page to change the password for a logged user.
+ *  
+ */
 include('include/header.php');
 include('include/navbar.php');
 include('locale/it.php');
@@ -21,7 +29,7 @@ include('locale/it.php');
     <head>
         <link rel="stylesheet" type="text/css" href="main.css" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title></title>
+        <title><?php echo $lang['PASSWORD_CHANGE']; ?></title>
     </head>
     <body>
         <div id="ContentContainer">

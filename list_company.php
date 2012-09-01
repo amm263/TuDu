@@ -13,6 +13,14 @@
 *	OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 *
 */
+
+/*
+ *  file: list_company.php
+ * 
+ *  This page provides a list with all the Companies in the database.
+ *  It can be applied a filter on the results based on the Name, City or Commune
+ * 
+ */
 include('include/header.php');
 include('include/navbar.php');
 include('locale/it.php');
@@ -34,6 +42,7 @@ else
 
 $offset = $results_per_page*$page;
 
+// If a search is performed on the page
 if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
 {
     $search_value = $_POST['search_value'];
@@ -50,6 +59,7 @@ if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
             break;
     }
 }
+// Else go with the standard query
 else
     $query = "SELECT * FROM Company";
 $limit = " ORDER BY name LIMIT $results_per_page OFFSET $offset"
@@ -58,7 +68,7 @@ $limit = " ORDER BY name LIMIT $results_per_page OFFSET $offset"
     <head>
         <link rel="stylesheet" type="text/css" href="main.css" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title></title>
+        <title><?php echo $lang['LIST_COMPANY']; ?></title>
     </head>
     <body>
         <div id="ContentContainer">
@@ -70,18 +80,37 @@ $limit = " ORDER BY name LIMIT $results_per_page OFFSET $offset"
             </div>
             <div id="Content">
                  <?php 
+                // Check for account privileges
                 include('include/privilege_check.php');
                 if(check('admin')||check('manager'))
                 {
+                    // Search Form
                     echo '<form action="list_company.php" name = "form" method = "post">';
-                    echo ' <input type="text" name="search_value" /> <select name="search_type"> <option value="name">'.$lang['SEARCH_NAME'].'</option>'.'<option value="city">'.$lang['SEARCH_CITY'].'</option>'.'<option value="commune">'.$lang['SEARCH_COMMUNE'].'</option></select><input type="submit" name="submit"  value ="'.$lang['SEARCH'].'" /></form><br /><br />';
-                    echo "<table><th><h4>".$lang['NAME']."</h4></th><th><h4>".$lang['CITY']."</h4></th><th><h4>".$lang['COMMUNE']."</h4></th><th><h4>".$lang['TOKENS']."</h4></th><th><h4>".$lang['SALES']."</h4></th>";
+                    echo ' <input type="text" name="search_value" /> 
+                            <select name="search_type"> 
+                                <option value="name">'.$lang['SEARCH_NAME'].'</option>'.
+                                '<option value="city">'.$lang['SEARCH_CITY'].'</option>'.
+                                '<option value="commune">'.$lang['SEARCH_COMMUNE'].'</option>
+                            </select>
+                           <input type="submit" name="submit"  value ="'.$lang['SEARCH'].'" />
+                         </form><br /><br />';
+                    
+                    // Begin of table with Headers
+                    echo "<table>
+                            <th><h4>".$lang['NAME']."</h4></th>
+                            <th><h4>".$lang['CITY']."</h4></th>
+                            <th><h4>".$lang['COMMUNE']."</h4></th>
+                            <th><h4>".$lang['TOKENS']."</h4></th>
+                            <th><h4>".$lang['SALES']."</h4></th>";
+                    
                     $results = mysql_query($query.$limit, $conn);
                     for ($i = 0; (($i < $results_per_page) && ($i < mysql_num_rows($results))); $i++) {
                         $name = mysql_result($results, $i, 'name');
                         $commune = mysql_result($results, $i, 'commune');
                         $city = mysql_result($results, $i, 'city');
                         $p_iva = mysql_result($results, $i, 'p_iva');
+                        
+                        // Counts of the tokens for the Company
                         $tokens = mysql_query("SELECT SUM(points) as totalTokens FROM Token WHERE company_id = '$p_iva' GROUP BY company_id", $conn);
                         if(mysql_num_rows($tokens)>0)
                         {
@@ -91,6 +120,8 @@ $limit = " ORDER BY name LIMIT $results_per_page OFFSET $offset"
                         {    
                             $tokens = 0;
                         }
+                        
+                        // Total amount of sales for the Company
                         $sales = mysql_query("SELECT SUM(amount) as totalSales FROM Invoice WHERE company_id = '$p_iva' GROUP BY company_id", $conn);
                         if(mysql_num_rows($sales)>0)
                         {
@@ -100,11 +131,21 @@ $limit = " ORDER BY name LIMIT $results_per_page OFFSET $offset"
                         {    
                             $sales = 0;
                         }
-                        echo "<tr><td><a href=\"view_company.php?p_iva=$p_iva\"><strong><p>".$name."</p></strong></a></td><td><p>".$city."</p></td><td><p>".$commune."</p></td><td align=center><p>".$tokens."</p></td><td align=center><p>".$sales."€</p></td>";
+                        
+                        // Printing the row
+                        echo "<tr>
+                                <td><a href=\"view_company.php?p_iva=$p_iva\"><strong><p>".$name."</p></strong></a></td>
+                                <td><p>".$city."</p></td>
+                                <td><p>".$commune."</p></td>
+                                <td align=center><p>".$tokens."</p></td>
+                                <td align=center><p>".$sales."€</p></td>";
                     }
                     echo "</table>";
+                    //End of Table
+                   
                     //Pagination
                     $results_num = mysql_num_rows(mysql_query($query));
+                    //If on the page a search filter is active
                     if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
                         pagination_search($results_per_page, $page, "list_company.php?", $results_num, $_POST['search_value'], $_POST['search_type']);
                     else

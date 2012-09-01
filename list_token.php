@@ -13,6 +13,14 @@
 *	OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 *
 */
+
+/*
+ *  file: list_token.php
+ * 
+ *  This page provides a list with all the Tokens in the database.
+ *  It can be applied a filter on the results based on the Company Name, Boy Surname, Company ID, Boy ID or/and Date
+ * 
+ */
 include('include/header.php');
 include('include/navbar.php');
 include('locale/it.php');
@@ -34,6 +42,7 @@ else
 
 $offset = $results_per_page*$page;
 
+// If a search is performed on the page
 if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
 {
     $search_value = $_POST['search_value'];
@@ -56,6 +65,7 @@ if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
             $points = "SELECT SUM(points) as totalPoints FROM Token WHERE boy_id = '$search_value'";
             break;
     }
+    // If a filter on the Date is requested with the GET or POST method
     if(isset($_POST['date_start'])&&isset($_POST['date_end']))
     {
         $date_start = $_POST['date_start'];
@@ -71,10 +81,12 @@ if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
         $points = $points." AND token_date BETWEEN '$date_start' AND '$date_end'";
     }
 }
+//Else go with the standard query...
 else
 {
     $query = "SELECT * FROM Token";
     $points = "SELECT SUM(points) as totalPoints FROM Token";
+    //..but still apply the Date filter if requested
     if(isset($_POST['date_start'])&&isset($_POST['date_end']))
     {
         $date_start = $_POST['date_start'];
@@ -96,7 +108,7 @@ $limit = " ORDER BY token_date DESC,boy_surname LIMIT $results_per_page OFFSET $
     <head>
         <link rel="stylesheet" type="text/css" href="main.css" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title></title>
+        <title><?php echo $lang['LIST_TOKEN']; ?></title>
     </head>
     <body>
         <div id="ContentContainer">
@@ -108,9 +120,11 @@ $limit = " ORDER BY token_date DESC,boy_surname LIMIT $results_per_page OFFSET $
             </div>
             <div id="Content">
                  <?php 
+                // Check for account privileges
                 include('include/privilege_check.php');
                 if(check('admin')||check('manager'))
                 {
+                    //Sum of the points in the list (even with filters applied)
                     $points = mysql_query($points, $conn);
                     if(mysql_num_rows($points)>0)
                     {
@@ -120,12 +134,28 @@ $limit = " ORDER BY token_date DESC,boy_surname LIMIT $results_per_page OFFSET $
                     {    
                         $points = 0;
                     }
-                    echo '<h4>'.$lang['TOTAL_TOKENS'].': '.$points.'</h4>';    
+                    echo '<h4>'.$lang['TOTAL_TOKENS'].': '.$points.'</h4>';
+                    
+                    //Search form
                     echo '<form action="list_token.php" name = "form" method = "post">';
-                    echo ' <input type="text" name="search_value" /> <select name="search_type"> <option value="company">'.$lang['SEARCH_COMPANY_NAME'].'</option><option value="boy">'.$lang['SEARCH_SURNAME'].'</option></select><input type="submit" name="submit"  value ="'.$lang['SEARCH'].'" /></form><br /><br />';
-                    echo "<table><th><h4>".$lang['SURNAME']."</h4></th><th><h4>".$lang['POINTS']."</h4></th><th><h4>".$lang['DATE']."</th><th><h4>".$lang['COMPANY']."</h4></th>";
+                    echo ' <input type="text" name="search_value" /> 
+                                <select name="search_type"> 
+                                    <option value="company">'.$lang['SEARCH_COMPANY_NAME'].'</option>
+                                    <option value="boy">'.$lang['SEARCH_SURNAME'].'</option>
+                                </select>
+                           <input type="submit" name="submit"  value ="'.$lang['SEARCH'].'" />
+                          </form><br /><br />';
+                    
+                    //Begin of table and Headers
+                    echo "<table>
+                            <th><h4>".$lang['SURNAME']."</h4></th>
+                            <th><h4>".$lang['POINTS']."</h4></th>
+                            <th><h4>".$lang['DATE']."</th>
+                            <th><h4>".$lang['COMPANY']."</h4></th>";
+                    //If the account logged has admin privileges, he can DELETE tokens
                     if(check('admin'))
                         echo "<th>".$lang['DELETE']."</th>";
+                    
                     $results = mysql_query($query.$limit, $conn);
                     if(mysql_num_rows($results)>0)
                     {
@@ -137,9 +167,22 @@ $limit = " ORDER BY token_date DESC,boy_surname LIMIT $results_per_page OFFSET $
                             $date = mysql_result($results, $i, 'token_date');
                             $company_name = mysql_result($results, $i, 'company_name');
                             $company_id = mysql_result($results, $i, 'company_id');
-                            echo "<tr><td><strong><p><a href=\"view_boy.php?codice_fiscale=$boy_id\">".$surname."</a></p></strong></td><td align=center><p>".$points."</p></td><td align=center><p>".$date."</p></td><td><p><a href=\"view_company.php?p_iva=$company_id\">".$company_name."</a></p></td>";
+                            //Row print
+                            echo "<tr>
+                                    <td><strong><p><a href=\"view_boy.php?codice_fiscale=$boy_id\">".$surname."</a></p></strong></td>
+                                    <td align=center><p>".$points."</p></td>
+                                    <td align=center><p>".$date."</p></td>
+                                    <td><p><a href=\"view_company.php?p_iva=$company_id\">".$company_name."</a></p></td>";
+                            //All admins can delete tokens
                             if(check('admin'))
-                                echo '<td><form action="include/eraser.php" name = "delete" method = "post"><input type="hidden" name="table" value="Token"/><input type="hidden" name="key" value="token_id"/><input type="hidden" name="key_value" value="'.$token_id.'"/><input type="submit" name="submit"  value ="'.$lang['DELETE'].'" /></form></td></tr>';
+                                echo '<td>
+                                        <form action="include/eraser.php" name = "delete" method = "post">
+                                            <input type="hidden" name="table" value="Token"/>
+                                            <input type="hidden" name="key" value="token_id"/>
+                                            <input type="hidden" name="key_value" value="'.$token_id.'"/>
+                                            <input type="submit" name="submit"  value ="'.$lang['DELETE'].'" />
+                                        </form>
+                                      </td></tr>';
                             else
                                 echo "</tr>";
                         }
@@ -150,8 +193,10 @@ $limit = " ORDER BY token_date DESC,boy_surname LIMIT $results_per_page OFFSET $
                     echo "</table>";
                     //Pagination
                     $results_num = mysql_num_rows(mysql_query($query));
+                    //If on the page a search filter is active
                     if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
                     {
+                        //If a on the page a date filter is active
                         if(isset($date_start)&&isset($date_end))
                             pagination_search($results_per_page, $page, "list_token.php?date_start=".$date_start."&date_end=".$date_end."&", $results_num, $_POST['search_value'], $_POST['search_type']);
                         else
@@ -159,6 +204,7 @@ $limit = " ORDER BY token_date DESC,boy_surname LIMIT $results_per_page OFFSET $
                     }
                     else
                     {
+                        //If a on the page a date filter is active
                         if(isset($date_start)&&isset($date_end))
                             pagination($results_per_page, $page, "list_token.php?date_start=".$date_start."&date_end=".$date_end."&", $results_num);
                         else

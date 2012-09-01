@@ -35,7 +35,7 @@ try{
     }
     else
     {
-        $insert = mysql_query("INSERT INTO Company(name, address, CAP, city, commune, phone, mobile_phone, mail, reference, p_iva) VALUES ('$name', '$address', '$CAP', '$city', '$commune', '$phone', '$mobile_phone', '$mail', '$reference', '$P_IVA')", $conn);
+        $insert = mysql_query("INSERT INTO Organization(name, address, CAP, city, commune, phone, mobile_phone, mail, reference) VALUES ('$name', '$address', '$CAP', '$city', '$commune', '$phone', '$mobile_phone', '$mail', '$reference')", $conn);
         echo $lang['INSERT_SUCCESS'];
         header("refresh: 2 ../index.php");
     }

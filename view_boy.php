@@ -13,6 +13,13 @@
 *	OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 *
 */
+
+/*
+ *  file: view_boy.php
+ *  
+ *  Page showing all the proprieties for a given Boy
+ * 
+ */
 include('include/header.php');
 include('include/navbar.php');
 include('locale/it.php');
@@ -22,7 +29,7 @@ include('include/connect.php');
     <head>
         <link rel="stylesheet" type="text/css" href="main.css" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title></title>
+        <title><?php echo $lang['BOY']; ?></title>
         <script type="text/javascript" src="js/ajax.js"></script>
 	<script type="text/javascript" src="js/ajax-dynamic-list.js">
 	/************************************************************************************************************
@@ -52,6 +59,7 @@ include('include/connect.php');
             </div>
             <div id="Content">
                 <?php 
+                // Check for account privileges
                 include('include/privilege_check.php');
                 if(check('admin')||check('manager'))
                 {
@@ -65,6 +73,7 @@ include('include/connect.php');
                             echo "<h1 style=\"text-align: center;\">".mysql_result($result, 0, 'name')." ".mysql_result($result, 0, 'surname')."</h1><br /><br />";
                             echo "<h3>".$lang['CODICE_FISCALE'].": ".mysql_result($result, 0, 'codice_fiscale')."</h3>";
                             echo "<h3>".$lang['CITY_OF_BIRTH'].": ".mysql_result($result, 0, 'city_of_birth')."</h3><br />";
+                            // All the admins can modify the properties of the given Boy
                             if(check('admin'))
                             { 
                                 echo '<table id="invisibleTable">';
@@ -91,8 +100,7 @@ include('include/connect.php');
                             }
                             echo '<br />';
                             
-                            
-                            
+                            //Sum of all the points and tokens collected by the Boy                        
                             $points = mysql_query("SELECT SUM(points) as totalPoints FROM Volunteering WHERE boy_id = '$codice_fiscale' GROUP BY boy_id", $conn);
                             if(mysql_num_rows($points)>0)
                             {
@@ -114,20 +122,48 @@ include('include/connect.php');
                                 $tokens = 0;
                                 $remaining_points = 0;
                             }
+                            
+                            //Points table
                             echo '<table>';
                             echo '<th><h4>'.$lang['POINTS'].'</h4></th><th><h4>'.$lang['TOKENS'].'</h4></th><th><h4>'.$lang['REMAINING_POINTS'].'</h4></th>';
                             echo '<tr><td align=center><strong>'.$points.'</strong></td><td align=center><strong>'.$tokens.'</strong></td><td align=center><strong>'.$remaining_points.'</strong></td></tr>';
                             echo '</table>'; 
                             echo '<br />';
                             
+                           
                             echo '<h3>'.$lang['LIST_VOLUNTEERING'].'</h3>';
-                            echo '<form action="list_volunteering.php" method="post"><input type="hidden" name="search_type" value="boy_id"><input type="hidden" name="search_value" value="'.$codice_fiscale.'"><input type="submit" name="submit"  value ="'.$lang['TOTAL_VOLUNTEERING'].'" /></form><br /><br />';
-                            echo '<form action="list_volunteering.php" method="post">'.$lang['START_DATE'].': <input type="text" name="date_start" value="YYYY-MM-DD">'.$lang['END_DATE'].': <input type="text" name="date_end" value="YYYY-MM-DD"><input type="hidden" name="search_type" value="boy_id"><input type="hidden" name="search_value" value="'.$codice_fiscale.'"><input type="submit" name="submit"  value ="'.$lang['DATE_VOLUNTEERING'].'" /></form><br /><br />';
+                            // Volunteering search form 
+                            echo '<form action="list_volunteering.php" method="post">
+                                    <input type="hidden" name="search_type" value="boy_id">
+                                    <input type="hidden" name="search_value" value="'.$codice_fiscale.'">
+                                    <input type="submit" name="submit"  value ="'.$lang['TOTAL_VOLUNTEERING'].'" />
+                                  </form><br /><br />';
+                            // Volunteering search form (DATE filter)
+                            echo '<form action="list_volunteering.php" method="post">'
+                                    .$lang['START_DATE'].': <input type="text" name="date_start" value="YYYY-MM-DD">'
+                                    .$lang['END_DATE'].': <input type="text" name="date_end" value="YYYY-MM-DD">
+                                    <input type="hidden" name="search_type" value="boy_id">
+                                    <input type="hidden" name="search_value" value="'.$codice_fiscale.'">
+                                    <input type="submit" name="submit"  value ="'.$lang['DATE_VOLUNTEERING'].'" />
+                                  </form><br /><br />';
                             
                             echo '<h3>'.$lang['LIST_TOKEN'].'</h3>';
-                            echo '<form action="list_token.php"  method="post"><input type="hidden" name="search_type" value="boy_id"><input type="hidden" name="search_value" value="'.$codice_fiscale.'"><input type="submit" name="submit"  value ="'.$lang['TOTAL_TOKEN'].'" /></form><br /><br />';
-                            echo '<form action="list_token.php"  method="post">'.$lang['START_DATE'].': <input type="text" name="date_start" value="YYYY-MM-DD"> '.$lang['END_DATE'].': <input type="text" name="date_end" value="YYYY-MM-DD"><input type="hidden" name="search_type" value="boy_id"><input type="hidden" name="search_value" value="'.$codice_fiscale.'"><input type="submit" name="submit"  value ="'.$lang['DATE_TOKEN'].'" /></form><br /><br />';
+                            // Token search form
+                            echo '<form action="list_token.php"  method="post">
+                                    <input type="hidden" name="search_type" value="boy_id">
+                                    <input type="hidden" name="search_value" value="'.$codice_fiscale.'">
+                                    <input type="submit" name="submit"  value ="'.$lang['TOTAL_TOKEN'].'" />
+                                  </form><br /><br />';
+                            // Token search form (DATE filter)
+                            echo '<form action="list_token.php"  method="post">'
+                                    .$lang['START_DATE'].': <input type="text" name="date_start" value="YYYY-MM-DD"> '
+                                    .$lang['END_DATE'].': <input type="text" name="date_end" value="YYYY-MM-DD">
+                                    <input type="hidden" name="search_type" value="boy_id">
+                                    <input type="hidden" name="search_value" value="'.$codice_fiscale.'">
+                                    <input type="submit" name="submit"  value ="'.$lang['DATE_TOKEN'].'" />
+                                  </form><br /><br />';
                             
+                            // Insert of a new Volunteering row (Uses Ajax-list to fill the organization and the organization_hidden boxes)
                             echo '<h3>'.$lang['NEW_VOLUNTEERING_TITLE'].'</h3>';
                             echo '<form action="include/insert_volunteering.php" name = "vol_form" method="post" onsubmit="return validateVolunteering()">'
                                     .$lang['ORGANIZATION'].': <input type="text" size="40" id="organization" name="organization" value="" onkeyup="ajax_showOptions(this,\'getOrganizationsByLetters\',event)"><br />
@@ -185,10 +221,11 @@ include('include/connect.php');
                                                     <input type="text" name="year" value="YYYY"><br />'.
                                  '<input type="submit" name="submit"  value ="'.$lang['NEW_VOLUNTEERING'].'" /></form><br />';
                             
+                            // Insert of a new Token row (Uses Ajax-list to fill the company and the company_hidden boxes)
                             echo '<h3>'.$lang['NEW_TOKEN_TITLE'].'</h3>';
                             echo '<form action="include/insert_token.php" name = "token_form" method="post" onsubmit="return validateTok()">'
                                     .$lang['COMPANY'].': <input type="text" size="40" id="company" name="company" value="" onkeyup="ajax_showOptions(this,\'getCompaniesByLetters\',event)"><br />
-                                    <input type="hidden" id="company_hidden" name="company_id">
+                                    <input type="hidden" id="company_hidden" name="company_id"> 
                                     <input type="hidden" name="boy_id" value="'.$codice_fiscale.'">
                                     <input type="hidden" name="boy_surname" value="'.mysql_result($result, 0, 'surname').'">'
                                     .$lang['POINTS'].': <input type="text" name="points"><br />'

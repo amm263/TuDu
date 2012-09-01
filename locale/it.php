@@ -21,6 +21,7 @@ $lang['UPDATE'] = 'Modifica';
 $lang['START_DATE'] = 'Data inizio';
 $lang['END_DATE'] = 'Data fine';
 $lang['PASSWORD_CHANGE'] = 'Modifica password';
+$lang['BOY'] = 'Iscritto';
 
 
 //TIME
@@ -56,6 +57,7 @@ $lang['LIST_INVOICE'] = 'Fatture';
 $lang['LIST_TOKEN'] = 'Buoni';
 $lang['LIST_VOLUNTEERING'] = 'Ore';
 $lang['SEARCH'] = 'Ricerca';
+$lang['LOGIN'] = 'Login';
 
 // ACCOUNT 
 $lang['ADMINISTRATOR'] = 'Amministratore';
