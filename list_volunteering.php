@@ -136,7 +136,7 @@ $limit = " ORDER BY vol_date DESC,boy_surname LIMIT $results_per_page OFFSET $of
                     //If a search filter is applied
                     if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
                         echo '<input type="hidden" name="search_type" value="'.$_POST['search_type'].'"><input type="hidden" name="search_value" value="'.$_POST['search_value'].'">';
-                    echo '<input type="submit" name="submit"  value ="'.$lang['DATE_FILTER'].'" /></form><br />';
+                    echo '<input type="submit" name="submit"  value ="'.$lang['DATE_FILTER'].'" /></form><br /><br />';
                     
                     // Begin of table and Headers
                     echo "<table>

@@ -22,14 +22,14 @@ try{
     $rows = mysql_num_rows($login);
     if ($rows == 1)
     {
-        mysql_query("UPDATE tudu_db.Account SET password='$new_psw' WHERE user = '$user' ", $conn);
+        mysql_query("UPDATE $db.Account SET password='$new_psw' WHERE user = '$user' ", $conn);
         echo $lang['UPDATE_SUCCESS'];
-        header("refresh: 2 ../index.php");
+        echo ('<meta http-equiv="refresh" content="1; url=../index.php">');
     }
     else
     {
         echo 'Wrong Password!';
-        header("refresh: 2 ../change_password.php");
+        echo ('<meta http-equiv="refresh" content="1; url=../change_password.php">');
     }
 }
 catch(Excepiton $f){

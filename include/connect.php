@@ -10,6 +10,6 @@ try {
 }
 catch(Exception $e){
     echo 'Error: ' , $e->getMessage(),"\n";
-	header("refresh: 2 index.php");
+    echo ('<meta http-equiv="refresh" content="1; url=../index.php">');
 }
 ?>

@@ -23,7 +23,7 @@ $query= "INSERT INTO Item(company_id,company_name,name,price,points) VALUES ('$c
 try{
 mysql_query($query);
 echo $lang['INSERT_SUCCESS'];
-header("refresh: 2 ../view_company.php?p_iva=$company_id");
+echo ('<meta http-equiv="refresh" content="1; url=../view_company.php?p_iva='.$company_id.'">');
 }
 catch(Exception $e)
 {

@@ -1,5 +1,6 @@
 -- Account (user admin password admin (md5 hash))
 INSERT INTO Account(privilege, user, password) VALUES ('admin','admin','21232f297a57a5a743894a0e4a801fc3');
+INSERT INTO Account(privilege, user, password) VALUES ('manager','manager','1d0258c2440a8d19e716292b231e3190');
 
 -- Boys
 INSERT INTO Boy(name, surname, address, CAP, city, commune, city_of_birth, phone, mobile_phone, mail, codice_fiscale) VALUES ('Manuel','Vieider','Viale Monti n.2','23412','Bolzano','Cortaccia','Bolzano','123456','65421','manuel@vieider.com','C0D1C3F1SC4L31');

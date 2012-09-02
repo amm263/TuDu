@@ -31,13 +31,13 @@ try{
     if($rows!=0)
     {
         echo $lang['ORGANIZATION_EXISTS'];
-        header("refresh: 2 ../new_organization.php");
+        echo ('<meta http-equiv="refresh" content="1; url=../new_organization.php">');
     }
     else
     {
         $insert = mysql_query("INSERT INTO Organization(name, address, CAP, city, commune, phone, mobile_phone, mail, reference) VALUES ('$name', '$address', '$CAP', '$city', '$commune', '$phone', '$mobile_phone', '$mail', '$reference')", $conn);
         echo $lang['INSERT_SUCCESS'];
-        header("refresh: 2 ../index.php");
+        echo ('<meta http-equiv="refresh" content="1; url=../index.php">');
     }
 }
 catch(Exception $e)

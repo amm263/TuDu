@@ -24,13 +24,13 @@ try{
     if($rows!=0)
     {
         echo $lang['USER_EXISTS'];
-        header("refresh: 2 ../new_user.php");
+        echo ('<meta http-equiv="refresh" content="1; url=../new_user.php">');
     }
     else
     {
         $insert = mysql_query("INSERT INTO Account(privilege, user, password) VALUES ('$privilege','$user','$psw')", $conn);
         echo $lang['INSERT_SUCCESS'];
-        header("refresh: 2 ../index.php");
+        echo ('<meta http-equiv="refresh" content="1; url=../index.php">');
     }
 }
 catch(Exception $e)

@@ -22,6 +22,7 @@ $lang['START_DATE'] = 'Data inizio';
 $lang['END_DATE'] = 'Data fine';
 $lang['PASSWORD_CHANGE'] = 'Modifica password';
 $lang['BOY'] = 'Iscritto';
+$lang['INDEX'] = 'Index';
 
 
 //TIME

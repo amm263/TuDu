@@ -26,9 +26,9 @@ $update = $_POST['update'];
 $key = $_POST['key'];
 $key_value = $_POST['key_value'];
 try{
-    mysql_query("UPDATE tudu_db.$table SET $column = '$update' WHERE $key = '$key_value'");
+    mysql_query("UPDATE $db.$table SET $column = '$update' WHERE $key = '$key_value'");
     echo $lang['UPDATE_SUCCESS'];
-    header("refresh: 1 ../index.php");
+    echo ('<meta http-equiv="refresh" content="1; url=../index.php">');
 }
 catch(Exception $e)
 {

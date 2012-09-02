@@ -25,9 +25,9 @@ $table = $_POST['table'];
 $key = $_POST['key'];
 $value = $_POST['key_value'];
 try{
-    mysql_query("DELETE FROM tudu_db.$table WHERE $key = '$value'");
+    mysql_query("DELETE FROM $db.$table WHERE $key = '$value'");
     echo $lang['DELETE_SUCCESS'];
-    header("refresh: 1 ../index.php");
+    echo ('<meta http-equiv="refresh" content="1; url=../index.php">');
 }
 catch(Exception $e)
 {

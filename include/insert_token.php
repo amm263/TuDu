@@ -27,7 +27,7 @@ $query= "INSERT INTO Token(boy_id,boy_surname,company_id,company_name,points,tok
 try{
 mysql_query($query);
 echo $lang['INSERT_SUCCESS'];
-header("refresh: 2 ../view_boy.php?codice_fiscale=$boy_id");
+echo ('<meta http-equiv="refresh" content="1; url=../view_boy.php?codice_fiscale='.$boy_id.'">');
 }
 catch(Exception $e)
 {

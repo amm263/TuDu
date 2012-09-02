@@ -33,13 +33,13 @@ try{
     if($rows!=0)
     {
         echo $lang['BOY_EXISTS'];
-        header("refresh: 2 ../new_boy.php");
+        echo ('<meta http-equiv="refresh" content="2; url=../new_boy.php">');
     }
     else
     {
         $insert = mysql_query("INSERT INTO Boy(name, surname, address, CAP, city, commune, city_of_birth, phone, mobile_phone, mail, codice_fiscale) VALUES ('$name', '$surname', '$address', '$CAP', '$city', '$commune', '$city_of_birth', '$phone', '$mobile_phone', '$mail', '$codice_fiscale')", $conn);
         echo $lang['INSERT_SUCCESS'];
-        header("refresh: 2 ../index.php");
+        echo ('<meta http-equiv="refresh" content="1; url=../index.php">');
     }
 }
 catch(Exception $e)
