@@ -49,12 +49,12 @@ if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
     switch($_POST['search_type'])
     {
         case 'company':
-            $query = "SELECT * FROM Token WHERE company_name LIKE '%$search_value%'";
-            $points = "SELECT SUM(points) as totalPoints FROM Token WHERE company_name LIKE '%$search_value%'";
+            $query = "SELECT * FROM Token WHERE company_id IN (SELECT DISTINCT p_iva FROM Company WHERE name LIKE '%$search_value%')";
+            $points = "SELECT SUM(points) as totalPoints FROM Token WHERE company_id IN (SELECT DISTINCT p_iva FROM Company WHERE name LIKE '%$search_value%')";
             break;
         case 'boy':
-            $query = "SELECT * FROM Token WHERE boy_surname LIKE '%$search_value%'";
-            $points = "SELECT SUM(points) as totalPoints FROM Token WHERE boy_surname LIKE '%$search_value%'";
+            $query = "SELECT * FROM Token WHERE boy_id IN (SELECT DISTINCT boy_id FROM Boy where surname LIKE '%$search_value%')";
+            $points = "SELECT SUM(points) as totalPoints FROM Token WHERE boy_id IN (SELECT DISTINCT boy_id FROM Boy where surname LIKE '%$search_value%')";
             break;
         case 'company_id':
             $query = "SELECT * FROM Token WHERE company_id = '$search_value'";
@@ -102,7 +102,7 @@ else
         $points = $points." AND token_date BETWEEN '$date_start' AND '$date_end'";
     }
 }
-$limit = " ORDER BY token_date DESC,boy_surname LIMIT $results_per_page OFFSET $offset"
+$limit = " ORDER BY token_date DESC LIMIT $results_per_page OFFSET $offset"
 ?>
 <html>
     <head>
@@ -148,7 +148,7 @@ $limit = " ORDER BY token_date DESC,boy_surname LIMIT $results_per_page OFFSET $
                     
                     //Begin of table and Headers
                     echo "<table>
-                            <th><h4>".$lang['SURNAME']."</h4></th>
+                            <th><h4>".$lang['NAME']." & ".$lang['SURNAME']."</h4></th>
                             <th><h4>".$lang['POINTS']."</h4></th>
                             <th><h4>".$lang['DATE']."</th>
                             <th><h4>".$lang['COMPANY']."</h4></th>";
@@ -162,14 +162,16 @@ $limit = " ORDER BY token_date DESC,boy_surname LIMIT $results_per_page OFFSET $
                         for ($i = 0; (($i < $results_per_page) && ($i < mysql_num_rows($results))); $i++) {
                             $token_id = mysql_result($results, $i, 'token_id');
                             $points = mysql_result($results, $i, 'points');
-                            $surname = mysql_result($results, $i, 'boy_surname');
                             $boy_id = mysql_result($results, $i, 'boy_id');
+                            $boyResult = mysql_query("SELECT name,surname FROM Boy WHERE boy_id='$boy_id'"); 
+                            $name = mysql_result($boyResult, 0, 'name');
+                            $surname = mysql_result($boyResult, 0, 'surname');
                             $date = mysql_result($results, $i, 'token_date');
-                            $company_name = mysql_result($results, $i, 'company_name');
                             $company_id = mysql_result($results, $i, 'company_id');
+                            $company_name = mysql_result(mysql_query("SELECT name FROM Company WHERE p_iva='$company_id'"), 0, 'name');
                             //Row print
                             echo "<tr>
-                                    <td><strong><p><a href=\"view_boy.php?codice_fiscale=$boy_id\">".$surname."</a></p></strong></td>
+                                    <td><strong><p><a href=\"view_boy.php?boy_id=$boy_id\">".$name." ".$surname."</a></p></strong></td>
                                     <td align=center><p>".$points."</p></td>
                                     <td align=center><p>".$date."</p></td>
                                     <td><p><a href=\"view_company.php?p_iva=$company_id\">".$company_name."</a></p></td>";

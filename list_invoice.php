@@ -49,7 +49,7 @@ if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
     switch($_POST['search_type'])
     {
         case 'company':
-            $query = "SELECT * FROM Invoice WHERE company_name LIKE '%$search_value%'";
+            $query = "SELECT * FROM Invoice WHERE company_id IN (SELECT DISTINCT p_iva FROM Company WHERE name LIKE '%$search_value%')";
             break;
         case 'company_id':
             $query = "SELECT * FROM Invoice WHERE company_id = '$search_value'";
@@ -134,8 +134,8 @@ $limit = " ORDER BY inv_date DESC LIMIT $results_per_page OFFSET $offset"
                             $inv_id = mysql_result($results, $i, 'inv_id');
                             $date = mysql_result($results, $i, 'inv_date');
                             $price = mysql_result($results, $i, 'amount');
-                            $company_name = mysql_result($results, $i, 'company_name');
                             $company_id = mysql_result($results, $i, 'company_id');
+                            $company_name = mysql_result(mysql_query("SELECT name FROM Company WHERE p_iva='$company_id'"), 0, 'name');
                             //Row print
                             echo "<tr>
                                     <td><strong><p><a href=\"view_company.php?p_iva=$company_id\">".$company_name."</a></p></strong></td>

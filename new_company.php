@@ -42,7 +42,6 @@ include('locale/it.php');
                      <tr><td id="itd"><strong><?php echo $lang['ADDRESS'] ?></strong></td><td id="itd"> <input type="text" name="address" />*</td></tr>
                      <tr><td id="itd"><strong><?php echo $lang['COMMUNE'] ?></strong></td><td id="itd"> <input type="text" name="commune" />*</td></tr>
                      <tr><td id="itd"><strong><?php echo $lang['CAP'] ?></strong></td><td id="itd"> <input type="text" name="CAP" />*</td></tr>
-                     <tr><td id="itd"><strong><?php echo $lang['CITY'] ?></strong></td><td id="itd"> <input type="text" name="city" />*</td></tr>
                      <tr><td id="itd"><strong><?php echo $lang['PHONE'] ?></strong></td><td id="itd"> <input type="text" name="phone" /></td></tr>
                      <tr><td id="itd"><strong><?php echo $lang['MOBILE_PHONE'] ?></strong></td><td id="itd"> <input type="text" name="mobile_phone" /></td></tr>
                      <tr><td id="itd"><strong><?php echo $lang['MAIL'] ?></strong></td><td id="itd"> <input type="text" name="mail" /></td></tr>
@@ -74,12 +73,6 @@ include('locale/it.php');
             var u = document.forms['form']['CAP'].value;
             if(u == null || u == ""){
                     alert ("CAP can not be empty!");
-                    return false;
-            }
-            
-            var u = document.forms['form']['city'].value;
-            if(u == null || u == ""){
-                    alert ("City can not be empty!");
                     return false;
             }
             

@@ -51,14 +51,11 @@ if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
         case 'surname':
             $query = "SELECT * FROM Boy WHERE surname LIKE '%$search_value%'";
             break;
-        case 'city':
-            $query = "SELECT * FROM Boy WHERE city LIKE '%$search_value%'";
-            break;
         case 'commune':
             $query = "SELECT * FROM Boy WHERE commune LIKE '%$search_value%'";
             break;
-        case 'codice_fiscale':
-            $query = "SELECT * FROM Boy WHERE codice_fiscale LIKE '%$search_value%'";
+        case 'boy_id':
+            $query = "SELECT * FROM Boy WHERE boy_id LIKE '%$search_value%'";
             break;
     }
 }
@@ -87,14 +84,17 @@ $limit = " ORDER BY surname, name LIMIT $results_per_page OFFSET $offset"
                 include('include/privilege_check.php');
                 if(check('admin')||check('manager'))
                 {
+                    // Export for mailinglist Button
+                    echo '  <form action="include/mailing_list_creator.php" name="mailing_list_form" method = "post">
+                                <input type="hidden" name="query" value="'.$query.'" />
+                                <input type="submit" name="submit" value="'.$lang['MAILING_LIST'].'" />
+                            </form><br /><br />';
                     // Search Form
                     echo '<form action="list_boy.php" name = "form" method = "post">';
                     echo ' <input type="text" name="search_value" /> 
                                 <select name="search_type"> 
                                     <option value="surname">'.$lang['SEARCH_SURNAME'].'</option>'.
-                                    '<option value="city">'.$lang['SEARCH_CITY'].'</option>'.
-                                    '<option value="commune">'.$lang['SEARCH_COMMUNE'].'</option>'.
-                                    '<option value="codice_fiscale">'.$lang['SEARCH_CODICE_FISCALE'].'</option>
+                                    '<option value="commune">'.$lang['SEARCH_COMMUNE'].'</option>
                                 </select>
                            <input type="submit" name="submit"  value ="'.$lang['SEARCH'].'" />
                           </form><br /><br />';
@@ -102,26 +102,25 @@ $limit = " ORDER BY surname, name LIMIT $results_per_page OFFSET $offset"
                     // Begin of table with Headers
                     echo "<table>
                             <th><h4>".$lang['NAME']." & ".$lang['SURNAME']."</h4></th>
-                            <th><h4>".$lang['CITY']."</h4></th>
                             <th><h4>".$lang['COMMUNE']."</h4></th>
+                            <th><h4>".$lang['DATE_OF_BIRTH']."</h4></th>    
                             <th><h4>".$lang['POINTS']."</h4></th><th><h4>".$lang['TOKENS']."</h4></th>
-                            <th><h4>".$lang['REMAINING_POINTS']."</h4></th>
-                            <th><h4>".$lang['CODICE_FISCALE']."</h4></th>";
+                            <th><h4>".$lang['REMAINING_POINTS']."</h4></th>";
                     
                     $results = mysql_query($query.$limit, $conn);
                     for ($i = 0; (($i < $results_per_page) && ($i < mysql_num_rows($results))); $i++) {
                         $name = mysql_result($results, $i, 'name');
                         $surname = mysql_result($results, $i, 'surname');
                         $commune = mysql_result($results, $i, 'commune');
-                        $city = mysql_result($results, $i, 'city');
-                        $codice_fiscale = mysql_result($results, $i, 'codice_fiscale');
+                        $date_of_birth = mysql_result($results, $i, 'date_of_birth');
+                        $boy_id = mysql_result($results, $i, 'boy_id');
                         
                         // Count of the points and tokens of the Boy
-                        $points = mysql_query("SELECT SUM(points) as totalPoints FROM Volunteering WHERE boy_id = '$codice_fiscale' GROUP BY boy_id", $conn);
+                        $points = mysql_query("SELECT SUM(points) as totalPoints FROM Volunteering WHERE boy_id = '$boy_id' GROUP BY boy_id", $conn);
                         if(mysql_num_rows($points)>0)
                         {
                             $points = mysql_result($points, 0, 'totalPoints');
-                            $tokens = mysql_query("SELECT SUM(points) as totalPoints FROM Token WHERE boy_id = '$codice_fiscale' GROUP BY boy_id", $conn);
+                            $tokens = mysql_query("SELECT SUM(points) as totalPoints FROM Token WHERE boy_id = '$boy_id' GROUP BY boy_id", $conn);
                             if(mysql_num_rows($tokens)>0)
                             {
                                 $tokens = mysql_result($tokens, 0, 'totalPoints');
@@ -141,10 +140,12 @@ $limit = " ORDER BY surname, name LIMIT $results_per_page OFFSET $offset"
                         
                         // Printing the row
                         echo "<tr>
-                                <td><a href=\"view_boy.php?codice_fiscale=$codice_fiscale\"><strong><p>".$name." ".$surname."</p></strong></a></td>
-                                <td><p>".$city."</p></td><td><p>".$commune."</p></td><td align=center><p>".$points."</p></td><td align=center><p>".$tokens."</p></td>
-                                <td align=center><p>".$remaining_points."</p></td>
-                                <td><p>".$codice_fiscale."</p></td></tr>";
+                                <td><a href=\"view_boy.php?boy_id=$boy_id\"><strong><p>".$name." ".$surname."</p></strong></a></td>
+                                <td><p>".$commune."</p></td>
+                                <td><p>".$date_of_birth."</p></td>
+                                <td align=center><p>".$points."</p></td>
+                                <td align=center><p>".$tokens."</p></td>
+                                <td align=center><p>".$remaining_points."</p></td>";
                     }
                     echo "</table>";
                     //End of Table

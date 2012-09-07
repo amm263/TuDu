@@ -63,35 +63,33 @@ include('include/connect.php');
                 include('include/privilege_check.php');
                 if(check('admin')||check('manager'))
                 {
-                    if(isset($_GET['codice_fiscale']))
+                    if(isset($_GET['boy_id']))
                     {
-                        $codice_fiscale = $_GET['codice_fiscale'];
+                        $boy_id = $_GET['boy_id'];
                         try{
-                        $result = mysql_query("SELECT * FROM Boy WHERE codice_fiscale='$codice_fiscale'",$conn);
+                        $result = mysql_query("SELECT * FROM Boy WHERE boy_id='$boy_id'",$conn);
                         if(mysql_num_rows($result)==1)
                         {
                             echo "<h1 style=\"text-align: center;\">".mysql_result($result, 0, 'name')." ".mysql_result($result, 0, 'surname')."</h1><br /><br />";
-                            echo "<h3>".$lang['CODICE_FISCALE'].": ".mysql_result($result, 0, 'codice_fiscale')."</h3>";
-                            echo "<h3>".$lang['CITY_OF_BIRTH'].": ".mysql_result($result, 0, 'city_of_birth')."</h3><br />";
                             // All the admins can modify the properties of the given Boy
                             if(check('admin'))
                             { 
                                 echo '<table id="invisibleTable">';
-                                echo '<tr><td id="itd"><strong>'.$lang['ADDRESS'].'</strong></td><td id="itd"><form action="include/updater.php" name = "form" method = "post"><input type="text" name="update" value="'.mysql_result($result, 0, 'address').'"/><input type="hidden" name="table" value="Boy"><input type="hidden" name="column" value="address"><input type="hidden" name="key" value="codice_fiscale"><input type="hidden" name="key_value" value="'.$codice_fiscale.'"></td><td id="itd"><input type="submit" name="submit"  value ="'.$lang['UPDATE'].'" /></form></td></tr>';                            
-                                echo '<tr><td id="itd"><strong>'.$lang['COMMUNE'].'</strong></td><td id="itd"><form action="include/updater.php" name = "form" method = "post"><input type="text" name="update" value="'.mysql_result($result, 0, 'commune').'"/><input type="hidden" name="table" value="Boy"><input type="hidden" name="column" value="commune"><input type="hidden" name="key" value="codice_fiscale"><input type="hidden" name="key_value" value="'.$codice_fiscale.'"></td><td id="itd"><input type="submit" name="submit"  value ="'.$lang['UPDATE'].'" /></form></td></tr>';                            
-                                echo '<tr><td id="itd"><strong>'.$lang['CITY'].'</strong></td><td id="itd"><form action="include/updater.php" name = "form" method = "post"><input type="text" name="update" value="'.mysql_result($result, 0, 'city').'"/><input type="hidden" name="table" value="Boy"><input type="hidden" name="column" value="city"><input type="hidden" name="key" value="codice_fiscale"><input type="hidden" name="key_value" value="'.$codice_fiscale.'"></td><td id="itd"><input type="submit" name="submit"  value ="'.$lang['UPDATE'].'" /></form></td></tr>';
-                                echo '<tr><td id="itd"><strong>'.$lang['CAP'].'</strong></td><td id="itd"><form action="include/updater.php" name = "form" method = "post"><input type="text" name="update" value="'.mysql_result($result, 0, 'CAP').'"/><input type="hidden" name="table" value="Boy"><input type="hidden" name="column" value="CAP"><input type="hidden" name="key" value="codice_fiscale"><input type="hidden" name="key_value" value="'.$codice_fiscale.'"></td><td id="itd"><input type="submit" name="submit"  value ="'.$lang['UPDATE'].'" /></form><br /></td></tr>';
-                                echo '<tr><td id="itd"><strong>'.$lang['PHONE'].'</strong></td><td id="itd"><form action="include/updater.php" name = "form" method = "post"><input type="text" name="update" value="'.mysql_result($result, 0, 'phone').'"/><input type="hidden" name="table" value="Boy"><input type="hidden" name="column" value="phone"><input type="hidden" name="key" value="codice_fiscale"><input type="hidden" name="key_value" value="'.$codice_fiscale.'"></td><td id="itd"><input type="submit" name="submit"  value ="'.$lang['UPDATE'].'" /></form></td></tr>';
-                                echo '<tr><td id="itd"><strong>'.$lang['MOBILE_PHONE'].'</strong></td><td id="itd"><form action="include/updater.php" name = "form" method = "post"><input type="text" name="update" value="'.mysql_result($result, 0, 'mobile_phone').'"/><input type="hidden" name="table" value="Boy"><input type="hidden" name="column" value="mobile_phone"><input type="hidden" name="key" value="codice_fiscale"><input type="hidden" name="key_value" value="'.$codice_fiscale.'"></td><td id="itd"><input type="submit" name="submit"  value ="'.$lang['UPDATE'].'" /></form></td></tr>';
-                                echo '<tr><td id="itd"><strong>'.$lang['MAIL'].'</strong></td><td id="itd"><form action="include/updater.php" name = "form" method = "post"><input type="text" name="update" value="'.mysql_result($result, 0, 'mail').'"/><input type="hidden" name="table" value="Boy"><input type="hidden" name="column" value="mail"><input type="hidden" name="key" value="codice_fiscale"><input type="hidden" name="key_value" value="'.$codice_fiscale.'"></td><td id="itd"><input type="submit" name="submit"  value ="'.$lang['UPDATE'].'" /></form></td></tr>';
+                                echo '<tr><td id="itd"><strong>'.$lang['DATE_OF_BIRTH'].'</strong></td><td id="itd">'.mysql_result($result, 0, 'date_of_birth')."</td></tr>";
+                                echo '<tr><td id="itd"><strong>'.$lang['ADDRESS'].'</strong></td><td id="itd"><form action="include/updater.php" name = "form" method = "post"><input type="text" name="update" value="'.mysql_result($result, 0, 'address').'"/><input type="hidden" name="table" value="Boy"><input type="hidden" name="column" value="address"><input type="hidden" name="key" value="boy_id"><input type="hidden" name="key_value" value="'.$boy_id.'"></td><td id="itd"><input type="submit" name="submit"  value ="'.$lang['UPDATE'].'" /></form></td></tr>';                            
+                                echo '<tr><td id="itd"><strong>'.$lang['COMMUNE'].'</strong></td><td id="itd"><form action="include/updater.php" name = "form" method = "post"><input type="text" name="update" value="'.mysql_result($result, 0, 'commune').'"/><input type="hidden" name="table" value="Boy"><input type="hidden" name="column" value="commune"><input type="hidden" name="key" value="boy_id"><input type="hidden" name="key_value" value="'.$boy_id.'"></td><td id="itd"><input type="submit" name="submit"  value ="'.$lang['UPDATE'].'" /></form></td></tr>';                            
+                                echo '<tr><td id="itd"><strong>'.$lang['CAP'].'</strong></td><td id="itd"><form action="include/updater.php" name = "form" method = "post"><input type="text" name="update" value="'.mysql_result($result, 0, 'CAP').'"/><input type="hidden" name="table" value="Boy"><input type="hidden" name="column" value="CAP"><input type="hidden" name="key" value="boy_id"><input type="hidden" name="key_value" value="'.$boy_id.'"></td><td id="itd"><input type="submit" name="submit"  value ="'.$lang['UPDATE'].'" /></form><br /></td></tr>';
+                                echo '<tr><td id="itd"><strong>'.$lang['PHONE'].'</strong></td><td id="itd"><form action="include/updater.php" name = "form" method = "post"><input type="text" name="update" value="'.mysql_result($result, 0, 'phone').'"/><input type="hidden" name="table" value="Boy"><input type="hidden" name="column" value="phone"><input type="hidden" name="key" value="boy_id"><input type="hidden" name="key_value" value="'.$boy_id.'"></td><td id="itd"><input type="submit" name="submit"  value ="'.$lang['UPDATE'].'" /></form></td></tr>';
+                                echo '<tr><td id="itd"><strong>'.$lang['MOBILE_PHONE'].'</strong></td><td id="itd"><form action="include/updater.php" name = "form" method = "post"><input type="text" name="update" value="'.mysql_result($result, 0, 'mobile_phone').'"/><input type="hidden" name="table" value="Boy"><input type="hidden" name="column" value="mobile_phone"><input type="hidden" name="key" value="boy_id"><input type="hidden" name="key_value" value="'.$boy_id.'"></td><td id="itd"><input type="submit" name="submit"  value ="'.$lang['UPDATE'].'" /></form></td></tr>';
+                                echo '<tr><td id="itd"><strong>'.$lang['MAIL'].'</strong></td><td id="itd"><form action="include/updater.php" name = "form" method = "post"><input type="text" name="update" value="'.mysql_result($result, 0, 'mail').'"/><input type="hidden" name="table" value="Boy"><input type="hidden" name="column" value="mail"><input type="hidden" name="key" value="boy_id"><input type="hidden" name="key_value" value="'.$boy_id.'"></td><td id="itd"><input type="submit" name="submit"  value ="'.$lang['UPDATE'].'" /></form></td></tr>';
                                 echo '</table>';                                
                                 }
                             else
                             {
                                 echo '<table id="invisibleTable">';
+                                echo '<tr><td id="itd"><strong>'.$lang['DATE_OF_BIRTH'].'</strong></td><td id="itd">'.mysql_result($result, 0, 'date_of_birth')."</td></tr>";
                                 echo '<tr><td id="itd"><strong>'.$lang['ADDRESS'].'</strong></td><td id="itd">'.mysql_result($result, 0, 'address')."</td></tr>";
                                 echo '<tr><td id="itd"><strong>'.$lang['COMMUNE'].'</strong></td><td id="itd">'.mysql_result($result, 0, 'commune')."</td></tr>";
-                                echo '<tr><td id="itd"><strong>'.$lang['CITY'].'</strong></td><td id="itd">'.mysql_result($result, 0, 'city')."</td></tr>";
                                 echo '<tr><td id="itd"><strong>'.$lang['CAP'].'</strong></td><td id="itd">'.mysql_result($result, 0, 'CAP')."</td></tr>";
                                 echo '<tr><td id="itd"><strong>'.$lang['PHONE'].'</strong></td><td id="itd">'.mysql_result($result, 0, 'phone')."</td></tr>";
                                 echo '<tr><td id="itd"><strong>'.$lang['MOBILE_PHONE'].'</strong></td><td id="itd">'.mysql_result($result, 0, 'mobile_phone')."</td></tr>";
@@ -101,11 +99,11 @@ include('include/connect.php');
                             echo '<br />';
                             
                             //Sum of all the points and tokens collected by the Boy                        
-                            $points = mysql_query("SELECT SUM(points) as totalPoints FROM Volunteering WHERE boy_id = '$codice_fiscale' GROUP BY boy_id", $conn);
+                            $points = mysql_query("SELECT SUM(points) as totalPoints FROM Volunteering WHERE boy_id = '$boy_id' GROUP BY boy_id", $conn);
                             if(mysql_num_rows($points)>0)
                             {
                                 $points = mysql_result($points, 0, 'totalPoints');
-                                $tokens = mysql_query("SELECT SUM(points) as totalPoints FROM Token WHERE boy_id = '$codice_fiscale' GROUP BY boy_id", $conn);
+                                $tokens = mysql_query("SELECT SUM(points) as totalPoints FROM Token WHERE boy_id = '$boy_id' GROUP BY boy_id", $conn);
                                 if(mysql_num_rows($tokens)>0)
                                 {
                                     $tokens = mysql_result($tokens, 0, 'totalPoints');
@@ -135,15 +133,15 @@ include('include/connect.php');
                             // Volunteering search form 
                             echo '<form action="list_volunteering.php" method="post">
                                     <input type="hidden" name="search_type" value="boy_id">
-                                    <input type="hidden" name="search_value" value="'.$codice_fiscale.'">
+                                    <input type="hidden" name="search_value" value="'.$boy_id.'">
                                     <input type="submit" name="submit"  value ="'.$lang['TOTAL_VOLUNTEERING'].'" />
                                   </form><br /><br />';
                             // Volunteering search form (DATE filter)
                             echo '<form action="list_volunteering.php" method="post">'
-                                    .$lang['START_DATE'].': <input type="text" name="date_start" value="YYYY-MM-DD">'
-                                    .$lang['END_DATE'].': <input type="text" name="date_end" value="YYYY-MM-DD">
+                                    .$lang['START_DATE'].': <input type="text" size="12" name="date_start" value="YYYY-MM-DD"> '
+                                    .$lang['END_DATE'].': <input type="text" size="12" name="date_end" value="YYYY-MM-DD">
                                     <input type="hidden" name="search_type" value="boy_id">
-                                    <input type="hidden" name="search_value" value="'.$codice_fiscale.'">
+                                    <input type="hidden" name="search_value" value="'.$boy_id.'">
                                     <input type="submit" name="submit"  value ="'.$lang['DATE_VOLUNTEERING'].'" />
                                   </form><br /><br />';
                             
@@ -151,15 +149,15 @@ include('include/connect.php');
                             // Token search form
                             echo '<form action="list_token.php"  method="post">
                                     <input type="hidden" name="search_type" value="boy_id">
-                                    <input type="hidden" name="search_value" value="'.$codice_fiscale.'">
+                                    <input type="hidden" name="search_value" value="'.$boy_id.'">
                                     <input type="submit" name="submit"  value ="'.$lang['TOTAL_TOKEN'].'" />
                                   </form><br /><br />';
                             // Token search form (DATE filter)
                             echo '<form action="list_token.php"  method="post">'
-                                    .$lang['START_DATE'].': <input type="text" name="date_start" value="YYYY-MM-DD"> '
-                                    .$lang['END_DATE'].': <input type="text" name="date_end" value="YYYY-MM-DD">
+                                    .$lang['START_DATE'].': <input type="text" size="12" name="date_start" value="YYYY-MM-DD"> '
+                                    .$lang['END_DATE'].': <input type="text" size="12" name="date_end" value="YYYY-MM-DD">
                                     <input type="hidden" name="search_type" value="boy_id">
-                                    <input type="hidden" name="search_value" value="'.$codice_fiscale.'">
+                                    <input type="hidden" name="search_value" value="'.$boy_id.'">
                                     <input type="submit" name="submit"  value ="'.$lang['DATE_TOKEN'].'" />
                                   </form><br /><br />';
                             
@@ -168,8 +166,7 @@ include('include/connect.php');
                             echo '<form action="include/insert_volunteering.php" name = "vol_form" method="post" onsubmit="return validateVolunteering()">'
                                     .$lang['ORGANIZATION'].': <input type="text" size="40" id="organization" name="organization" value="" onkeyup="ajax_showOptions(this,\'getOrganizationsByLetters\',event)"><br />
                                     <input type="hidden" id="organization_hidden" name="organization_id">
-                                    <input type="hidden" name="boy_id" value="'.$codice_fiscale.'">
-                                    <input type="hidden" name="boy_surname" value="'.mysql_result($result, 0, 'surname').'">'
+                                    <input type="hidden" name="boy_id" value="'.$boy_id.'">'
                                     .$lang['POINTS'].': <input type="text" name="points"><br />'
                                     .$lang['DATE'].': <select name="day">
                                                             <option value="1">1</option>
@@ -206,19 +203,19 @@ include('include/connect.php');
                                                     </select>
                                                     <select name="month">
                                                             <option value=1>'.$lang['JANUARY'].'</option>
-                                                            <option value=1>'.$lang['FEBRUARY'].'</option>
-                                                            <option value=1>'.$lang['MARCH'].'</option>
-                                                            <option value=1>'.$lang['APRIL'].'</option>
-                                                            <option value=1>'.$lang['MAY'].'</option>
-                                                            <option value=1>'.$lang['JUNE'].'</option>
-                                                            <option value=1>'.$lang['JULY'].'</option>
-                                                            <option value=1>'.$lang['AUGUST'].'</option>
-                                                            <option value=1>'.$lang['SEPTEMBER'].'</option>
-                                                            <option value=1>'.$lang['OCTOBER'].'</option>
-                                                            <option value=1>'.$lang['NOVEMBER'].'</option>
-                                                            <option value=1>'.$lang['DECEMBER'].'</option>
+                                                            <option value=2>'.$lang['FEBRUARY'].'</option>
+                                                            <option value=3>'.$lang['MARCH'].'</option>
+                                                            <option value=4>'.$lang['APRIL'].'</option>
+                                                            <option value=5>'.$lang['MAY'].'</option>
+                                                            <option value=6>'.$lang['JUNE'].'</option>
+                                                            <option value=7>'.$lang['JULY'].'</option>
+                                                            <option value=8>'.$lang['AUGUST'].'</option>
+                                                            <option value=9>'.$lang['SEPTEMBER'].'</option>
+                                                            <option value=10>'.$lang['OCTOBER'].'</option>
+                                                            <option value=11>'.$lang['NOVEMBER'].'</option>
+                                                            <option value=12>'.$lang['DECEMBER'].'</option>
                                                     </select>
-                                                    <input type="text" name="year" value="YYYY"><br />'.
+                                                    <input type="text" size="4" name="year" value="YYYY"><br />'.
                                  '<input type="submit" name="submit"  value ="'.$lang['NEW_VOLUNTEERING'].'" /></form><br />';
                             
                             // Insert of a new Token row (Uses Ajax-list to fill the company and the company_hidden boxes)
@@ -226,8 +223,7 @@ include('include/connect.php');
                             echo '<form action="include/insert_token.php" name = "token_form" method="post" onsubmit="return validateTok()">'
                                     .$lang['COMPANY'].': <input type="text" size="40" id="company" name="company" value="" onkeyup="ajax_showOptions(this,\'getCompaniesByLetters\',event)"><br />
                                     <input type="hidden" id="company_hidden" name="company_id"> 
-                                    <input type="hidden" name="boy_id" value="'.$codice_fiscale.'">
-                                    <input type="hidden" name="boy_surname" value="'.mysql_result($result, 0, 'surname').'">'
+                                    <input type="hidden" name="boy_id" value="'.$boy_id.'">'
                                     .$lang['POINTS'].': <input type="text" name="points"><br />'
                                     .$lang['DATE'].': <select name="day">
                                                             <option value="1">1</option>
@@ -264,19 +260,19 @@ include('include/connect.php');
                                                     </select>
                                                     <select name="month">
                                                             <option value=1>'.$lang['JANUARY'].'</option>
-                                                            <option value=1>'.$lang['FEBRUARY'].'</option>
-                                                            <option value=1>'.$lang['MARCH'].'</option>
-                                                            <option value=1>'.$lang['APRIL'].'</option>
-                                                            <option value=1>'.$lang['MAY'].'</option>
-                                                            <option value=1>'.$lang['JUNE'].'</option>
-                                                            <option value=1>'.$lang['JULY'].'</option>
-                                                            <option value=1>'.$lang['AUGUST'].'</option>
-                                                            <option value=1>'.$lang['SEPTEMBER'].'</option>
-                                                            <option value=1>'.$lang['OCTOBER'].'</option>
-                                                            <option value=1>'.$lang['NOVEMBER'].'</option>
-                                                            <option value=1>'.$lang['DECEMBER'].'</option>
+                                                            <option value=2>'.$lang['FEBRUARY'].'</option>
+                                                            <option value=3>'.$lang['MARCH'].'</option>
+                                                            <option value=4>'.$lang['APRIL'].'</option>
+                                                            <option value=5>'.$lang['MAY'].'</option>
+                                                            <option value=6>'.$lang['JUNE'].'</option>
+                                                            <option value=7>'.$lang['JULY'].'</option>
+                                                            <option value=8>'.$lang['AUGUST'].'</option>
+                                                            <option value=9>'.$lang['SEPTEMBER'].'</option>
+                                                            <option value=10>'.$lang['OCTOBER'].'</option>
+                                                            <option value=11>'.$lang['NOVEMBER'].'</option>
+                                                            <option value=12>'.$lang['DECEMBER'].'</option>
                                                     </select>
-                                                    <input type="text" name="year" value="YYYY"><br />'.
+                                                    <input type="text" size="4" name="year" value="YYYY"><br />'.
                                  '<input type="submit" name="submit"  value ="'.$lang['NEW_TOKEN'].'" /></form><br /><br />';
                         }
                         else

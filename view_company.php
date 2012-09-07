@@ -60,7 +60,6 @@ include('include/connect.php');
                                 echo '<table id="invisibleTable">';
                                 echo '<tr><td id="itd"><strong>'.$lang['ADDRESS'].'</strong></td><td id="itd"><form action="include/updater.php" name = "form" method = "post"><input type="text" name="update" value="'.mysql_result($result, 0, 'address').'"/><input type="hidden" name="table" value="Company"><input type="hidden" name="column" value="address"><input type="hidden" name="key" value="p_iva"><input type="hidden" name="key_value" value="'.$p_iva.'"></td><td id="itd"><input type="submit" name="submit"  value ="'.$lang['UPDATE'].'" /></form></td></tr>';                            
                                 echo '<tr><td id="itd"><strong>'.$lang['COMMUNE'].'</strong></td><td id="itd"><form action="include/updater.php" name = "form" method = "post"><input type="text" name="update" value="'.mysql_result($result, 0, 'commune').'"/><input type="hidden" name="table" value="Company"><input type="hidden" name="column" value="commune"><input type="hidden" name="key" value="p_iva"><input type="hidden" name="key_value" value="'.$p_iva.'"></td><td id="itd"><input type="submit" name="submit"  value ="'.$lang['UPDATE'].'" /></form></td></tr>';                            
-                                echo '<tr><td id="itd"><strong>'.$lang['CITY'].'</strong></td><td id="itd"><form action="include/updater.php" name = "form" method = "post"><input type="text" name="update" value="'.mysql_result($result, 0, 'city').'"/><input type="hidden" name="table" value="Company"><input type="hidden" name="column" value="city"><input type="hidden" name="key" value="p_iva"><input type="hidden" name="key_value" value="'.$p_iva.'"></td><td id="itd"><input type="submit" name="submit"  value ="'.$lang['UPDATE'].'" /></form></td></tr>';
                                 echo '<tr><td id="itd"><strong>'.$lang['CAP'].'</strong></td><td id="itd"><form action="include/updater.php" name = "form" method = "post"><input type="text" name="update" value="'.mysql_result($result, 0, 'CAP').'"/><input type="hidden" name="table" value="Company"><input type="hidden" name="column" value="CAP"><input type="hidden" name="key" value="p_iva"><input type="hidden" name="key_value" value="'.$p_iva.'"></td><td id="itd"><input type="submit" name="submit"  value ="'.$lang['UPDATE'].'" /></form></td></tr>';
                                 echo '<tr><td id="itd"><strong>'.$lang['PHONE'].'</strong></td><td id="itd"><form action="include/updater.php" name = "form" method = "post"><input type="text" name="update" value="'.mysql_result($result, 0, 'phone').'"/><input type="hidden" name="table" value="Company"><input type="hidden" name="column" value="phone"><input type="hidden" name="key" value="p_iva"><input type="hidden" name="key_value" value="'.$p_iva.'"></td><td id="itd"><input type="submit" name="submit"  value ="'.$lang['UPDATE'].'" /></form></td></tr>';
                                 echo '<tr><td id="itd"><strong>'.$lang['MOBILE_PHONE'].'</strong></td><td id="itd"><form action="include/updater.php" name = "form" method = "post"><input type="text" name="update" value="'.mysql_result($result, 0, 'mobile_phone').'"/><input type="hidden" name="table" value="Company"><input type="hidden" name="column" value="mobile_phone"><input type="hidden" name="key" value="p_iva"><input type="hidden" name="key_value" value="'.$p_iva.'"></td><td id="itd"><input type="submit" name="submit"  value ="'.$lang['UPDATE'].'" /></form></td></tr>';
@@ -73,7 +72,6 @@ include('include/connect.php');
                                 echo '<table id="invisibleTable">';
                                 echo '<tr><td id="itd"><strong>'.$lang['ADDRESS'].'</strong></td><td id="itd">'.mysql_result($result, 0, 'address')."</td></tr>";
                                 echo '<tr><td id="itd"><strong>'.$lang['COMMUNE'].'</strong></td><td id="itd">'.mysql_result($result, 0, 'commune')."</td></tr>";
-                                echo '<tr><td id="itd"><strong>'.$lang['CITY'].'</strong></td><td id="itd">'.mysql_result($result, 0, 'city')."</td></tr>";
                                 echo '<tr><td id="itd"><strong>'.$lang['CAP'].'</strong></td><td id="itd">'.mysql_result($result, 0, 'CAP')."</td></tr>";
                                 echo '<tr><td id="itd"><strong>'.$lang['PHONE'].'</strong></td><td id="itd">'.mysql_result($result, 0, 'phone')."</td></tr>";
                                 echo '<tr><td id="itd"><strong>'.$lang['MOBILE_PHONE'].'</strong></td><td id="itd">'.mysql_result($result, 0, 'mobile_phone')."</td></tr>";
@@ -93,8 +91,8 @@ include('include/connect.php');
                                   </form><br /><br />';
                             // Token search form (DATE filter)
                             echo '<form action="list_token.php"  method="post">'
-                                    .$lang['START_DATE'].': <input type="text" name="date_start" value="YYYY-MM-DD"> '
-                                    .$lang['END_DATE'].': <input type="text" name="date_end" value="YYYY-MM-DD">
+                                    .$lang['START_DATE'].': <input type="text" size="12" name="date_start" value="YYYY-MM-DD"> '
+                                    .$lang['END_DATE'].': <input type="text" size="12" name="date_end" value="YYYY-MM-DD">
                                     <input type="hidden" name="search_type" value="company_id">
                                     <input type="hidden" name="search_value" value="'.$p_iva.'">
                                     <input type="submit" name="submit"  value ="'.$lang['DATE_TOKEN'].'" />
@@ -109,8 +107,8 @@ include('include/connect.php');
                                   </form><br /><br />';
                             // Invoice search form (DATE filter)
                             echo '<form action="list_invoice.php"  method="post">'
-                                    .$lang['START_DATE'].': <input type="text" name="date_start" value="YYYY-MM-DD"> '
-                                    .$lang['END_DATE'].': <input type="text" name="date_end" value="YYYY-MM-DD">
+                                    .$lang['START_DATE'].': <input type="text" size="12" name="date_start" value="YYYY-MM-DD"> '
+                                    .$lang['END_DATE'].': <input type="text" size="12" name="date_end" value="YYYY-MM-DD">
                                     <input type="hidden" name="search_type" value="company_id">
                                     <input type="hidden" name="search_value" value="'.$p_iva.'">
                                     <input type="submit" name="submit"  value ="'.$lang['DATE_INVOICE'].'" />
@@ -163,19 +161,19 @@ include('include/connect.php');
                                                     </select>
                                                     <select name="month">
                                                             <option value=1>'.$lang['JANUARY'].'</option>
-                                                            <option value=1>'.$lang['FEBRUARY'].'</option>
-                                                            <option value=1>'.$lang['MARCH'].'</option>
-                                                            <option value=1>'.$lang['APRIL'].'</option>
-                                                            <option value=1>'.$lang['MAY'].'</option>
-                                                            <option value=1>'.$lang['JUNE'].'</option>
-                                                            <option value=1>'.$lang['JULY'].'</option>
-                                                            <option value=1>'.$lang['AUGUST'].'</option>
-                                                            <option value=1>'.$lang['SEPTEMBER'].'</option>
-                                                            <option value=1>'.$lang['OCTOBER'].'</option>
-                                                            <option value=1>'.$lang['NOVEMBER'].'</option>
-                                                            <option value=1>'.$lang['DECEMBER'].'</option>
+                                                            <option value=2>'.$lang['FEBRUARY'].'</option>
+                                                            <option value=3>'.$lang['MARCH'].'</option>
+                                                            <option value=4>'.$lang['APRIL'].'</option>
+                                                            <option value=5>'.$lang['MAY'].'</option>
+                                                            <option value=6>'.$lang['JUNE'].'</option>
+                                                            <option value=7>'.$lang['JULY'].'</option>
+                                                            <option value=8>'.$lang['AUGUST'].'</option>
+                                                            <option value=9>'.$lang['SEPTEMBER'].'</option>
+                                                            <option value=10>'.$lang['OCTOBER'].'</option>
+                                                            <option value=11>'.$lang['NOVEMBER'].'</option>
+                                                            <option value=12>'.$lang['DECEMBER'].'</option>
                                                     </select>
-                                                    <input type="text" name="year" value="YYYY"><br />'.
+                                                    <input type="text" size="4" name="year" value="YYYY"><br />'.
                                     '<input type="submit" name="submit"  value ="'.$lang['NEW_INVOICE'].'" /></form><br /><br />';
                             
                             // Insert of a new Item

@@ -18,7 +18,6 @@ $name = $_POST['name'];
 $reference = $_POST['reference'];
 $address = $_POST['address'];
 $CAP = $_POST['CAP'];
-$city = $_POST['city'];
 $commune = $_POST['commune'];
 $phone = $_POST['phone'];
 $mobile_phone = $_POST['mobile_phone'];
@@ -26,7 +25,7 @@ $mail = $_POST['mail'];
 
 
 try{
-    $check = mysql_query("SELECT name FROM Organization WHERE name='$name' AND city='$city'", $conn);
+    $check = mysql_query("SELECT name FROM Organization WHERE name='$name' AND commune='$commune'", $conn);
     $rows = mysql_num_rows($check);
     if($rows!=0)
     {
@@ -35,7 +34,7 @@ try{
     }
     else
     {
-        $insert = mysql_query("INSERT INTO Organization(name, address, CAP, city, commune, phone, mobile_phone, mail, reference) VALUES ('$name', '$address', '$CAP', '$city', '$commune', '$phone', '$mobile_phone', '$mail', '$reference')", $conn);
+        $insert = mysql_query("INSERT INTO Organization(name, address, CAP, commune, phone, mobile_phone, mail, reference) VALUES ('$name', '$address', '$CAP', '$commune', '$phone', '$mobile_phone', '$mail', '$reference')", $conn);
         echo $lang['INSERT_SUCCESS'];
         echo ('<meta http-equiv="refresh" content="1; url=../index.php">');
     }

@@ -15,11 +15,10 @@
 include ('connect.php');
 include ('../locale/it.php');
 $company_id = $_POST['company_id'];
-$company_name = mysql_result(mysql_query("SELECT name FROM Company WHERE p_iva = $company_id"), 0, 'name');
 $price = $_POST['price'];
 $points = $_POST['points'];
 $name = $_POST['name'];
-$query= "INSERT INTO Item(company_id,company_name,name,price,points) VALUES ('$company_id','$company_name','$name','$price','$points')";
+$query= "INSERT INTO Item(company_id,name,price,points) VALUES ('$company_id','$name','$price','$points')";
 try{
 mysql_query($query);
 echo $lang['INSERT_SUCCESS'];

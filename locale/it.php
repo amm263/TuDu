@@ -23,6 +23,9 @@ $lang['END_DATE'] = 'Data fine';
 $lang['PASSWORD_CHANGE'] = 'Modifica password';
 $lang['BOY'] = 'Iscritto';
 $lang['INDEX'] = 'Index';
+$lang['COMPANY_DONOT_EXISTS'] = 'L\'azienda specificata non esiste';
+$lang['ORGANIZATION_DONOT_EXISTS'] = 'L\'organizzazione specificata non esiste';
+$lang['MAILING_LIST'] = 'Mailing List';
 
 
 //TIME
@@ -76,12 +79,11 @@ $lang['SURNAME'] = 'Cognome';
 $lang['ADDRESS'] = 'Indirizzo';
 $lang['CAP'] = 'CAP';
 $lang['CITY'] = 'Città';
-$lang['CITY_OF_BIRTH'] = 'Città di Nascita';
+$lang['DATE_OF_BIRTH'] = 'Data di Nascita';
 $lang['PHONE'] = 'Telefono';
 $lang['MOBILE_PHONE'] = 'Cellulare';
 $lang['MAIL'] = 'Mail';
-$lang['CODICE_FISCALE'] = 'Codice Fiscale';
-$lang['BOY_EXISTS'] = 'Esiste già un iscritto con questo codice fiscale';
+$lang['BOY_EXISTS'] = 'Esiste già un iscritto con questi dati';
 $lang['COMMUNE'] = 'Comune';
 
 // ORGANIZATION
@@ -99,7 +101,6 @@ $lang['SEARCH'] = 'Ricerca';
 $lang['SEARCH_CITY'] = 'Per Città';
 $lang['SEARCH_COMMUNE'] = 'Per Comune';
 $lang['SEARCH_SURNAME'] = 'Per Cognome';
-$lang['SEARCH_CODICE_FISCALE'] = 'Per Codice Fiscale';
 $lang['SEARCH_NAME'] = 'Per Nome';
 $lang['SEARCH_COMPANY_NAME'] = 'Per Nome Azienda';
 $lang['SEARCH_ORGANIZATION_NAME'] = 'Per Nome Organizzazione';
@@ -123,6 +124,7 @@ $lang['NEW_VOLUNTEERING'] = 'Inserisci ore';
 $lang['TOTAL_VOLUNTEERING'] = 'Visualizza totale ore effettuate';
 $lang['DATE_VOLUNTEERING'] = 'Ricerca ore in intervallo date';
 $lang['NEW_VOLUNTEERING_TITLE'] = 'Nuove ore';
+$lang['TOTAL_VOLUNTEERINGS'] = 'Totale ore lavorate';
 
 // TOKEN
 $lang['NEW_TOKEN'] = 'Inserisci buono';

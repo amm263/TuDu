@@ -26,7 +26,7 @@ function getBar()
         $privilege = $_SESSION['privilege'];
     if(isset($_SESSION['user'])) 
     {
-        echo '<h3>'.$lang['WELCOME'].' <strong>'.$_SESSION['user'].'</strong></h3></ br>';
+        echo '<h3>'.$lang['WELCOME'].' <strong>'.$_SESSION['user'].'</strong></h3>';
         //echo '<p>Locale: '.$_SESSION['locale'].'</ br></p>';
     }
     switch($privilege)

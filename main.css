@@ -71,17 +71,17 @@ a:visited {
     position: absolute;
     margin: 0px;
     padding: 0px;
-    height:100px;
+    height:163px;
     width:1125px;
     left: 5px;
     top: 5px;
-    background-color: #666465;
+    background-color: #242123;
 }
 
 #Navbar {
     position: absolute;
     left: 5px;
-    top: 110px;
+    top: 173px;
     right: 0px;
     margin: 0px;
     padding: 0px;
@@ -90,11 +90,11 @@ a:visited {
 }
 
 #Content {
-    margin: 0px 250px 0px 0px;
+    margin: 0px 313px 0px 0px;
     padding: 10px;
     position: absolute;
     left: 210px;
-    top: 110px;
+    top: 173px;
     width: 900px;
     background-color: #666465;
 }

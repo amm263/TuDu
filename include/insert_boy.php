@@ -19,27 +19,28 @@ $surname = $_POST['surname'];
 $address = $_POST['address'];
 $commune = $_POST['commune'];
 $CAP = $_POST['CAP'];
-$city = $_POST['city'];
-$city_of_birth = $_POST['city_of_birth'];
+$day = $_POST['day'];
+$month = $_POST['month'];
+$year = $_POST['year'];
+$date_of_birth = $year."-".$month."-".$day;
 $phone = $_POST['phone'];
 $mobile_phone = $_POST['mobile_phone'];
 $mail = $_POST['mail'];
-$codice_fiscale = $_POST['codice_fiscale'];
 
 
 try{
-    $check = mysql_query("SELECT codice_fiscale FROM Boy WHERE codice_fiscale='$codice_fiscale'", $conn);
+    $check = mysql_query("SELECT name FROM Boy WHERE name='$name' AND surname='$surname' AND date_of_birth='$date_of_birth' AND mobile_phone='$mobile_phone'", $conn);
     $rows = mysql_num_rows($check);
     if($rows!=0)
     {
         echo $lang['BOY_EXISTS'];
-        echo ('<meta http-equiv="refresh" content="2; url=../new_boy.php">');
+        echo ('<meta http-equiv="refresh" content="1; url=../new_boy.php">');
     }
     else
     {
-        $insert = mysql_query("INSERT INTO Boy(name, surname, address, CAP, city, commune, city_of_birth, phone, mobile_phone, mail, codice_fiscale) VALUES ('$name', '$surname', '$address', '$CAP', '$city', '$commune', '$city_of_birth', '$phone', '$mobile_phone', '$mail', '$codice_fiscale')", $conn);
-        echo $lang['INSERT_SUCCESS'];
-        echo ('<meta http-equiv="refresh" content="1; url=../index.php">');
+       $insert = mysql_query("INSERT INTO Boy(name, surname, address, CAP, commune, date_of_birth, phone, mobile_phone, mail) VALUES ('$name', '$surname', '$address', '$CAP', '$commune', '$date_of_birth', '$phone', '$mobile_phone', '$mail')", $conn);
+       echo $lang['INSERT_SUCCESS'];
+       echo ('<meta http-equiv="refresh" content="1; url=../index.php">');
     }
 }
 catch(Exception $e)

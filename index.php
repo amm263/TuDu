@@ -23,16 +23,16 @@ include('locale/it.php');
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title><?php echo $lang['INDEX']; ?></title>
     </head>
-    <body>
+    <body> 
         <div id="ContentContainer">
             <div id="Header">
                 <?php getHeader(); ?>
-            </div>   
+            </div>     
             <div id="Navbar">
                 <?php getBar(); ?>
             </div>
             <div id="Content">
-                
+
             </div>
         </div>
     </body>

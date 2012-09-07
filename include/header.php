@@ -13,7 +13,7 @@
 *
 */
 function getHeader(){
-	echo '<img src = "agjd.png">';
+	echo '<img src = "logojd.JPG" width="284" height = "163">';
 }
 
 ?>

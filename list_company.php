@@ -51,9 +51,6 @@ if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
         case 'name':
             $query = "SELECT * FROM Company WHERE name LIKE '%$search_value%'";
             break;
-        case 'city':
-            $query = "SELECT * FROM Company WHERE city LIKE '%$search_value%'";
-            break;
         case 'commune':
             $query = "SELECT * FROM Company WHERE commune LIKE '%$search_value%'";
             break;
@@ -89,7 +86,6 @@ $limit = " ORDER BY name LIMIT $results_per_page OFFSET $offset"
                     echo ' <input type="text" name="search_value" /> 
                             <select name="search_type"> 
                                 <option value="name">'.$lang['SEARCH_NAME'].'</option>'.
-                                '<option value="city">'.$lang['SEARCH_CITY'].'</option>'.
                                 '<option value="commune">'.$lang['SEARCH_COMMUNE'].'</option>
                             </select>
                            <input type="submit" name="submit"  value ="'.$lang['SEARCH'].'" />
@@ -98,7 +94,6 @@ $limit = " ORDER BY name LIMIT $results_per_page OFFSET $offset"
                     // Begin of table with Headers
                     echo "<table>
                             <th><h4>".$lang['NAME']."</h4></th>
-                            <th><h4>".$lang['CITY']."</h4></th>
                             <th><h4>".$lang['COMMUNE']."</h4></th>
                             <th><h4>".$lang['TOKENS']."</h4></th>
                             <th><h4>".$lang['SALES']."</h4></th>";
@@ -107,7 +102,6 @@ $limit = " ORDER BY name LIMIT $results_per_page OFFSET $offset"
                     for ($i = 0; (($i < $results_per_page) && ($i < mysql_num_rows($results))); $i++) {
                         $name = mysql_result($results, $i, 'name');
                         $commune = mysql_result($results, $i, 'commune');
-                        $city = mysql_result($results, $i, 'city');
                         $p_iva = mysql_result($results, $i, 'p_iva');
                         
                         // Counts of the tokens for the Company
@@ -135,7 +129,6 @@ $limit = " ORDER BY name LIMIT $results_per_page OFFSET $offset"
                         // Printing the row
                         echo "<tr>
                                 <td><a href=\"view_company.php?p_iva=$p_iva\"><strong><p>".$name."</p></strong></a></td>
-                                <td><p>".$city."</p></td>
                                 <td><p>".$commune."</p></td>
                                 <td align=center><p>".$tokens."</p></td>
                                 <td align=center><p>".$sales."€</p></td>";

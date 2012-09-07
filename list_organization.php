@@ -51,9 +51,6 @@ if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
         case 'name':
             $query = "SELECT * FROM Organization WHERE name LIKE '%$search_value%'";
             break;
-        case 'city':
-            $query = "SELECT * FROM Organization WHERE city LIKE '%$search_value%'";
-            break;
         case 'commune':
             $query = "SELECT * FROM Organization WHERE commune LIKE '%$search_value%'";
             break;
@@ -88,8 +85,7 @@ $limit = " ORDER BY name LIMIT $results_per_page OFFSET $offset"
                     echo '<form action="list_organization.php" name = "form" method = "post">';
                     echo ' <input type="text" name="search_value" /> 
                             <select name="search_type"> 
-                                <option value="name">'.$lang['SEARCH_NAME'].'</option>'.
-                                '<option value="city">'.$lang['SEARCH_CITY'].'</option>'.
+                                <option value="name">'.$lang['SEARCH_NAME'].'</option>'.                              
                                 '<option value="commune">'.$lang['SEARCH_COMMUNE'].'</option>
                             </select>
                            <input type="submit" name="submit"  value ="'.$lang['SEARCH'].'" />
@@ -98,7 +94,6 @@ $limit = " ORDER BY name LIMIT $results_per_page OFFSET $offset"
                     // Begin of table and Headers
                     echo "<table>
                             <th><h4>".$lang['NAME']."</h4></th>
-                            <th><h4>".$lang['CITY']."</h4></th>
                             <th><h4>".$lang['COMMUNE']."</h4></th>
                             <th><h4>".$lang['POINTS']."</h4></th>";
                     
@@ -106,7 +101,6 @@ $limit = " ORDER BY name LIMIT $results_per_page OFFSET $offset"
                     for ($i = 0; (($i < $results_per_page) && ($i < mysql_num_rows($results))); $i++) {
                         $name = mysql_result($results, $i, 'name');
                         $commune = mysql_result($results, $i, 'commune');
-                        $city = mysql_result($results, $i, 'city');
                         $org_id = mysql_result($results, $i, 'org_id');
                         
                         //Count the points for the Organization
@@ -123,7 +117,7 @@ $limit = " ORDER BY name LIMIT $results_per_page OFFSET $offset"
                         //Row print
                         echo "<tr>
                                 <td><a href=\"view_organization.php?org_id=$org_id\"><strong><p>".$name."</p></strong></a></td>
-                                <td><p>".$city."</p></td><td><p>".$commune."</p></td>
+                                <td><p>".$commune."</p></td>
                                 <td align=center><p>".$points."</p></td>";
                     }
                     echo "</table>";

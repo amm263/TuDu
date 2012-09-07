@@ -52,7 +52,7 @@ if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
             $query = "SELECT * FROM Item WHERE name LIKE '%$search_value%'";
             break;
         case 'company':
-            $query = "SELECT * FROM Item WHERE company_name LIKE '%$search_value%'";
+            $query = "SELECT * FROM Item WHERE company_id IN (SELECT DISTINCT p_iva FROM Company WHERE  name LIKE '%$search_value%')";
             break;
         case 'company_id':
             $query = "SELECT * FROM Item WHERE company_id = '$search_value'";
@@ -62,7 +62,7 @@ if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
 // Else go with the standard query
 else
     $query = "SELECT * FROM Item";
-$limit = " ORDER BY company_name,price LIMIT $results_per_page OFFSET $offset"
+$limit = " ORDER BY price LIMIT $results_per_page OFFSET $offset"
 ?>
 <html>
     <head>
@@ -102,15 +102,15 @@ $limit = " ORDER BY company_name,price LIMIT $results_per_page OFFSET $offset"
                     //If the account logged has admin privileges, he can DELETE items
                     if(check('admin'))
                         echo "<th>".$lang['DELETE']."</th>";
-                    
+
                     $results = mysql_query($query.$limit, $conn);
                     for ($i = 0; (($i < $results_per_page) && ($i < mysql_num_rows($results))); $i++) {
                         $item_id = mysql_result($results, $i, 'item_id');
                         $name = mysql_result($results, $i, 'name');
                         $price = mysql_result($results, $i, 'price');
                         $points = mysql_result($results, $i, 'points');
-                        $company_name = mysql_result($results, $i, 'company_name');
                         $company_id = mysql_result($results, $i, 'company_id');
+                        $company_name = mysql_result(mysql_query("SELECT name FROM Company WHERE p_iva='$company_id'"), 0, 'name');
                         //Row print
                         echo "<tr>
                                 <td><strong><p>".$name."</p></strong></td>

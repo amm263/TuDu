@@ -12,22 +12,27 @@
 *	OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 *
 */
+
+/*
+ *  file: mailing_list_creator.php
+ * 
+ *  Creates a long string with Boys mails for mailing list purpose.
+ *  Format: mail@example.com,othermail@example.com,mailwhatever@example2.com,.....
+ * 
+ */
 include ('connect.php');
-include ('../locale/it.php');
-$company_id = $_POST['company_id'];
-$amount = $_POST['amount'];
-$day = $_POST['day'];
-$month = $_POST['month'];
-$year = $_POST['year'];
-$date = $year."-".$month."-".$day;
-$query= "INSERT INTO Invoice(company_id,amount,inv_date) VALUES ('$company_id','$amount','$date')";
-try{
-mysql_query($query);
-echo $lang['INSERT_SUCCESS'];
-echo ('<meta http-equiv="refresh" content="1; url=../view_company.php?p_iva='.$company_id.'">');
-}
-catch(Exception $e)
+if (isset($_POST['query']))
 {
-    echo 'Error:'.$e->getMessage();
+    $query = $_POST['query'];
+    $results = mysql_query($query);
+    for ($i = 0; $i < mysql_num_rows($results); $i++)
+    {
+        echo mysql_result($results, $i, 'mail').",";
+    }
+}
+else
+{
+    echo "Nothing to see here";
+    echo ('<meta http-equiv="refresh" content="1; url=../index.php">');
 }
 ?>

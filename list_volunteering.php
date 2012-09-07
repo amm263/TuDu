@@ -49,19 +49,24 @@ if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
     switch($_POST['search_type'])
     {
         case 'organization':
-            $query = "SELECT * FROM Volunteering WHERE organization_name LIKE '%$search_value%'";
+            $query = "SELECT * FROM Volunteering WHERE organization_id IN (SELECT DISTINCT org_id FROM Organization WHERE name LIKE '%$search_value%')";
+            $points = "SELECT SUM(points) as totalPoints FROM Volunteering WHERE organization_id IN (SELECT DISTINCT org_id FROM Organization WHERE name LIKE '%$search_value%')";
             break;
         case 'boy':
-            $query = "SELECT * FROM Volunteering WHERE boy_surname LIKE '%$search_value%'";
+            $query = "SELECT * FROM Volunteering WHERE boy_id IN (SELECT DISTINCT boy_id FROM Boy WHERE surname LIKE '%$search_value%')";
+            $points = "SELECT SUM(points) as totalPoints FROM Volunteering WHERE boy_id IN (SELECT DISTINCT boy_id FROM Boy WHERE surname LIKE '%$search_value%')";
             break;
         case 'commune':
             $query = "SELECT * FROM Volunteering WHERE organization_id IN (SELECT DISTINCT org_id FROM Organization WHERE commune LIKE '%$search_value%')";
+            $points = "SELECT SUM(points) as totalPoints FROM Volunteering WHERE organization_id IN (SELECT DISTINCT org_id FROM Organization WHERE commune LIKE '%$search_value%')";
             break;
         case 'org_id':
             $query = "SELECT * FROM Volunteering WHERE organization_id = '$search_value'";
+            $points = "SELECT SUM(points) as totalPoints FROM Volunteering WHERE organization_id = '$search_value'";
             break;
         case 'boy_id':
             $query = "SELECT * FROM Volunteering WHERE boy_id = '$search_value'";
+            $points = "SELECT SUM(points) as totalPoints FROM Volunteering WHERE boy_id = '$search_value'";
             break;
     }
     // If a filter on the Date is requested with the GET or POST method
@@ -70,33 +75,38 @@ if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
         $date_start = $_POST['date_start'];
         $date_end = $_POST['date_end'];
         $query = $query." AND vol_date BETWEEN '$date_start' AND '$date_end'";
+        $points = $points." AND vol_date BETWEEN '$date_start' AND '$date_end'";
     }
     elseif(isset($_GET['date_start'])&&isset($_GET['date_end']))
     {
         $date_start = $_GET['date_start'];
         $date_end = $_GET['date_end'];
         $query = $query." AND vol_date BETWEEN '$date_start' AND '$date_end'";
+        $points = $points." AND vol_date BETWEEN '$date_start' AND '$date_end'";
     }
 }
 //Else go with the standard query...
 else
 {
     $query = "SELECT * FROM Volunteering";
+    $points = "SELECT SUM(points) as totalPoints FROM Volunteering";
     //..but still apply the Date filter if requested
     if(isset($_POST['date_start'])&&isset($_POST['date_end']))
     {
         $date_start = $_POST['date_start'];
         $date_end = $_POST['date_end'];
         $query = $query." WHERE vol_date BETWEEN '$date_start' AND '$date_end'";
+        $points = $points." WHERE vol_date BETWEEN '$date_start' AND '$date_end'";
     }
     elseif(isset($_GET['date_start'])&&isset($_GET['date_end']))
     {
         $date_start = $_GET['date_start'];
         $date_end = $_GET['date_end'];
         $query = $query." WHERE vol_date BETWEEN '$date_start' AND '$date_end'";
+        $points = $points." WHERE vol_date BETWEEN '$date_start' AND '$date_end'";
     }
 }
-$limit = " ORDER BY vol_date DESC,boy_surname LIMIT $results_per_page OFFSET $offset"
+$limit = " ORDER BY vol_date DESC LIMIT $results_per_page OFFSET $offset"
 ?>
 <html>
     <head>
@@ -118,6 +128,18 @@ $limit = " ORDER BY vol_date DESC,boy_surname LIMIT $results_per_page OFFSET $of
                 include('include/privilege_check.php');
                 if(check('admin')||check('manager'))
                 {
+                    //Sum of the points in the list (even with filters applied)
+                    $points = mysql_query($points, $conn);
+                    if(mysql_num_rows($points)>0)
+                    {
+                        $points = mysql_result($points, 0, 'totalPoints');
+                    }
+                    else 
+                    {    
+                        $points = 0;
+                    }
+                    echo '<h4>'.$lang['TOTAL_VOLUNTEERINGS'].': '.$points.'</h4>';
+                    
                     //Search form
                     echo '<form action="list_volunteering.php" name = "form" method = "post">';
                     echo '<input type="text" name="search_value" /> 
@@ -131,8 +153,8 @@ $limit = " ORDER BY vol_date DESC,boy_surname LIMIT $results_per_page OFFSET $of
                     
                     // Date filter form
                     echo '<form action="list_volunteering.php" name = "form" method = "post">';
-                    echo $lang['START_DATE'].': <input type="text" name="date_start" value="YYYY-MM-DD"> '.
-                         $lang['END_DATE'].': <input type="text" name="date_end" value="YYYY-MM-DD">';
+                    echo $lang['START_DATE'].': <input type="text" size="12" name="date_start" value="YYYY-MM-DD"> '.
+                         $lang['END_DATE'].': <input type="text" size="12" name="date_end" value="YYYY-MM-DD">';
                     //If a search filter is applied
                     if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
                         echo '<input type="hidden" name="search_type" value="'.$_POST['search_type'].'"><input type="hidden" name="search_value" value="'.$_POST['search_value'].'">';
@@ -140,29 +162,29 @@ $limit = " ORDER BY vol_date DESC,boy_surname LIMIT $results_per_page OFFSET $of
                     
                     // Begin of table and Headers
                     echo "<table>
-                            <th><h4>".$lang['SURNAME']."</h4></th>
+                            <th><h4>".$lang['NAME']." & ".$lang['SURNAME']."</h4></th>
                             <th><h4>".$lang['POINTS']."</h4></th>
                             <th><h4>".$lang['DATE']."</h4></th>
                             <th><h4>".$lang['ORGANIZATION']."</h4></th>";
                     //If the account logged has admin privileges, he can DELETE volunteering
                     if(check('admin'))
                         echo "<th>".$lang['DELETE']."</th>";
-                    
                     $results = mysql_query($query.$limit, $conn);
                     if(mysql_num_rows($results)>0)
                     {
                         for ($i = 0; (($i < $results_per_page) && ($i < mysql_num_rows($results))); $i++) {
                             $vol_id = mysql_result($results, $i, 'vol_id');
                             $points = mysql_result($results, $i, 'points');
-                            $surname = mysql_result($results, $i, 'boy_surname');
                             $boy_id = mysql_result($results, $i, 'boy_id');
+                            $boyResult = mysql_query("SELECT name,surname FROM Boy WHERE boy_id='$boy_id'"); 
+                            $name = mysql_result($boyResult, 0, 'name');
+                            $surname = mysql_result($boyResult, 0, 'surname');
                             $date = mysql_result($results, $i, 'vol_date');
-                            $organization_name = mysql_result($results, $i, 'organization_name');
                             $organization_id = mysql_result($results, $i, 'organization_id');
-                            
+                            $organization_name = mysql_result(mysql_query("SELECT name FROM Organization WHERE org_id='$organization_id'"), 0, 'name');
                             // Row printing
                             echo "<tr>
-                                    <td><strong><p><a href=\"view_boy.php?codice_fiscale=$boy_id\">".$surname."</a></p></strong></td>
+                                    <td><strong><p><a href=\"view_boy.php?boy_id=$boy_id\">".$name." ".$surname."</a></p></strong></td>
                                     <td align=center><p>".$points."</p></td>
                                     <td align=center><p>".$date."</p></td>
                                     <td><p><a href=\"view_organization.php?org_id=$organization_id\">".$organization_name."</a></p></td>";

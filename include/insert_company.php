@@ -18,7 +18,6 @@ $name = $_POST['name'];
 $reference = $_POST['reference'];
 $address = $_POST['address'];
 $CAP = $_POST['CAP'];
-$city = $_POST['city'];
 $commune = $_POST['commune'];
 $phone = $_POST['phone'];
 $mobile_phone = $_POST['mobile_phone'];
@@ -36,7 +35,7 @@ try{
     }
     else
     {
-        $insert = mysql_query("INSERT INTO Company(name, address, CAP, city, commune, phone, mobile_phone, mail, reference, p_iva) VALUES ('$name', '$address', '$CAP', '$city', '$commune', '$phone', '$mobile_phone', '$mail', '$reference', '$P_IVA')", $conn);
+        $insert = mysql_query("INSERT INTO Company(name, address, CAP, commune, phone, mobile_phone, mail, reference, p_iva) VALUES ('$name', '$address', '$CAP', '$commune', '$phone', '$mobile_phone', '$mail', '$reference', '$P_IVA')", $conn);
         echo $lang['INSERT_SUCCESS'];
         echo ('<meta http-equiv="refresh" content="1; url=../index.php">');
     }

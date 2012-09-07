@@ -43,12 +43,58 @@ include('locale/it.php');
                     <tr><td id="itd"><strong><?php echo $lang['ADDRESS'] ?></strong></td><td id="itd"> <input type="text" name="address" />*</td></tr>
                     <tr><td id="itd"><strong><?php echo $lang['COMMUNE'] ?></strong></td><td id="itd"> <input type="text" name="commune" />*</td></tr>
                     <tr><td id="itd"><strong><?php echo $lang['CAP'] ?> </strong></td><td id="itd"><input type="text" name="CAP" />*</td></tr>
-                    <tr><td id="itd"><strong><?php echo $lang['CITY'] ?></strong></td><td id="itd"> <input type="text" name="city" />*</td></tr>
-                    <tr><td id="itd"><strong><?php echo $lang['CITY_OF_BIRTH'] ?></strong></td><td id="itd"> <input type="text" name="city_of_birth" />*</td></tr>
+                    <tr><td id="itd"><strong><?php echo $lang['DATE_OF_BIRTH'] ?></strong></td><td id="itd">
+                                                            <select name="day">
+                                                                <option value="1">1</option>
+                                                                <option value="2">2</option>
+                                                                <option value="3">3</option>
+                                                                <option value="4">4</option>
+                                                                <option value="5">5</option>
+                                                                <option value="6">6</option>
+                                                                <option value="7">7</option>
+                                                                <option value="8">8</option>
+                                                                <option value="9">9</option>
+                                                                <option value="10">10</option>
+                                                                <option value="11">11</option>
+                                                                <option value="12">12</option>
+                                                                <option value="13">13</option>
+                                                                <option value="14">14</option>
+                                                                <option value="15">15</option>
+                                                                <option value="16">16</option>
+                                                                <option value="17">17</option>
+                                                                <option value="18">18</option>
+                                                                <option value="19">19</option>
+                                                                <option value="20">20</option>
+                                                                <option value="21">21</option>
+                                                                <option value="22">22</option>
+                                                                <option value="23">23</option>
+                                                                <option value="24">24</option>
+                                                                <option value="25">25</option>
+                                                                <option value="26">26</option>
+                                                                <option value="27">27</option>
+                                                                <option value="28">28</option>
+                                                                <option value="29">29</option>
+                                                                <option value="30">30</option>
+                                                                <option value="31">31</option>
+                                                            </select>
+                                                            <select name="month">
+                                                                <option value=1><?php echo $lang['JANUARY']; ?></option>
+                                                                <option value=2><?php echo $lang['FEBRUARY']; ?></option>
+                                                                <option value=3><?php echo $lang['MARCH']; ?></option>
+                                                                <option value=4><?php echo $lang['APRIL']; ?></option>
+                                                                <option value=5><?php echo $lang['MAY']; ?></option>
+                                                                <option value=6><?php echo $lang['JUNE']; ?></option>
+                                                                <option value=7><?php echo $lang['JULY']; ?></option>
+                                                                <option value=8><?php echo $lang['AUGUST']; ?></option>
+                                                                <option value=9><?php echo $lang['SEPTEMBER']; ?></option>
+                                                                <option value=10><?php echo $lang['OCTOBER']; ?></option>
+                                                                <option value=11><?php echo $lang['NOVEMBER']; ?></option>
+                                                                <option value=12><?php echo $lang['DECEMBER']; ?></option>
+                                                        </select>
+                                                    <input type="text" size="4" name="year" value="YYYY"><br /></td></tr>
                     <tr><td id="itd"><strong><?php echo $lang['PHONE'] ?></strong></td><td id="itd"> <input type="text" name="phone" /></td></tr>
-                    <tr><td id="itd"><strong><?php echo $lang['MOBILE_PHONE'] ?></strong></td><td id="itd"> <input type="text" name="mobile_phone" /></td></tr>
-                    <tr><td id="itd"><strong><?php echo $lang['MAIL'] ?></strong></td><td id="itd"> <input type="text" name="mail" /></td></tr>
-                    <tr><td id="itd"><strong><?php echo $lang['CODICE_FISCALE'] ?></strong></td><td id="itd"> <input type="text" name="codice_fiscale" />*</td></tr>
+                    <tr><td id="itd"><strong><?php echo $lang['MOBILE_PHONE'] ?></strong></td><td id="itd"> <input type="text" name="mobile_phone" />*</td></tr>
+                    <tr><td id="itd"><strong><?php echo $lang['MAIL'] ?></strong></td><td id="itd"> <input type="text" name="mail" />*</td></tr>
                 </table>
                 <?php echo $lang['OBLIGATORY'] ?><br />
     		<input type="submit" name="submit"  value ="Submit" /></form>
@@ -84,9 +130,9 @@ include('locale/it.php');
                     return false;
             }
             
-            var u = document.forms['form']['city'].value;
+            var u = document.forms['form']['mobile_phone'].value;
             if(u == null || u == ""){
-                    alert ("City can not be empty!");
+                    alert ("Mobile Phone can not be empty!");
                     return false;
             }
             
@@ -96,15 +142,15 @@ include('locale/it.php');
                     return false;
             }
             
-            var u = document.forms['form']['city_of_birth'].value;
+            var u = document.forms['form']['year'].value;
             if(u == null || u == ""){
-                    alert ("City of Birth can not be empty!");
+                    alert ("Date of birth can not be empty!");
                     return false;
             }
             
-            var u = document.forms['form']['codice_fiscale'].value;
+            var u = document.forms['form']['mail'].value;
             if(u == null || u == ""){
-                    alert ("Codice Fiscale can not be empty!");
+                    alert ("Mail can not be empty!");
                     return false;
             }
         }
