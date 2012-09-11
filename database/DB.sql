@@ -6,8 +6,9 @@ CREATE TABLE Account (
 	user		VARCHAR(255) NOT NULL,
 	password	VARCHAR(255) NOT NULL,
 	CONSTRAINT account_pk PRIMARY KEY (user)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- Boy is extremely sexist, but it was too late to change it. +_+
 CREATE TABLE Boy (
 	name	VARCHAR(255) NOT NULL,
 	surname	VARCHAR(255) NOT NULL,
@@ -20,7 +21,7 @@ CREATE TABLE Boy (
 	mail	VARCHAR(255) NOT NULL,
 	boy_id BIGINT NOT NULL AUTO_INCREMENT,
 	CONSTRAINT boy_pk PRIMARY KEY (boy_id)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 	
 CREATE TABLE Organization (
 	org_id 	BIGINT NOT NULL AUTO_INCREMENT,
@@ -33,7 +34,7 @@ CREATE TABLE Organization (
 	mail 	VARCHAR(255),
 	reference VARCHAR(255),
 	CONSTRAINT organization_pk PRIMARY KEY (org_id)
-);	
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;	
 
 CREATE TABLE Company (
 	name	VARCHAR(255) NOT NULL,
@@ -46,7 +47,7 @@ CREATE TABLE Company (
 	mobile_phone VARCHAR(255),
 	mail	VARCHAR(255),
 	CONSTRAINT company_pk PRIMARY KEY (p_iva)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE Item (
 	item_id BIGINT NOT NULL AUTO_INCREMENT,
@@ -54,18 +55,20 @@ CREATE TABLE Item (
 	price	DECIMAL(12,2) NOT NULL,
 	points 	BIGINT NOT NULL,
 	company_id VARCHAR(255) NOT NULL,
+	INDEX(company_id),
 	CONSTRAINT item_pk PRIMARY KEY(item_id),
 	CONSTRAINT item_fk FOREIGN KEY(company_id) REFERENCES Company(p_iva) ON DELETE CASCADE
-);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE Invoice(
 	inv_id 	BIGINT NOT NULL AUTO_INCREMENT,
 	inv_date DATE NOT NULL,
 	amount DECIMAL(12,2) NOT NULL,
 	company_id VARCHAR(255) NOT NULL,
+	INDEX(company_id),
 	CONSTRAINT invoice_pk PRIMARY KEY(inv_id),
 	CONSTRAINT invoice_fk FOREIGN KEY(company_id) REFERENCES Company(p_iva) ON DELETE CASCADE
-);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE Token(
 	token_id BIGINT NOT NULL AUTO_INCREMENT,
@@ -73,10 +76,11 @@ CREATE TABLE Token(
 	points BIGINT NOT NULL,
 	company_id VARCHAR(255) NOT NULL,
 	token_date	DATE NOT NULL,
+	INDEX(boy_id,company_id),
 	CONSTRAINT token_pk PRIMARY KEY (token_id),
 	CONSTRAINT token_fk FOREIGN KEY(boy_id) REFERENCES Boy(boy_id) ON DELETE CASCADE,
 	CONSTRAINT token_fk2 FOREIGN KEY(company_id) REFERENCES Company(p_iva) ON DELETE CASCADE
-);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE Volunteering(
 	vol_id BIGINT NOT NULL AUTO_INCREMENT,
@@ -84,7 +88,8 @@ CREATE TABLE Volunteering(
 	organization_id BIGINT NOT NULL,
 	vol_date DATE NOT NULL,
 	points	BIGINT NOT NULL,
+	INDEX(boy_id,organization_id),
 	CONSTRAINT vol_pk PRIMARY KEY(vol_id),
 	CONSTRAINT vol_fk FOREIGN KEY(boy_id) REFERENCES Boy(boy_id) ON DELETE CASCADE,
 	CONSTRAINT vol_fk2 FOREIGN KEY(organization_id) REFERENCES Organization(org_id) ON DELETE CASCADE
-);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;

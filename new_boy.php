@@ -91,7 +91,7 @@ include('locale/it.php');
                                                                 <option value=11><?php echo $lang['NOVEMBER']; ?></option>
                                                                 <option value=12><?php echo $lang['DECEMBER']; ?></option>
                                                         </select>
-                                                    <input type="text" size="4" name="year" value="YYYY"><br /></td></tr>
+                                                    <input type="text" size="4" name="year" value="YYYY"><br />*</td></tr>
                     <tr><td id="itd"><strong><?php echo $lang['PHONE'] ?></strong></td><td id="itd"> <input type="text" name="phone" /></td></tr>
                     <tr><td id="itd"><strong><?php echo $lang['MOBILE_PHONE'] ?></strong></td><td id="itd"> <input type="text" name="mobile_phone" />*</td></tr>
                     <tr><td id="itd"><strong><?php echo $lang['MAIL'] ?></strong></td><td id="itd"> <input type="text" name="mail" />*</td></tr>
@@ -143,7 +143,7 @@ include('locale/it.php');
             }
             
             var u = document.forms['form']['year'].value;
-            if(u == null || u == ""){
+            if(u == null || u == "" || u=="YYYY"){
                     alert ("Date of birth can not be empty!");
                     return false;
             }

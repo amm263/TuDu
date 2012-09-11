@@ -14,26 +14,14 @@
 */
 
 /*
- *  file: mailing_list_creator.php
+ *  file: date_format_change.php
  * 
- *  Creates a long string with Boys mails for mailing list purpose.
- *  Format: mail@example.com,othermail@example.com,mailwhatever@example2.com,.....
+ *  In order to not change the date format on MySQL (it's not well supported), i prefer to change the date format in the code from DD-MM-YYYY (preferred by the client) to YYYY-MM-DD (MySQL)
  * 
  */
-include ('connect.php');
-if (isset($_POST['query']))
+function changeDate($date)
 {
-    $query = $_POST['query'];
-    $query = str_replace("\\", "", $query);
-    $results = mysql_query($query);
-    for ($i = 0; $i < mysql_num_rows($results); $i++)
-    {
-        echo mysql_result($results, $i, 'mail').",";
-    }
-}
-else
-{
-    echo "Nothing to see here";
-    echo ('<meta http-equiv="refresh" content="1; url=../index.php">');
+    $subdate = explode("-", $date);
+    return $subdate[2]."-".$subdate[1]."-".$subdate[0];
 }
 ?>

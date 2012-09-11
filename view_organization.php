@@ -64,6 +64,7 @@ include('include/connect.php');
                                 echo '<tr><td id="itd"><strong>'.$lang['MOBILE_PHONE'].'</strong></td><td id="itd"><form action="include/updater.php" name = "form" method = "post"><input type="text" name="update" value="'.mysql_result($result, 0, 'mobile_phone').'"/><input type="hidden" name="table" value="Organization"><input type="hidden" name="column" value="mobile_phone"><input type="hidden" name="key" value="org_id"><input type="hidden" name="key_value" value="'.$org_id.'"></td><td id="itd"><input type="submit" name="submit"  value ="'.$lang['UPDATE'].'" /></form></td></tr>';
                                 echo '<tr><td id="itd"><strong>'.$lang['MAIL'].'</strong></td><td id="itd"><form action="include/updater.php" name = "form" method = "post"><input type="text" name="update" value="'.mysql_result($result, 0, 'mail').'"/><input type="hidden" name="table" value="Organization"><input type="hidden" name="column" value="mail"><input type="hidden" name="key" value="org_id"><input type="hidden" name="key_value" value="'.$org_id.'"></td><td id="itd"><input type="submit" name="submit"  value ="'.$lang['UPDATE'].'" /></form></td></tr>';
                                 echo '<tr><td id="itd"><strong>'.$lang['REFERENCE'].'</strong></td><td id="itd"><form action="include/updater.php" name = "form" method = "post"><input type="text" name="update" value="'.mysql_result($result, 0, 'reference').'"/><input type="hidden" name="table" value="Organization"><input type="hidden" name="column" value="mail"><input type="hidden" name="key" value="org_id"><input type="hidden" name="key_value" value="'.$org_id.'"></td><td id="itd"><input type="submit" name="submit"  value ="'.$lang['UPDATE'].'" /></form></td></tr>';
+                                echo '<tr><td id="itd"><form action="include/eraser.php" name="eraser_form" onsubmit="return disp_confirm()" method="post"><input type="hidden" name="key_value" value="'.$org_id.'"/><input type="hidden" name="key" value="org_id"/><input type="hidden" name="table" value="Organization"/><input type="submit" name="submit" value="'.$lang['DELETE'].'"/></form></td></tr>';
                                 echo '</table>';
                                 }
                             else
@@ -89,8 +90,8 @@ include('include/connect.php');
                                   </form><br /><br />';
                             // Volunteering search form (DATE FILTER)
                             echo '<form action="list_volunteering.php"  method="post">'
-                                    .$lang['START_DATE'].': <input type="text" name="date_start" value="YYYY-MM-DD"> '
-                                    .$lang['END_DATE'].': <input type="text" name="date_end" value="YYYY-MM-DD">
+                                    .$lang['START_DATE'].': <input type="text" name="date_start" value="DD-MM-YYYY"> '
+                                    .$lang['END_DATE'].': <input type="text" name="date_end" value="DD-MM-YYYY">
                                     <input type="hidden" name="search_type" value="org_id">
                                     <input type="hidden" name="search_value" value="'.$org_id.'">
                                     <input type="submit" name="submit"  value ="'.$lang['DATE_VOLUNTEERING'].'" />
@@ -110,5 +111,12 @@ include('include/connect.php');
                 ?>
             </div>
         </div>
+        <script type="text/javascript">
+        function disp_confirm()
+        {
+            var r=confirm("Are you sure?")
+            return r;
+        }
+        </script>
     </body>
 </html>

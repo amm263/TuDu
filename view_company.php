@@ -65,6 +65,7 @@ include('include/connect.php');
                                 echo '<tr><td id="itd"><strong>'.$lang['MOBILE_PHONE'].'</strong></td><td id="itd"><form action="include/updater.php" name = "form" method = "post"><input type="text" name="update" value="'.mysql_result($result, 0, 'mobile_phone').'"/><input type="hidden" name="table" value="Company"><input type="hidden" name="column" value="mobile_phone"><input type="hidden" name="key" value="p_iva"><input type="hidden" name="key_value" value="'.$p_iva.'"></td><td id="itd"><input type="submit" name="submit"  value ="'.$lang['UPDATE'].'" /></form></td></tr>';
                                 echo '<tr><td id="itd"><strong>'.$lang['MAIL'].'</strong></td><td id="itd"><form action="include/updater.php" name = "form" method = "post"><input type="text" name="update" value="'.mysql_result($result, 0, 'mail').'"/><input type="hidden" name="table" value="Company"><input type="hidden" name="column" value="mail"><input type="hidden" name="key" value="p_iva"><input type="hidden" name="key_value" value="'.$p_iva.'"></td><td id="itd"><input type="submit" name="submit"  value ="'.$lang['UPDATE'].'" /></form></td></tr>';
                                 echo '<tr><td id="itd"><strong>'.$lang['REFERENCE'].'</strong></td><td id="itd"><form action="include/updater.php" name = "form" method = "post"><input type="text" name="update" value="'.mysql_result($result, 0, 'reference').'"/><input type="hidden" name="table" value="Company"><input type="hidden" name="column" value="mail"><input type="hidden" name="key" value="p_iva"><input type="hidden" name="key_value" value="'.$p_iva.'"></td><td id="itd"><input type="submit" name="submit"  value ="'.$lang['UPDATE'].'" /></form></td></tr>';
+                                echo '<tr><td id="itd"><form action="include/eraser.php" name="eraser_form" onsubmit="return disp_confirm()" method="post"><input type="hidden" name="key_value" value="'.$p_iva.'"/><input type="hidden" name="key" value="p_iva"/><input type="hidden" name="table" value="Company"/><input type="submit" name="submit" value="'.$lang['DELETE'].'"/></form></td></tr>';
                                 echo '</table>';
                             }
                             else
@@ -91,8 +92,8 @@ include('include/connect.php');
                                   </form><br /><br />';
                             // Token search form (DATE filter)
                             echo '<form action="list_token.php"  method="post">'
-                                    .$lang['START_DATE'].': <input type="text" size="12" name="date_start" value="YYYY-MM-DD"> '
-                                    .$lang['END_DATE'].': <input type="text" size="12" name="date_end" value="YYYY-MM-DD">
+                                    .$lang['START_DATE'].': <input type="text" size="12" name="date_start" value="DD-MM-YYYY"> '
+                                    .$lang['END_DATE'].': <input type="text" size="12" name="date_end" value="DD-MM-YYYY">
                                     <input type="hidden" name="search_type" value="company_id">
                                     <input type="hidden" name="search_value" value="'.$p_iva.'">
                                     <input type="submit" name="submit"  value ="'.$lang['DATE_TOKEN'].'" />
@@ -107,8 +108,8 @@ include('include/connect.php');
                                   </form><br /><br />';
                             // Invoice search form (DATE filter)
                             echo '<form action="list_invoice.php"  method="post">'
-                                    .$lang['START_DATE'].': <input type="text" size="12" name="date_start" value="YYYY-MM-DD"> '
-                                    .$lang['END_DATE'].': <input type="text" size="12" name="date_end" value="YYYY-MM-DD">
+                                    .$lang['START_DATE'].': <input type="text" size="12" name="date_start" value="DD-MM-YYYY"> '
+                                    .$lang['END_DATE'].': <input type="text" size="12" name="date_end" value="DD-MM-YYYY">
                                     <input type="hidden" name="search_type" value="company_id">
                                     <input type="hidden" name="search_value" value="'.$p_iva.'">
                                     <input type="submit" name="submit"  value ="'.$lang['DATE_INVOICE'].'" />
@@ -201,6 +202,12 @@ include('include/connect.php');
             </div>
         </div>
         <script type="text/javascript">
+        function disp_confirm()
+        {
+            var r=confirm("Are you sure?")
+            return r;
+        }
+        
         function validateInv(){
             
             var p = document.forms['invoice_form']['amount'].value;

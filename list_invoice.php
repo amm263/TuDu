@@ -26,6 +26,7 @@ include('include/navbar.php');
 include('locale/it.php');
 include('include/connect.php');
 include('include/pager.php');
+include('include/date_format_change.php');
 $results_per_page = 20;
 // Page offset received?
 if(isset($_GET['page']))
@@ -58,14 +59,14 @@ if(isset($_POST['search_value'])&&strlen($_POST['search_value'])>0)
     // If a filter on the Date is requested with the GET or POST method
     if(isset($_POST['date_start'])&&isset($_POST['date_end']))
     {
-        $date_start = $_POST['date_start'];
-        $date_end = $_POST['date_end'];
+        $date_start = changeDate($_POST['date_start']);
+        $date_end = changeDate($_POST['date_end']);
         $query = $query." AND inv_date BETWEEN '$date_start' AND '$date_end'";
     }
     elseif(isset($_GET['date_start'])&&isset($_GET['date_end']))
     {
-        $date_start = $_GET['date_start'];
-        $date_end = $_GET['date_end'];
+        $date_start = changeDate($_GET['date_start']);
+        $date_end = changeDate($_GET['date_end']);
         $query = $query." AND inv_date BETWEEN '$date_start' AND '$date_end'";
     }
 }
@@ -76,14 +77,14 @@ else
     //..but still apply the Date filter if requested
     if(isset($_POST['date_start'])&&isset($_POST['date_end']))
     {
-        $date_start = $_POST['date_start'];
-        $date_end = $_POST['date_end'];
+        $date_start = changeDate($_POST['date_start']);
+        $date_end = changeDate($_POST['date_end']);
         $query = $query." WHERE inv_date BETWEEN '$date_start' AND '$date_end'";
     }
     elseif(isset($_GET['date_start'])&&isset($_GET['date_end']))
     {
-        $date_start = $_GET['date_start'];
-        $date_end = $_GET['date_end'];
+        $date_start = changeDate($_GET['date_start']);
+        $date_end = changeDate($_GET['date_end']);
         $query = $query." WHERE inv_date BETWEEN '$date_start' AND '$date_end'";
     }
 }
