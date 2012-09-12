@@ -1,0 +1,12 @@
+This is a management site commissioned to me.
+It's used to record information about kids who perform volunteering jobs in some organization.
+They collect points working for these organization and later they can receive tokens to buy something in some company. 
+
+The site has 2 levels of privileges, admin and manager.
+An admin can delete and modify sensible data.
+
+You can visit the demo at: http://www.untidy.org/tudu/
+Logins: admin psw admin OR manager psw manager
+
+Unfortunately the client did not need a localization system, so the site is entirely in Italian.
+A localization system is supported but not fully implemented, maybe I will add it later.
