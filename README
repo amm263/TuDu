@@ -5,8 +5,5 @@ They collect points working for these organization and later they can receive to
 The site has 2 levels of privileges, admin and manager.
 An admin can delete and modify sensible data.
 
-You can visit the demo at: http://www.untidy.org/tudu/
-Logins: admin psw admin OR manager psw manager
-
 Unfortunately the client did not need a localization system, so the site is entirely in Italian.
-A localization system is supported but not fully implemented, maybe I will add it later.
+A localization system is supported but not fully implemented.
